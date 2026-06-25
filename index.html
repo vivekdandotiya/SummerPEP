@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Sixty — Prep Tracker</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0F1115;
+    --ink-2:#161922;
+    --ink-3:#1D2130;
+    --paper:#F5F1E8;
+    --paper-dim:#E8E2D2;
+    --amber:#FF8A3D;
+    --amber-dim:#7a4a26;
+    --teal:#3DDC97;
+    --teal-dim:#1f5c43;
+    --slate:#8B92A6;
+    --slate-dim:#565d70;
+    --red:#E85D5D;
+    --line:rgba(245,241,232,0.09);
+    --line-soft:rgba(245,241,232,0.05);
+    --r-sm:6px;
+    --r-md:10px;
+    --r-lg:16px;
+    font-size:16px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{background:var(--ink); color:var(--paper); font-family:'Inter',sans-serif; min-height:100vh;}
+  body{
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(255,138,61,0.07), transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(61,220,151,0.05), transparent 40%);
+  }
+  ::selection{background:var(--amber); color:var(--ink);}
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
+  a{color:inherit;}
+  ::-webkit-scrollbar{width:10px; height:10px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--ink-3); border-radius:10px;}
+  ::-webkit-scrollbar-thumb:hover{background:#2a2f42;}
+
+  :focus-visible{outline:2px solid var(--amber); outline-offset:2px; border-radius:4px;}
+
+  .display{font-family:'Space Grotesk',sans-serif;}
+  .mono{font-family:'JetBrains Mono',monospace;}
+
+  /* ===== layout shell ===== */
+  .shell{
+    display:grid;
+    grid-template-columns: 280px 1fr;
+    min-height:100vh;
+  }
+  @media (max-width: 900px){
+    .shell{grid-template-columns:1fr;}
+  }
+
+  /* ===== sidebar / phase rail ===== */
+  .rail{
+    position:relative;
+    border-right:1px solid var(--line);
+    padding:32px 24px 32px 32px;
+    display:flex;
+    flex-direction:column;
+    gap:28px;
+  }
+  @media (max-width:900px){
+    .rail{
+      border-right:none;
+      border-bottom:1px solid var(--line);
+      padding:24px 20px;
+    }
+  }
+  .brand{
+    display:flex;
+    flex-direction:column;
+    gap:4px;
+  }
+  .brand .mark{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:1.55rem;
+    letter-spacing:-0.02em;
+    color:var(--paper);
+  }
+  .brand .mark span{color:var(--amber);}
+  .brand .sub{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    letter-spacing:0.08em;
+    color:var(--slate);
+    text-transform:uppercase;
+  }
+
+  .rail-stat{
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .rail-stat .num{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:2.4rem;
+    color:var(--amber);
+    line-height:1;
+  }
+  .rail-stat .num small{font-size:1.1rem; color:var(--slate);}
+  .rail-stat .label{
+    font-size:0.72rem;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+
+  .track-wrap{
+    position:relative;
+    display:flex;
+    flex-direction:column;
+    gap:0;
+  }
+  .track-line{
+    position:absolute;
+    left:7px;
+    top:10px;
+    bottom:10px;
+    width:2px;
+    background:var(--line);
+    overflow:hidden;
+    border-radius:2px;
+  }
+  .track-line .fill{
+    position:absolute;
+    top:0; left:0; width:100%;
+    background:linear-gradient(to bottom, var(--amber), var(--teal));
+    height:0%;
+    transition:height 0.5s cubic-bezier(.4,0,.2,1);
+    box-shadow:0 0 12px rgba(255,138,61,0.5);
+  }
+  .station{
+    position:relative;
+    padding:14px 0 14px 32px;
+    cursor:pointer;
+  }
+  .station .dot{
+    position:absolute;
+    left:0; top:18px;
+    width:16px; height:16px;
+    border-radius:50%;
+    background:var(--ink-2);
+    border:2px solid var(--slate-dim);
+    transition:all 0.3s;
+    z-index:2;
+  }
+  .station.active .dot{
+    border-color:var(--amber);
+    background:var(--amber);
+    box-shadow:0 0 0 4px rgba(255,138,61,0.18);
+  }
+  .station.done .dot{
+    border-color:var(--teal);
+    background:var(--teal);
+  }
+  .station .pname{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:600;
+    font-size:0.92rem;
+    color:var(--slate);
+    transition:color 0.3s;
+  }
+  .station.active .pname{color:var(--paper);}
+  .station.done .pname{color:var(--teal);}
+  .station .prange{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.68rem;
+    color:var(--slate-dim);
+    letter-spacing:0.03em;
+    margin-top:2px;
+  }
+  .station .pblurb{
+    font-size:0.74rem;
+    color:var(--slate-dim);
+    margin-top:6px;
+    line-height:1.4;
+    max-width:200px;
+  }
+  .station.active .pblurb{color:var(--slate);}
+
+  .rail-footer{
+    margin-top:auto;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .reset-btn{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.68rem;
+    color:var(--slate-dim);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    text-align:left;
+    padding:8px 0;
+    transition:color 0.2s;
+  }
+  .reset-btn:hover{color:var(--red);}
+
+  /* ===== main column ===== */
+  .main{
+    padding:32px 40px 80px;
+    display:flex;
+    flex-direction:column;
+    gap:32px;
+    min-width:0;
+  }
+  @media (max-width:700px){
+    .main{padding:20px 16px 60px;}
+  }
+
+  .topbar{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:16px;
+  }
+  .topbar h1{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:1.5rem;
+    font-weight:600;
+  }
+  .topbar .phase-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.7rem;
+    color:var(--amber);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+  .hours-total{
+    text-align:right;
+  }
+  .hours-total .num{
+    font-family:'JetBrains Mono',monospace;
+    font-weight:700;
+    font-size:1.6rem;
+    color:var(--teal);
+  }
+  .hours-total .label{
+    font-size:0.68rem;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+  }
+
+  /* ===== heatmap grid ===== */
+  .grid-card{
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:var(--r-lg);
+    padding:24px;
+  }
+  .grid-card-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:18px;
+  }
+  .grid-card-head h2{
+    font-family:'Space Grotesk',sans-serif;
+    font-size:0.92rem;
+    font-weight:600;
+    color:var(--slate);
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+  }
+  .legend{
+    display:flex;
+    gap:14px;
+    font-size:0.68rem;
+    color:var(--slate-dim);
+    align-items:center;
+  }
+  .legend span{display:flex; align-items:center; gap:5px;}
+  .legend .sw{width:9px; height:9px; border-radius:2px; display:inline-block;}
+
+  .heatmap{
+    display:grid;
+    grid-template-columns:repeat(15, 1fr);
+    gap:6px;
+  }
+  @media (max-width:900px){ .heatmap{grid-template-columns:repeat(10,1fr);} }
+  @media (max-width:500px){ .heatmap{grid-template-columns:repeat(7,1fr);} }
+
+  .cell{
+    position:relative;
+    aspect-ratio:1;
+    border-radius:5px;
+    background:var(--ink-3);
+    border:1px solid var(--line-soft);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.62rem;
+    color:var(--slate-dim);
+    transition:all 0.18s;
+  }
+  .cell:hover{transform:translateY(-2px); border-color:var(--amber);}
+  .cell.current{
+    border-color:var(--amber);
+    box-shadow:0 0 0 2px rgba(255,138,61,0.25);
+    color:var(--paper);
+  }
+  .cell.partial{background:rgba(255,138,61,0.22); color:var(--paper); border-color:transparent;}
+  .cell.complete{background:var(--teal); color:var(--ink); border-color:transparent; font-weight:600;}
+
+  /* ===== day panel ===== */
+  .day-panel{
+    background:var(--paper);
+    color:var(--ink);
+    border-radius:var(--r-lg);
+    padding:36px 40px;
+    position:relative;
+    overflow:hidden;
+  }
+  @media (max-width:600px){ .day-panel{padding:24px 20px;} }
+
+  .day-panel::before{
+    content:'';
+    position:absolute;
+    top:0; right:0;
+    width:220px; height:220px;
+    background:radial-gradient(circle, rgba(255,138,61,0.10), transparent 70%);
+    pointer-events:none;
+  }
+
+  .day-head{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    margin-bottom:28px;
+    position:relative;
+    z-index:1;
+    flex-wrap:wrap;
+  }
+  .day-head .big-day{
+    font-family:'Space Grotesk',sans-serif;
+    font-weight:700;
+    font-size:2.6rem;
+    line-height:1;
+    letter-spacing:-0.02em;
+  }
+  .day-head .big-day .of{
+    font-size:1rem;
+    color:var(--slate-dim);
+    font-weight:500;
+    margin-left:6px;
+  }
+  .day-head .phase-pill{
+    display:inline-block;
+    margin-top:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.66rem;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    background:rgba(15,17,21,0.06);
+    padding:4px 10px;
+    border-radius:20px;
+    color:var(--ink);
+  }
+
+  .day-nav{
+    display:flex;
+    gap:8px;
+  }
+  .nav-btn{
+    width:38px; height:38px;
+    border-radius:50%;
+    border:1.5px solid rgba(15,17,21,0.15);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.18s;
+    color:var(--ink);
+  }
+  .nav-btn:hover:not(:disabled){background:var(--ink); color:var(--paper); border-color:var(--ink);}
+  .nav-btn:disabled{opacity:0.3; cursor:not-allowed;}
+
+  .task-list{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    position:relative;
+    z-index:1;
+  }
+  .task-row{
+    display:flex;
+    align-items:flex-start;
+    gap:14px;
+    background:rgba(15,17,21,0.035);
+    border:1px solid rgba(15,17,21,0.07);
+    border-radius:var(--r-md);
+    padding:16px 18px;
+    transition:all 0.18s;
+  }
+  .task-row.checked{
+    background:rgba(61,220,151,0.10);
+    border-color:rgba(31,92,67,0.25);
+  }
+  .check-btn{
+    flex-shrink:0;
+    width:24px; height:24px;
+    border-radius:7px;
+    border:2px solid rgba(15,17,21,0.25);
+    margin-top:1px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all 0.15s;
+  }
+  .task-row.checked .check-btn{
+    background:var(--teal);
+    border-color:var(--teal);
+  }
+  .check-btn svg{
+    width:14px; height:14px;
+    opacity:0;
+    transform:scale(0.5);
+    transition:all 0.15s;
+  }
+  .task-row.checked .check-btn svg{opacity:1; transform:scale(1);}
+
+  .task-body{flex:1; min-width:0;}
+  .task-tag{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.64rem;
+    font-weight:700;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    margin-bottom:4px;
+    display:inline-block;
+  }
+  .tag-lang{color:#B5651D;}
+  .tag-dsa{color:#946200;}
+  .tag-dbms{color:#1f5c43;}
+  .tag-cn{color:#1d4e89;}
+  .tag-os{color:#7a3b6d;}
+  .tag-mock{color:#a13d3d;}
+
+  .task-text{
+    font-size:0.92rem;
+    line-height:1.45;
+    color:rgba(15,17,21,0.85);
+  }
+  .task-row.checked .task-text{
+    color:rgba(15,17,21,0.45);
+    text-decoration:line-through;
+    text-decoration-color:rgba(15,17,21,0.25);
+  }
+
+  .empty-note{
+    font-size:0.8rem;
+    color:rgba(15,17,21,0.35);
+    font-style:italic;
+    padding:8px 2px;
+  }
+
+  /* ===== day footer: time + progress ===== */
+  .day-footer{
+    margin-top:26px;
+    padding-top:22px;
+    border-top:1px dashed rgba(15,17,21,0.15);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    flex-wrap:wrap;
+    gap:18px;
+    position:relative;
+    z-index:1;
+  }
+  .time-input-wrap{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .time-input-wrap label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:rgba(15,17,21,0.5);
+  }
+  .time-input{
+    width:70px;
+    background:rgba(15,17,21,0.05);
+    border:1.5px solid rgba(15,17,21,0.15);
+    border-radius:var(--r-sm);
+    padding:7px 10px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.95rem;
+    font-weight:600;
+    color:var(--ink);
+    text-align:center;
+  }
+  .time-input:focus{border-color:var(--amber); background:rgba(255,138,61,0.06);}
+  .time-input::-webkit-outer-spin-button,
+  .time-input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0;}
+
+  .day-progress-mini{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .mini-bar{
+    width:120px;
+    height:6px;
+    background:rgba(15,17,21,0.1);
+    border-radius:4px;
+    overflow:hidden;
+  }
+  .mini-bar .fill{
+    height:100%;
+    background:var(--teal);
+    border-radius:4px;
+    transition:width 0.3s;
+  }
+  .mini-bar-label{
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.72rem;
+    color:rgba(15,17,21,0.55);
+  }
+
+  .complete-banner{
+    display:none;
+    align-items:center;
+    gap:8px;
+    font-family:'JetBrains Mono',monospace;
+    font-size:0.75rem;
+    color:var(--teal-dim);
+    font-weight:600;
+  }
+  .complete-banner.show{display:flex;}
+
+  /* ===== quick jump pager (mobile-friendly) ===== */
+  .day-pager{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+  }
+  .day-pager input{
+    width:64px;
+    text-align:center;
+    background:var(--ink-2);
+    border:1px solid var(--line);
+    border-radius:var(--r-sm);
+    color:var(--paper);
+    font-family:'JetBrains Mono',monospace;
+    padding:8px;
+  }
+  .day-pager span{font-size:0.78rem; color:var(--slate);}
+
+  /* utility */
+  .visually-hidden{
+    position:absolute; width:1px; height:1px;
+    overflow:hidden; clip:rect(0,0,0,0);
+  }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- ===== SIDEBAR / PHASE RAIL ===== -->
+  <aside class="rail">
+    <div class="brand">
+      <div class="mark">THE<span>SIXTY</span></div>
+      <div class="sub">Placement Prep · Day Tracker</div>
+    </div>
+
+    <div class="rail-stat">
+      <div class="num" id="statDaysDone">0<small>/60</small></div>
+    </div>
+    <div class="label" style="margin-top:-22px; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--slate); text-transform:uppercase; letter-spacing:0.06em;">days complete</div>
+
+    <div class="track-wrap">
+      <div class="track-line"><div class="fill" id="trackFill"></div></div>
+      <div id="stationList"></div>
+    </div>
+
+    <div class="rail-footer">
+      <button class="reset-btn" id="resetBtn">⟲ Reset all progress</button>
+    </div>
+  </aside>
+
+  <!-- ===== MAIN ===== -->
+  <main class="main">
+
+    <div class="topbar">
+      <div>
+        <div class="phase-tag" id="topPhaseTag">PHASE 1 · FOUNDATIONS</div>
+        <h1>60-Day Prep Tracker</h1>
+      </div>
+      <div class="hours-total">
+        <div class="num" id="statTotalHours">0.0h</div>
+        <div class="label">total hours logged</div>
+      </div>
+    </div>
+
+    <section class="grid-card">
+      <div class="grid-card-head">
+        <h2>All 60 days</h2>
+        <div class="legend">
+          <span><i class="sw" style="background:var(--ink-3); border:1px solid var(--line-soft);"></i> not started</span>
+          <span><i class="sw" style="background:rgba(255,138,61,0.5);"></i> in progress</span>
+          <span><i class="sw" style="background:var(--teal);"></i> complete</span>
+        </div>
+      </div>
+      <div class="heatmap" id="heatmap"></div>
+    </section>
+
+    <section class="day-panel" id="dayPanel">
+      <div class="day-head">
+        <div>
+          <div class="big-day"><span id="dayNumBig">1</span><span class="of">/ 60</span></div>
+          <span class="phase-pill" id="dayPhasePill">Foundations</span>
+        </div>
+        <div class="day-nav">
+          <button class="nav-btn" id="prevBtn" aria-label="Previous day">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <button class="nav-btn" id="nextBtn" aria-label="Next day">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <div class="task-list" id="taskList"></div>
+
+      <div class="day-footer">
+        <div class="time-input-wrap">
+          <label for="timeInput">Hours studied</label>
+          <input class="time-input" id="timeInput" type="number" min="0" max="24" step="0.5" placeholder="0" />
+        </div>
+
+        <div class="complete-banner" id="completeBanner">
+          ✓ Day complete — nice work
+        </div>
+
+        <div class="day-progress-mini">
+          <span class="mini-bar-label" id="miniBarLabel">0/4</span>
+          <div class="mini-bar"><div class="fill" id="miniBarFill"></div></div>
+        </div>
+      </div>
+    </section>
+
+    <div class="day-pager">
+      <span>Jump to day</span>
+      <input type="number" id="jumpInput" min="1" max="60" />
+      <span>of 60</span>
+    </div>
+
+  </main>
+</div>
+
+<script>
+const DATA = {"PHASES":[{"id":1,"name":"Foundations","range":[1,21],"blurb":"Python, core DSA, DBMS & CN basics, first OS concepts."},{"id":2,"name":"Intermediate Mastery","range":[22,42],"blurb":"DP, graphs, transactions, sockets, memory management."},{"id":3,"name":"Advanced Practice","range":[43,50],"blurb":"Hard problems, mock interviews, synthesis across subjects."},{"id":4,"name":"Revision & Mocks","range":[51,60],"blurb":"Top patterns, full mocks, behavioural prep, final readiness."}],"DAYS":[{"d":1,"lang":"Python intro: syntax, variables, input/output (official docs). Write “Hello World” + simple arithmetic programs.","dbms":"DBMS Intro: what is a DBMS, RDBMS vs files.","cn":"CN Intro: what is a network; network hardware (NICs, routers).","os":null},{"d":2,"lang":"Python basics: data types (int, float, str, list), conditionals. Solve 3 easy LeetCode array problems.","dbms":"Entities/relations in ER models – draw simple ER diagrams.","cn":"OSI / TCP-IP models overview.","os":null},{"d":3,"lang":"Python: loops (for, while), functions. Write loops + basic algorithms (e.g. find max in list).","dbms":"Relational model (tables, schemas); primary keys, foreign keys.","cn":null,"os":null,"dsa":"DSA Intro: arrays and lists – static vs dynamic arrays; implement basic operations."},{"d":4,"lang":"Python: lists and tuples in depth.","dbms":"SQL basics: SELECT, INSERT (use an online SQL playground).","cn":"Link layer basics (Ethernet, MAC addresses).","os":null,"dsa":"Stacks and queues – implement using lists; solve easy stack/queue problems."},{"d":5,"lang":"Python: dictionaries (hash maps) and sets. Practice lookup and set operations.","dbms":"More SQL – WHERE, JOIN (design small table joins).","cn":"Network devices (repeaters, hubs, switches) and topologies.","os":null,"dsa":"Practice simple hashing problems (e.g. count frequencies)."},{"d":6,"lang":"Python: file I/O and exceptions. Try small file parsing tasks.","dbms":"Normalisation intro (1NF, 2NF) – decompose example tables.","cn":"Physical layer – cables vs wireless, analog/digital signals.","os":null,"dsa":"Recursion fundamentals (fibonacci, factorial) – code and trace."},{"d":7,"lang":null,"dbms":"Normalisation (3NF) continued; functional dependencies exercises.","cn":"Data link protocols – framing, error detection (CRC).","os":"Introduction: definition of OS, role of kernel and system calls.","dsa":"Practice medium-easy LeetCode problems on arrays/strings (aim 5)."},{"d":8,"lang":"Intro to classes/objects (OOP basics). Write a simple class.","dbms":"ER-to-relational mapping exercises.","cn":"OSI Layer 2 (ARP, switches); study ARP protocol.","os":null,"dsa":"Sort algorithms overview (bubble, selection); implement bubble sort."},{"d":9,"lang":null,"dbms":"SQL practice – queries with GROUP BY, aggregate functions.","cn":"OSI Layer 3 (IP addressing, IPv4 vs IPv6).","os":"Processes – process concept, states, PCB.","dsa":"Sorting practice – quicksort/mergesort concept, solve easy sorting problems."},{"d":10,"lang":null,"dbms":"Transactions and ACID properties introduction.","cn":"Subnetting basics – calculate network/host addresses (paper exercise).","os":"CPU scheduling intro (FCFS vs SJF).","dsa":"Two-pointer and sliding-window techniques on arrays."},{"d":11,"lang":null,"dbms":"Simple SQL join queries on sample data.","cn":"Continue subnetting exercises (CIDR, variable-length subnet mask).","os":"CPU scheduling – Round Robin (implement scheduling simulation).","dsa":"Linked Lists – implement singly linked list, practice reversal."},{"d":12,"lang":null,"dbms":"Indexing concepts (B-tree basics).","cn":"Transport layer – UDP vs TCP (port, reliability differences).","os":"Process synchronization – critical section and mutex.","dsa":"Stacks & Queues – solve stack-based problems (infix to postfix conversion)."},{"d":13,"lang":null,"dbms":"SQL review: SELECT/INSERT/UPDATE queries (SQLite or online editor).","cn":"TCP – handshake, header fields.","os":"Producer-consumer problem (implement semaphore-based solution).","dsa":"Recursion (tree recursion) – generate binary strings recursively."},{"d":14,"lang":null,"dbms":"Study ER diagrams further (draw a library or university DB).","cn":"Application layer protocols (HTTP basics).","os":"Deadlock – conditions (mutual exclusion, hold/wait).","dsa":"Review & consolidate (redo missed problems). Solve 3 mixed easy problems."},{"d":15,"lang":null,"dbms":"Deadlock prevention techniques (2PL, ordering).","cn":"DNS protocol overview, client-server concept.","os":"Deadlock – Banker’s algorithm (solve sample problem).","dsa":"Midpoint check – aim to have solved ~30 easy+medium problems."},{"d":16,"lang":null,"dbms":"SQL advanced – subqueries and set operations.","cn":"Network Layer protocols (ICMP, DHCP).","os":"Multithreading – user vs kernel threads; benefits of multithreading.","dsa":"Trees – binary tree traversal (DFS/BFS)."},{"d":17,"lang":null,"dbms":"Normalize a sample table to 3NF (exercise).","cn":"IPv4 subnetting practice (design two subnets).","os":"Thread synchronization – deadlock in threads; semaphores vs mutex.","dsa":"Binary Search (implement on sorted array)."},{"d":18,"lang":null,"dbms":"Transaction management (ACID); write SQL transaction statements.","cn":"Routing basics – static vs dynamic routing (qualitative).","os":"Memory – contiguous allocation, fragmentation.","dsa":"Graph basics – represent graph; BFS/DFS on small examples."},{"d":19,"lang":null,"dbms":"Concurrency control (2PL, timestamping).","cn":"NAT and private vs public IP (conceptual).","os":"Paging vs segmentation (concepts).","dsa":"Solve 3 medium-level problems (trees/graphs)."},{"d":20,"lang":null,"dbms":"Indexing – B+ tree operations (draw insert/delete example).","cn":"Introduction to TCP congestion control.","os":"Virtual memory introduction (concept of page faults).","dsa":"Greedy Algorithms – e.g. coin change, activity selection."},{"d":21,"lang":null,"dbms":"Study “Stored Procedures” & triggers (overview).","cn":"Transport layer – implement a simple stop-and-wait ARQ (theory).","os":"Page replacement algorithms (FIFO, LRU).","dsa":"Midpoint review – solve key missed problems; 1–2h problem-solving."},{"d":22,"lang":null,"dbms":"NoSQL overview (difference from RDBMS).","cn":"Socket programming lab: simple Python TCP client/server (echo).","os":"Practice multithreading in code (e.g. Python threading).","dsa":"Dynamic Programming intro – Fibonacci with memo, knapsack concept."},{"d":23,"lang":null,"dbms":"Advanced SQL – GROUP BY with HAVING, window functions (overview).","cn":"HTTPS (TLS) basics.","os":"OS lab – use virtualization tool (e.g. VirtualBox) to explore Linux file system.","dsa":"More DP – solve classic problems (coin change, longest common subsequence)."},{"d":24,"lang":null,"dbms":"ACID deep dive – sample transactions with rollbacks.","cn":"Wireless networks intro (Wi-Fi standards, basics).","os":"I/O and File Systems – file organization methods.","dsa":"Mid-level challenge – try a hard problem (e.g. LeetCode medium-hard)."},{"d":25,"lang":null,"dbms":"Practical: install MySQL or SQLite; create tables and run queries.","cn":"Study OSI session/presentation layers (overview).","os":"File system – Unix FS (inodes, ext4).","dsa":"Graph algorithms – BFS/DFS coding, Dijkstra concept."},{"d":26,"lang":null,"dbms":"Exercise: normalize + index a sample multi-table DB.","cn":"Lab: use Wireshark to inspect HTTP and DNS packets.","os":"Case study: look at top and process listing on Linux.","dsa":"Continue hard problems / system design thinking; 2 LeetCode medium-hard."},{"d":27,"lang":null,"dbms":"Read a bit on query optimization basics.","cn":"Mobile networks introduction (2G/3G/4G basics).","os":"End of memory: practise calculating hit rates for page replacement.","dsa":"Trees – BST insert/search, traverse and practice related problems."},{"d":28,"lang":null,"dbms":"JDBC/ODBC overview (concept).","cn":"Network security intro (firewalls, VPN basics).","os":"Overall review – list key OS concepts covered so far.","dsa":"Hashing – implement a simple hash table; solve problems with maps/dicts."},{"d":29,"lang":null,"dbms":"Review all SQL topics; do SQL quiz.","cn":"IPv6 addressing basics.","os":"Mock test: OS interview questions (GFG OS quizzes).","dsa":"Graphs – connected components, cycle detection."},{"d":30,"lang":null,"dbms":"Sample project – design a mini-database schema for a shop.","cn":"All layers review.","os":"Multi-threading coding lab (e.g. producer-consumer).","dsa":"Sorting/Searching advanced – search in rotated array, etc."},{"d":31,"lang":null,"dbms":"Advanced index structures (hash index).","cn":"Routing protocols overview (RIP, OSPF basics).","os":"Virtualization – types (hardware vs OS-level).","dsa":"Dynamic Programming advanced – solve ≥3 medium DP problems."},{"d":32,"lang":null,"dbms":"Advanced SQL – practise WITH common table expressions.","cn":"Cloud networking intro (basic concepts).","os":"Kernel vs user space (Linux as example).","dsa":"Greedy advanced – interval scheduling, Huffman coding concept."},{"d":33,"lang":null,"dbms":"Transaction lab – test commit/rollback in MySQL.","cn":"Network quality (QoS, traffic shaping).","os":"Study Linux’s virtual memory (vmstat, pagefault stats).","dsa":"Solve 2 hard LeetCode problems (mix of topics)."},{"d":34,"lang":null,"dbms":"NoSQL demo – try MongoDB basics (if time).","cn":"Study basics of SDN/NFV (concepts).","os":"Container vs VM concept (Docker vs VirtualBox).","dsa":"Review tricky problems; write summaries of solutions."},{"d":35,"lang":null,"dbms":"DB partitioning and sharding (intro).","cn":"IoT networks basics (LoRa, Zigbee).","os":"File System implementations (journaling vs log-structured).","dsa":"Graphs – advanced (Bellman-Ford, MST concepts)."},{"d":36,"lang":null,"dbms":"Read an official DBMS tutorial chapter (e.g. MySQL docs on indexing).","cn":"Review all CN topics.","os":"Review all OS topics.","dsa":"Practice 4 problems/day (2 medium, 1 hard, 1 review)."},{"d":37,"lang":null,"dbms":"Begin synthesis notes.","cn":"Begin synthesis notes.","os":"Begin synthesis notes.","dsa":"Continue mixed problem-solving; focus on weak areas."},{"d":38,"lang":null,"dbms":"Group discussion or peer quiz.","cn":"Group discussion or peer quiz.","os":"Group discussion or peer quiz.","dsa":"Continue daily practice (mix of problems)."},{"d":39,"lang":null,"dbms":"Practice explaining key concepts out loud (Feynman technique).","cn":"Practice explaining key concepts out loud (Feynman technique).","os":"Practice explaining key concepts out loud (Feynman technique).","dsa":"Continue daily practice; include 1 mock coding interview."},{"d":40,"lang":null,"dbms":"Flashcards/spaced repetition for definitions (ACID).","cn":"Flashcards/spaced repetition for definitions (OSI layers).","os":"Flashcards/spaced repetition for definitions.","dsa":"Mixed practice; try a timed contest or recent Codeforces beginner problem."},{"d":41,"lang":null,"dbms":"Revise and fill gaps.","cn":"Revise and fill gaps.","os":"Revise and fill gaps.","dsa":"Mixed practice."},{"d":42,"lang":null,"dbms":"Revise topics with summaries.","cn":"Revise topics with summaries.","os":"Revise topics with summaries.","dsa":"Mixed practice + 1 mock interview."},{"d":43,"lang":null,"dbms":"Quick review of fundamentals.","cn":"Quick review of fundamentals.","os":"Quick review of fundamentals.","dsa":"Mixed practice."},{"d":44,"lang":null,"dbms":"Attempt quick flashcard quizzes.","cn":"Attempt quick flashcard quizzes.","os":"Attempt quick flashcard quizzes.","dsa":"Mixed practice + 1 mock interview."},{"d":45,"lang":null,"dbms":"Prepare cheat-sheets of formulas and definitions.","cn":"Prepare cheat-sheets of formulas and definitions.","os":"Prepare cheat-sheets of formulas and definitions.","dsa":"Mixed practice; cover any missed topics."},{"d":46,"lang":null,"dbms":"Final comprehensive review (notes, summary).","cn":"Final comprehensive review (notes, summary).","os":"Final comprehensive review (notes, summary).","dsa":"Mock interview (timed coding)."},{"d":47,"lang":null,"dbms":"Flashcards and revision of all key points.","cn":"Flashcards and revision of all key points.","os":"Flashcards and revision of all key points.","dsa":"Mock interview + revisit its problems."},{"d":48,"lang":null,"dbms":"Do a practice test (e.g. GFG quizzes).","cn":"Do a practice test (e.g. GFG quizzes).","os":"Do a practice test (e.g. GFG quizzes).","dsa":"Mixed practice; focus on hardest topics."},{"d":49,"lang":null,"dbms":"Relax and light review (sleep well).","cn":"Relax and light review (sleep well).","os":"Relax and light review (sleep well).","dsa":"Mock interview."},{"d":50,"lang":null,"dbms":"Final notes review; finalize portfolio/resume.","cn":"Final notes review; finalize portfolio/resume.","os":"Final notes review; finalize portfolio/resume.","dsa":"Mixed practice; revisit any unsolved problems."},{"d":51,"lang":null,"dbms":null,"cn":null,"os":null,"dsa":"Revision: LeetCode Top 75 must-know problems.","mock":"Practice 3–4 behavioural questions."},{"d":52,"lang":null,"dbms":null,"cn":null,"os":null,"dsa":"Revision: Key DSA patterns (arrays, trees, DP).","mock":"Mock technical interview."},{"d":53,"lang":null,"dbms":"Revision: Key DBMS topics; quick quizzes.","cn":"Revision: Key CN topics; quick quizzes.","os":"Revision: Key OS topics; quick quizzes.","dsa":null,"mock":"Mock behavioural interview."},{"d":54,"lang":null,"dbms":"Revision: Key DBMS queries & transactions; SQL challenge.","cn":null,"os":null,"dsa":null,"mock":"Review mock performances & weak points."},{"d":55,"lang":null,"dbms":null,"cn":null,"os":null,"dsa":"Revision: Solve 2 mixed DSA problems under timed conditions.","mock":"Relaxation and confidence building."},{"d":56,"lang":null,"dbms":null,"cn":null,"os":null,"dsa":"Revision: Full-length mock (DSA + design).","mock":"Recap all subjects, final sleep."},{"d":57,"lang":null,"dbms":null,"cn":null,"os":null,"dsa":"Revision: Daily flashcards; restate concepts.","mock":"One more mock interview."},{"d":58,"lang":null,"dbms":null,"cn":null,"os":null,"dsa":"Revision: Light review of cheat-sheets.","mock":"3–4 behavioural Qs."},{"d":59,"lang":null,"dbms":null,"cn":null,"os":null,"dsa":"Revision: Affirm learning (teach-back key points).","mock":"Final mock interview."},{"d":60,"lang":null,"dbms":null,"cn":null,"os":null,"dsa":"Revision Day: confidence boost – summary of all topics & achievements.","mock":"Ensure readiness."}]};
+
+const TASK_KEYS = ["lang","dsa","dbms","cn","os","mock"];
+const TASK_META = {
+  lang: {label:"Language / Python", cls:"tag-lang"},
+  dsa:  {label:"DSA", cls:"tag-dsa"},
+  dbms: {label:"DBMS", cls:"tag-dbms"},
+  cn:   {label:"Computer Networks", cls:"tag-cn"},
+  os:   {label:"Operating Systems", cls:"tag-os"},
+  mock: {label:"Mock / Interview", cls:"tag-mock"},
+};
+
+const STORAGE_KEY = "sixty_tracker_v1";
+
+function loadState(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if(raw) return JSON.parse(raw);
+  }catch(e){}
+  return { checks:{}, hours:{}, currentDay:1 };
+}
+function saveState(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
+}
+
+let state = loadState();
+if(!state.checks) state.checks = {};
+if(!state.hours) state.hours = {};
+if(!state.currentDay) state.currentDay = 1;
+
+function dayTasks(dayObj){
+  return TASK_KEYS.filter(k => dayObj[k] !== undefined && dayObj[k] !== null && dayObj[k] !== "");
+}
+
+function dayStatus(dayNum){
+  const dayObj = DATA.DAYS[dayNum-1];
+  const keys = dayTasks(dayObj);
+  if(keys.length === 0) return {checked:0, total:0};
+  let checked = 0;
+  keys.forEach(k=>{
+    if(state.checks[dayNum + "_" + k]) checked++;
+  });
+  return {checked, total: keys.length};
+}
+
+function phaseForDay(dayNum){
+  return DATA.PHASES.find(p => dayNum >= p.range[0] && dayNum <= p.range[1]) || DATA.PHASES[0];
+}
+
+function totalDaysComplete(){
+  let n = 0;
+  for(let d=1; d<=60; d++){
+    const s = dayStatus(d);
+    if(s.total > 0 && s.checked === s.total) n++;
+  }
+  return n;
+}
+
+function totalHours(){
+  let sum = 0;
+  Object.values(state.hours).forEach(v=>{
+    const n = parseFloat(v);
+    if(!isNaN(n)) sum += n;
+  });
+  return sum;
+}
+
+function phaseDoneCount(phase){
+  let n = 0;
+  for(let d=phase.range[0]; d<=phase.range[1]; d++){
+    const s = dayStatus(d);
+    if(s.total > 0 && s.checked === s.total) n++;
+  }
+  return n;
+}
+
+/* ===== render: sidebar stations ===== */
+function renderStations(){
+  const wrap = document.getElementById("stationList");
+  wrap.innerHTML = "";
+  const curDay = state.currentDay;
+  DATA.PHASES.forEach(phase=>{
+    const span = phase.range[1] - phase.range[0] + 1;
+    const done = phaseDoneCount(phase);
+    const isActive = curDay >= phase.range[0] && curDay <= phase.range[1];
+    const isDone = done === span;
+    const el = document.createElement("div");
+    el.className = "station" + (isActive ? " active" : "") + (isDone ? " done" : "");
+    el.innerHTML = `
+      <div class="dot"></div>
+      <div class="pname">${phase.name}</div>
+      <div class="prange mono">DAY ${phase.range[0]}–${phase.range[1]} · ${done}/${span}</div>
+      <div class="pblurb">${phase.blurb}</div>
+    `;
+    el.addEventListener("click", ()=>{ goToDay(phase.range[0]); });
+    wrap.appendChild(el);
+  });
+
+  // track fill = overall % across all 60 days
+  const totalDone = totalDaysComplete();
+  const pct = Math.round((totalDone/60)*100);
+  document.getElementById("trackFill").style.height = pct + "%";
+}
+
+/* ===== render: heatmap ===== */
+function renderHeatmap(){
+  const grid = document.getElementById("heatmap");
+  grid.innerHTML = "";
+  for(let d=1; d<=60; d++){
+    const s = dayStatus(d);
+    const cell = document.createElement("button");
+    cell.className = "cell";
+    cell.textContent = d;
+    cell.setAttribute("aria-label", `Day ${d}`);
+    if(d === state.currentDay) cell.classList.add("current");
+    if(s.total > 0 && s.checked === s.total) cell.classList.add("complete");
+    else if(s.checked > 0) cell.classList.add("partial");
+    cell.addEventListener("click", ()=> goToDay(d));
+    grid.appendChild(cell);
+  }
+}
+
+/* ===== render: day panel ===== */
+function renderDayPanel(){
+  const dayNum = state.currentDay;
+  const dayObj = DATA.DAYS[dayNum-1];
+  const phase = phaseForDay(dayNum);
+
+  document.getElementById("dayNumBig").textContent = dayNum;
+  document.getElementById("dayPhasePill").textContent = phase.name;
+  document.getElementById("topPhaseTag").textContent = `PHASE ${phase.id} · ${phase.name.toUpperCase()}`;
+
+  const keys = dayTasks(dayObj);
+  const list = document.getElementById("taskList");
+  list.innerHTML = "";
+
+  if(keys.length === 0){
+    const note = document.createElement("div");
+    note.className = "empty-note";
+    note.textContent = "No tasks logged for this day.";
+    list.appendChild(note);
+  }
+
+  keys.forEach(k=>{
+    const meta = TASK_META[k];
+    const checkKey = dayNum + "_" + k;
+    const isChecked = !!state.checks[checkKey];
+
+    const row = document.createElement("div");
+    row.className = "task-row" + (isChecked ? " checked" : "");
+
+    const btn = document.createElement("button");
+    btn.className = "check-btn";
+    btn.setAttribute("aria-label", (isChecked ? "Mark incomplete: " : "Mark complete: ") + meta.label);
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0F1115" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+    btn.addEventListener("click", ()=>{
+      state.checks[checkKey] = !state.checks[checkKey];
+      saveState();
+      renderAll();
+    });
+
+    const body = document.createElement("div");
+    body.className = "task-body";
+    body.innerHTML = `<span class="task-tag ${meta.cls}">${meta.label}</span><div class="task-text">${dayObj[k]}</div>`;
+
+    row.appendChild(btn);
+    row.appendChild(body);
+    list.appendChild(row);
+  });
+
+  // time input
+  const timeInput = document.getElementById("timeInput");
+  timeInput.value = state.hours[dayNum] !== undefined ? state.hours[dayNum] : "";
+
+  // mini progress
+  const s = dayStatus(dayNum);
+  const pct = s.total > 0 ? Math.round((s.checked/s.total)*100) : 0;
+  document.getElementById("miniBarFill").style.width = pct + "%";
+  document.getElementById("miniBarLabel").textContent = `${s.checked}/${s.total}`;
+
+  const banner = document.getElementById("completeBanner");
+  if(s.total > 0 && s.checked === s.total){
+    banner.classList.add("show");
+  } else {
+    banner.classList.remove("show");
+  }
+
+  // nav buttons
+  document.getElementById("prevBtn").disabled = dayNum <= 1;
+  document.getElementById("nextBtn").disabled = dayNum >= 60;
+
+  document.getElementById("jumpInput").value = dayNum;
+}
+
+/* ===== render: top stats ===== */
+function renderTopStats(){
+  document.getElementById("statDaysDone").innerHTML = totalDaysComplete() + "<small>/60</small>";
+  document.getElementById("statTotalHours").textContent = totalHours().toFixed(1) + "h";
+}
+
+function renderAll(){
+  renderStations();
+  renderHeatmap();
+  renderDayPanel();
+  renderTopStats();
+}
+
+function goToDay(d){
+  d = Math.max(1, Math.min(60, d));
+  state.currentDay = d;
+  saveState();
+  renderAll();
+  document.getElementById("dayPanel").scrollIntoView({behavior:"smooth", block:"nearest"});
+}
+
+/* ===== event wiring ===== */
+document.getElementById("prevBtn").addEventListener("click", ()=> goToDay(state.currentDay - 1));
+document.getElementById("nextBtn").addEventListener("click", ()=> goToDay(state.currentDay + 1));
+
+document.getElementById("timeInput").addEventListener("input", (e)=>{
+  const v = e.target.value;
+  if(v === ""){
+    delete state.hours[state.currentDay];
+  } else {
+    state.hours[state.currentDay] = v;
+  }
+  saveState();
+  renderTopStats();
+});
+
+document.getElementById("jumpInput").addEventListener("change", (e)=>{
+  const v = parseInt(e.target.value, 10);
+  if(!isNaN(v)) goToDay(v);
+});
+
+document.getElementById("resetBtn").addEventListener("click", ()=>{
+  if(confirm("Reset all progress? This clears every checked task and logged hour. This can't be undone.")){
+    state = { checks:{}, hours:{}, currentDay:1 };
+    saveState();
+    renderAll();
+  }
+});
+
+// keyboard arrows for quick nav when not typing in an input
+document.addEventListener("keydown", (e)=>{
+  const tag = document.activeElement.tagName;
+  if(tag === "INPUT" || tag === "TEXTAREA") return;
+  if(e.key === "ArrowRight") goToDay(state.currentDay + 1);
+  if(e.key === "ArrowLeft") goToDay(state.currentDay - 1);
+});
+
+renderAll();
+</script>
+
+</body>
+</html>
