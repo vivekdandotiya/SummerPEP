@@ -567,6 +567,276 @@
     position:absolute; width:1px; height:1px;
     overflow:hidden; clip:rect(0,0,0,0);
   }
+
+  /* ===== day panel grid layout (added for side widgets) ===== */
+  .day-panel-layout {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+  }
+  @media (max-width: 800px) {
+    .day-panel-layout {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+  }
+  .day-panel-main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 100%;
+  }
+  .day-panel-side {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border-left: 1px solid rgba(15, 17, 21, 0.08);
+    padding-left: 24px;
+  }
+  @media (max-width: 800px) {
+    .day-panel-side {
+      border-left: none;
+      border-top: 1px solid rgba(15, 17, 21, 0.08);
+      padding-left: 0;
+      padding-top: 24px;
+    }
+  }
+
+  /* Timer styles */
+  .timer-widget {
+    background: rgba(15, 17, 21, 0.03);
+    border: 1px solid rgba(15, 17, 21, 0.06);
+    border-radius: var(--r-md);
+    padding: 16px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+  .timer-tabs {
+    display: flex;
+    background: rgba(15, 17, 21, 0.05);
+    border-radius: 20px;
+    padding: 2px;
+    width: 100%;
+  }
+  .timer-tab {
+    flex: 1;
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    padding: 6px 12px;
+    border-radius: 18px;
+    text-align: center;
+    color: rgba(15, 17, 21, 0.6);
+    transition: all 0.2s;
+  }
+  .timer-tab.active {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .timer-display-container {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .timer-circle-svg {
+    transform: rotate(-90deg);
+  }
+  .timer-circle-bg {
+    stroke: rgba(15, 17, 21, 0.05);
+  }
+  .timer-circle-fill {
+    stroke: var(--amber);
+    stroke-linecap: round;
+    transition: stroke-dashoffset 0.1s linear;
+  }
+  .timer-time {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 1.35rem;
+    color: var(--ink);
+  }
+  .timer-controls {
+    display: flex;
+    gap: 8px;
+    width: 100%;
+  }
+  .timer-btn {
+    flex: 1;
+    font-size: 0.75rem;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 8px 12px;
+    border-radius: var(--r-sm);
+    transition: all 0.2s;
+    text-align: center;
+  }
+  .timer-btn-primary {
+    background: var(--ink);
+    color: var(--paper);
+  }
+  .timer-btn-primary:hover {
+    background: rgba(15, 17, 21, 0.9);
+  }
+  .timer-btn-secondary {
+    background: rgba(15, 17, 21, 0.05);
+    border: 1px solid rgba(15, 17, 21, 0.1);
+    color: rgba(15, 17, 21, 0.8);
+  }
+  .timer-btn-secondary:hover {
+    background: rgba(15, 17, 21, 0.08);
+  }
+
+  /* Notes widget */
+  .notes-widget {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .notes-widget label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(15, 17, 21, 0.5);
+  }
+  .notes-widget textarea {
+    width: 100%;
+    height: 100px;
+    background: rgba(15, 17, 21, 0.03);
+    border: 1.5px solid rgba(15, 17, 21, 0.12);
+    border-radius: var(--r-md);
+    padding: 10px 12px;
+    font-family: inherit;
+    font-size: 0.82rem;
+    color: var(--ink);
+    resize: none;
+    line-height: 1.4;
+    transition: border-color 0.2s;
+  }
+  .notes-widget textarea:focus {
+    outline: none;
+    border-color: var(--amber);
+    background: rgba(255, 138, 61, 0.03);
+  }
+
+  /* Bookmark / Flag widget */
+  .bookmark-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: rgba(15, 17, 21, 0.03);
+    border: 1.5px solid rgba(15, 17, 21, 0.12);
+    border-radius: var(--r-md);
+    padding: 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: rgba(15, 17, 21, 0.7);
+    transition: all 0.2s;
+  }
+  .bookmark-btn:hover {
+    background: rgba(15, 17, 21, 0.06);
+    color: var(--ink);
+    border-color: rgba(15, 17, 21, 0.2);
+  }
+  .bookmark-btn.active {
+    background: rgba(255, 138, 61, 0.1);
+    border-color: var(--amber);
+    color: var(--amber-dim);
+  }
+  .bookmark-btn.active svg {
+    fill: var(--amber);
+    stroke: var(--amber);
+  }
+
+  /* Reference Vault in Sidebar */
+  .vault-section {
+    margin-top: 15px;
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .vault-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .vault-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 180px;
+    overflow-y: auto;
+    padding-right: 4px;
+  }
+  .vault-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.76rem;
+    color: var(--slate);
+    text-decoration: none;
+    padding: 6px 8px;
+    border-radius: var(--r-sm);
+    background: rgba(245, 241, 232, 0.02);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .vault-item:hover {
+    color: var(--paper);
+    background: rgba(245, 241, 232, 0.05);
+    border-color: var(--line-soft);
+  }
+  .vault-item svg {
+    color: var(--slate-dim);
+    flex-shrink: 0;
+  }
+  .vault-item:hover svg {
+    color: var(--amber);
+  }
+
+  /* Heatmap cell extras for notes and bookmarks */
+  .cell {
+    position: relative;
+  }
+  .cell::after {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: transparent;
+    transition: background 0.2s;
+  }
+  .cell.has-note::after {
+    background: var(--slate);
+  }
+  .cell.complete.has-note::after {
+    background: var(--ink);
+  }
+  .cell.bookmarked {
+    border-top: 3px solid var(--amber) !important;
+  }
 </style>
 </head>
 <body>
@@ -588,6 +858,45 @@
     <div class="track-wrap">
       <div class="track-line"><div class="fill" id="trackFill"></div></div>
       <div id="stationList"></div>
+    </div>
+
+    <!-- Reference Vault (PDFs) -->
+    <div class="vault-section">
+      <div class="vault-title">Reference Vault</div>
+      <div class="vault-list">
+        <a class="vault-item" href="./Linux.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Linux Notes
+        </a>
+        <a class="vault-item" href="./SQL.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          SQL Notes
+        </a>
+        <a class="vault-item" href="./PRiority.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Priority CPU Scheduling
+        </a>
+        <a class="vault-item" href="./GD.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          GD Preparation
+        </a>
+        <a class="vault-item" href="./Vivek__cv.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Vivek CV (Short)
+        </a>
+        <a class="vault-item" href="./CV.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          My Resume / CV
+        </a>
+        <a class="vault-item" href="./Vivek Dandotiya_Java Programming Course.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Java Programming
+        </a>
+        <a class="vault-item" href="./Web Developer Certificate.pdf" target="_blank">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+          Web Dev Certificate
+        </a>
+      </div>
     </div>
 
     <div class="rail-footer">
@@ -622,36 +931,79 @@
     </section>
 
     <section class="day-panel" id="dayPanel">
-      <div class="day-head">
-        <div>
-          <div class="big-day"><span id="dayNumBig">1</span><span class="of">/ 60</span></div>
-          <span class="phase-pill" id="dayPhasePill">Foundations</span>
-        </div>
-        <div class="day-nav">
-          <button class="nav-btn" id="prevBtn" aria-label="Previous day">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-          <button class="nav-btn" id="nextBtn" aria-label="Next day">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </button>
-        </div>
-      </div>
+      <div class="day-panel-layout">
+        <!-- Left Side: Tasks & Navigation -->
+        <div class="day-panel-main">
+          <div class="day-head">
+            <div>
+              <div class="big-day"><span id="dayNumBig">1</span><span class="of">/ 60</span></div>
+              <span class="phase-pill" id="dayPhasePill">Foundations</span>
+            </div>
+            <div class="day-nav">
+              <button class="nav-btn" id="prevBtn" aria-label="Previous day">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+              <button class="nav-btn" id="nextBtn" aria-label="Next day">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </button>
+            </div>
+          </div>
 
-      <div class="task-list" id="taskList"></div>
+          <div class="task-list" id="taskList"></div>
 
-      <div class="day-footer">
-        <div class="time-input-wrap">
-          <label for="timeInput">Hours studied</label>
-          <input class="time-input" id="timeInput" type="number" min="0" max="24" step="0.5" placeholder="0" />
+          <div class="day-footer">
+            <div class="time-input-wrap">
+              <label for="timeInput">Hours studied</label>
+              <input class="time-input" id="timeInput" type="number" min="0" max="24" step="0.5" placeholder="0" />
+            </div>
+
+            <div class="complete-banner" id="completeBanner">
+              ✓ Day complete — nice work
+            </div>
+
+            <div class="day-progress-mini">
+              <span class="mini-bar-label" id="miniBarLabel">0/4</span>
+              <div class="mini-bar"><div class="fill" id="miniBarFill"></div></div>
+            </div>
+          </div>
         </div>
 
-        <div class="complete-banner" id="completeBanner">
-          ✓ Day complete — nice work
-        </div>
+        <!-- Right Side: Action widgets (Timer, Notes, Bookmark) -->
+        <div class="day-panel-side">
+          <!-- Bookmark Button -->
+          <div class="side-action-row">
+            <button class="bookmark-btn" id="bookmarkBtn" aria-label="Bookmark day">
+              <svg class="bookmark-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
+              <span class="btn-text">Flag for Revision</span>
+            </button>
+          </div>
 
-        <div class="day-progress-mini">
-          <span class="mini-bar-label" id="miniBarLabel">0/4</span>
-          <div class="mini-bar"><div class="fill" id="miniBarFill"></div></div>
+          <!-- Pomodoro / Stopwatch Widget -->
+          <div class="timer-widget">
+            <div class="timer-tabs">
+              <button class="timer-tab active" id="tabPomodoro">Pomodoro</button>
+              <button class="timer-tab" id="tabStopwatch">Stopwatch</button>
+            </div>
+            
+            <div class="timer-display-container">
+              <svg class="timer-circle-svg" width="120" height="120" viewBox="0 0 120 120">
+                <circle class="timer-circle-bg" cx="60" cy="60" r="50" stroke-width="5" fill="transparent"/>
+                <circle class="timer-circle-fill" id="timerCircleFill" cx="60" cy="60" r="50" stroke-width="5" fill="transparent" stroke-dasharray="314.159" stroke-dashoffset="0"/>
+              </svg>
+              <div class="timer-time" id="timerTime">25:00</div>
+            </div>
+
+            <div class="timer-controls">
+              <button class="timer-btn timer-btn-primary" id="timerStartBtn">Start</button>
+              <button class="timer-btn timer-btn-secondary" id="timerResetBtn">Reset</button>
+            </div>
+          </div>
+
+          <!-- Daily Study Notes -->
+          <div class="notes-widget">
+            <label for="notesInput">Study Notes</label>
+            <textarea id="notesInput" placeholder="Save key formulas, concepts, or tricky question patterns... (auto-saves)"></textarea>
+          </div>
         </div>
       </div>
     </section>
@@ -685,7 +1037,7 @@ function loadState(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(raw) return JSON.parse(raw);
   }catch(e){}
-  return { checks:{}, hours:{}, currentDay:1 };
+  return { checks:{}, hours:{}, notes:{}, bookmarks:{}, currentDay:1 };
 }
 function saveState(){
   try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
@@ -694,6 +1046,8 @@ function saveState(){
 let state = loadState();
 if(!state.checks) state.checks = {};
 if(!state.hours) state.hours = {};
+if(!state.notes) state.notes = {};
+if(!state.bookmarks) state.bookmarks = {};
 if(!state.currentDay) state.currentDay = 1;
 
 function dayTasks(dayObj){
@@ -783,6 +1137,11 @@ function renderHeatmap(){
     if(d === state.currentDay) cell.classList.add("current");
     if(s.total > 0 && s.checked === s.total) cell.classList.add("complete");
     else if(s.checked > 0) cell.classList.add("partial");
+    
+    // Add notes and bookmark indicators
+    if(state.bookmarks[d]) cell.classList.add("bookmarked");
+    if(state.notes[d] && state.notes[d].trim() !== "") cell.classList.add("has-note");
+
     cell.addEventListener("click", ()=> goToDay(d));
     grid.appendChild(cell);
   }
@@ -840,6 +1199,21 @@ function renderDayPanel(){
   const timeInput = document.getElementById("timeInput");
   timeInput.value = state.hours[dayNum] !== undefined ? state.hours[dayNum] : "";
 
+  // study notes
+  const notesInput = document.getElementById("notesInput");
+  notesInput.value = state.notes[dayNum] !== undefined ? state.notes[dayNum] : "";
+
+  // bookmark state
+  const bookmarkBtn = document.getElementById("bookmarkBtn");
+  const isBookmarked = !!state.bookmarks[dayNum];
+  if(isBookmarked) {
+    bookmarkBtn.classList.add("active");
+    bookmarkBtn.querySelector(".btn-text").textContent = "Flagged for Revision";
+  } else {
+    bookmarkBtn.classList.remove("active");
+    bookmarkBtn.querySelector(".btn-text").textContent = "Flag for Revision";
+  }
+
   // mini progress
   const s = dayStatus(dayNum);
   const pct = s.total > 0 ? Math.round((s.checked/s.total)*100) : 0;
@@ -878,10 +1252,123 @@ function goToDay(d){
   state.currentDay = d;
   saveState();
   renderAll();
+  
+  // Reset active timer if switching days to avoid confusion
+  if(timerRunning) {
+    pauseTimer();
+  }
+  resetTimerState();
+  
   document.getElementById("dayPanel").scrollIntoView({behavior:"smooth", block:"nearest"});
 }
 
-/* ===== event wiring ===== */
+/* ===== Study Timer Logic ===== */
+let timerInterval = null;
+let timerTimeLeft = 25 * 60; // 25 minutes default
+let timerDuration = 25 * 60;
+let timerRunning = false;
+let timerMode = "pomodoro"; // pomodoro or stopwatch
+let stopwatchSeconds = 0;
+
+function formatTime(sec) {
+  const m = Math.floor(sec / 60).toString().padStart(2, '0');
+  const s = (sec % 60).toString().padStart(2, '0');
+  return `${m}:${s}`;
+}
+
+function updateTimerDisplay() {
+  const timeEl = document.getElementById("timerTime");
+  const fillEl = document.getElementById("timerCircleFill");
+  const circumference = 2 * Math.PI * 50; // 314.159
+
+  if (timerMode === "pomodoro") {
+    timeEl.textContent = formatTime(timerTimeLeft);
+    const fraction = timerTimeLeft / timerDuration;
+    const offset = circumference * (1 - fraction);
+    fillEl.style.strokeDashoffset = offset;
+  } else {
+    timeEl.textContent = formatTime(stopwatchSeconds);
+    // stopwatch seconds circle rotation
+    const progress = (stopwatchSeconds % 60) / 60;
+    const offset = circumference * (1 - progress);
+    fillEl.style.strokeDashoffset = offset;
+  }
+}
+
+function startTimer() {
+  if (timerRunning) return;
+  timerRunning = true;
+  document.getElementById("timerStartBtn").textContent = "Pause";
+  
+  timerInterval = setInterval(() => {
+    if (timerMode === "pomodoro") {
+      if (timerTimeLeft > 0) {
+        timerTimeLeft--;
+        updateTimerDisplay();
+      } else {
+        clearInterval(timerInterval);
+        timerRunning = false;
+        document.getElementById("timerStartBtn").textContent = "Start";
+        playBeep();
+        
+        // Log 0.5 hours for Pomodoro completion
+        const curDay = state.currentDay;
+        const currentHours = parseFloat(state.hours[curDay]) || 0;
+        state.hours[curDay] = (currentHours + 0.5).toFixed(1);
+        saveState();
+        renderTopStats();
+        
+        // Update current field
+        document.getElementById("timeInput").value = state.hours[curDay];
+        
+        alert("Nice work! Your 25-minute Pomodoro session is complete. 0.5 hours have been added to your log.");
+        resetTimerState();
+      }
+    } else {
+      stopwatchSeconds++;
+      updateTimerDisplay();
+    }
+  }, 1000);
+}
+
+function pauseTimer() {
+  if (!timerRunning) return;
+  clearInterval(timerInterval);
+  timerRunning = false;
+  document.getElementById("timerStartBtn").textContent = "Start";
+}
+
+function resetTimerState() {
+  clearInterval(timerInterval);
+  timerRunning = false;
+  document.getElementById("timerStartBtn").textContent = "Start";
+  
+  if (timerMode === "pomodoro") {
+    timerTimeLeft = 25 * 60;
+    timerDuration = 25 * 60;
+  } else {
+    stopwatchSeconds = 0;
+  }
+  updateTimerDisplay();
+}
+
+function playBeep() {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const osc = ctx.createOscillator();
+    const gain = ctx.createGain();
+    osc.type = "sine";
+    osc.frequency.value = 880;
+    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.2);
+    osc.connect(gain);
+    gain.connect(ctx.destination);
+    osc.start();
+    osc.stop(ctx.currentTime + 1.2);
+  } catch (e) {}
+}
+
+/* ===== Event Wiring ===== */
 document.getElementById("prevBtn").addEventListener("click", ()=> goToDay(state.currentDay - 1));
 document.getElementById("nextBtn").addEventListener("click", ()=> goToDay(state.currentDay + 1));
 
@@ -896,6 +1383,66 @@ document.getElementById("timeInput").addEventListener("input", (e)=>{
   renderTopStats();
 });
 
+document.getElementById("notesInput").addEventListener("input", (e)=>{
+  const v = e.target.value;
+  if(v === ""){
+    delete state.notes[state.currentDay];
+  } else {
+    state.notes[state.currentDay] = v;
+  }
+  saveState();
+  renderHeatmap(); // update note indicator on cell
+});
+
+document.getElementById("bookmarkBtn").addEventListener("click", ()=>{
+  const curDay = state.currentDay;
+  state.bookmarks[curDay] = !state.bookmarks[curDay];
+  saveState();
+  renderAll(); // update bookmark styling in both heatmap and day panel
+});
+
+// Timer tab wiring
+document.getElementById("tabPomodoro").addEventListener("click", (e)=>{
+  if (timerRunning) pauseTimer();
+  timerMode = "pomodoro";
+  document.getElementById("tabPomodoro").classList.add("active");
+  document.getElementById("tabStopwatch").classList.remove("active");
+  resetTimerState();
+});
+
+document.getElementById("tabStopwatch").addEventListener("click", (e)=>{
+  if (timerRunning) pauseTimer();
+  timerMode = "stopwatch";
+  document.getElementById("tabStopwatch").classList.add("active");
+  document.getElementById("tabPomodoro").classList.remove("active");
+  resetTimerState();
+});
+
+// Timer controls wiring
+document.getElementById("timerStartBtn").addEventListener("click", ()=>{
+  if (timerRunning) {
+    pauseTimer();
+  } else {
+    startTimer();
+  }
+});
+
+document.getElementById("timerResetBtn").addEventListener("click", ()=>{
+  if (timerMode === "stopwatch" && stopwatchSeconds >= 60) {
+    const elapsed = stopwatchSeconds;
+    pauseTimer();
+    const addedHours = (elapsed / 3600).toFixed(2);
+    if (confirm(`Stopwatch stopped at ${formatTime(elapsed)}. Log this study time (+${addedHours} hours) to today's log?`)) {
+      const curDay = state.currentDay;
+      const currentHours = parseFloat(state.hours[curDay]) || 0;
+      state.hours[curDay] = (currentHours + parseFloat(addedHours)).toFixed(1);
+      saveState();
+      renderAll();
+    }
+  }
+  resetTimerState();
+});
+
 document.getElementById("jumpInput").addEventListener("change", (e)=>{
   const v = parseInt(e.target.value, 10);
   if(!isNaN(v)) goToDay(v);
@@ -903,13 +1450,15 @@ document.getElementById("jumpInput").addEventListener("change", (e)=>{
 
 document.getElementById("resetBtn").addEventListener("click", ()=>{
   if(confirm("Reset all progress? This clears every checked task and logged hour. This can't be undone.")){
-    state = { checks:{}, hours:{}, currentDay:1 };
+    state = { checks:{}, hours:{}, notes:{}, bookmarks:{}, currentDay:1 };
     saveState();
+    if(timerRunning) pauseTimer();
+    resetTimerState();
     renderAll();
   }
 });
 
-// keyboard arrows for quick nav when not typing in an input
+// Keyboard arrows for quick nav when not typing in an input
 document.addEventListener("keydown", (e)=>{
   const tag = document.activeElement.tagName;
   if(tag === "INPUT" || tag === "TEXTAREA") return;
@@ -917,6 +1466,8 @@ document.addEventListener("keydown", (e)=>{
   if(e.key === "ArrowLeft") goToDay(state.currentDay - 1);
 });
 
+// Initial display setup
+updateTimerDisplay();
 renderAll();
 </script>
 
