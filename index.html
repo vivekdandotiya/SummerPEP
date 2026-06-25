@@ -837,6 +837,247 @@
   .cell.bookmarked {
     border-top: 3px solid var(--amber) !important;
   }
+
+  /* ===== Theme Switcher ===== */
+  .topbar-right {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+  }
+  @media (max-width: 600px) {
+    .topbar-right {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+    }
+    .topbar {
+      align-items: flex-start;
+    }
+  }
+  .theme-switcher {
+    display: flex;
+    gap: 8px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    padding: 6px 10px;
+    border-radius: 20px;
+  }
+  .theme-opt {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .theme-opt:hover {
+    transform: scale(1.2);
+  }
+  .theme-opt.active {
+    border-color: var(--paper);
+    transform: scale(1.15);
+  }
+
+  /* ===== Theme Variables Overrides ===== */
+  html[data-theme="emerald"] {
+    --amber: #10B981;
+    --amber-dim: #064E3B;
+    --teal: #3B82F6;
+    --teal-dim: #1E3A8A;
+  }
+  html[data-theme="cyberpunk"] {
+    --amber: #F43F5E;
+    --amber-dim: #881337;
+    --teal: #06B6D4;
+    --teal-dim: #164E63;
+  }
+  html[data-theme="sunset"] {
+    --amber: #EC4899;
+    --amber-dim: #701A75;
+    --teal: #F59E0B;
+    --teal-dim: #78350F;
+  }
+
+  /* ===== Stats Dashboard ===== */
+  .stats-dashboard {
+    display: grid;
+    grid-template-columns: 1.2fr 2fr 1.2fr;
+    gap: 20px;
+  }
+  @media (max-width: 900px) {
+    .stats-dashboard {
+      grid-template-columns: 1fr;
+    }
+  }
+  .stats-panel-card {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .stats-panel-card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+  .streak-card, .pace-card {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+    min-height: 100px;
+  }
+  .card-icon {
+    font-size: 2.2rem;
+    background: rgba(245, 241, 232, 0.03);
+    width: 54px;
+    height: 54px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid var(--line-soft);
+  }
+  .card-info {
+    display: flex;
+    flex-direction: column;
+  }
+  .card-num {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--paper);
+    line-height: 1.2;
+  }
+  .card-label {
+    font-size: 0.72rem;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .streak-sub, .pace-sub {
+    position: absolute;
+    bottom: 8px;
+    right: 14px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--slate-dim);
+  }
+  
+  /* Subject Bars */
+  .subject-bars {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 20px;
+    row-gap: 10px;
+  }
+  @media (max-width: 600px) {
+    .subject-bars {
+      grid-template-columns: 1fr;
+    }
+  }
+  .sub-bar-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    cursor: pointer;
+    padding: 6px 8px;
+    border-radius: var(--r-sm);
+    border: 1px solid transparent;
+    transition: all 0.2s;
+  }
+  .sub-bar-item:hover {
+    background: rgba(245, 241, 232, 0.03);
+    border-color: var(--line-soft);
+  }
+  .sub-bar-item.active-filter {
+    background: rgba(255, 138, 61, 0.06);
+    border: 1px dashed var(--amber);
+  }
+  .sub-bar-meta {
+    display: flex;
+    justify-content: space-between;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.66rem;
+    font-weight: 600;
+    color: var(--slate);
+  }
+  .sub-bar-track {
+    height: 5px;
+    background: var(--ink-3);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .sub-bar-fill {
+    height: 100%;
+    background: var(--amber);
+    width: 0%;
+    transition: width 0.4s ease-out;
+  }
+  .sub-bar-item:nth-child(even) .sub-bar-fill {
+    background: var(--teal);
+  }
+  
+  /* Heatmap filtering opacity classes */
+  .heatmap.filtering .cell {
+    opacity: 0.22;
+  }
+  .heatmap.filtering .cell.filter-match {
+    opacity: 1;
+    box-shadow: 0 0 10px rgba(255, 138, 61, 0.25);
+    border-color: var(--amber);
+  }
+
+  /* Revision Pills Container */
+  .revision-pills-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 12px 18px;
+    margin-top: -12px;
+  }
+  .rev-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .rev-pills {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .rev-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    background: rgba(255, 138, 61, 0.1);
+    color: var(--amber);
+    border: 1px solid rgba(255, 138, 61, 0.25);
+    padding: 4px 10px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .rev-pill:hover {
+    background: var(--amber);
+    color: var(--ink);
+    border-color: var(--amber);
+  }
 </style>
 </head>
 <body>
@@ -912,11 +1153,51 @@
         <div class="phase-tag" id="topPhaseTag">PHASE 1 · FOUNDATIONS</div>
         <h1>60-Day Prep Tracker</h1>
       </div>
-      <div class="hours-total">
-        <div class="num" id="statTotalHours">0.0h</div>
-        <div class="label">total hours logged</div>
+      <div class="topbar-right">
+        <!-- Theme Switcher -->
+        <div class="theme-switcher">
+          <button class="theme-opt active" data-theme-val="amber" style="background:#FF8A3D;" aria-label="Amber Theme"></button>
+          <button class="theme-opt" data-theme-val="emerald" style="background:#10B981;" aria-label="Emerald Theme"></button>
+          <button class="theme-opt" data-theme-val="cyberpunk" style="background:#F43F5E;" aria-label="Cyberpunk Theme"></button>
+          <button class="theme-opt" data-theme-val="sunset" style="background:#EC4899;" aria-label="Sunset Theme"></button>
+        </div>
+        <div class="hours-total">
+          <div class="num" id="statTotalHours">0.0h</div>
+          <div class="label">total hours logged</div>
+        </div>
       </div>
     </div>
+
+    <!-- Stats Dashboard Section -->
+    <section class="stats-dashboard">
+      <!-- Streak Panel -->
+      <div class="stats-panel-card streak-card">
+        <div class="card-icon">🔥</div>
+        <div class="card-info">
+          <div class="card-num" id="statStreak">0 days</div>
+          <div class="card-label">Study Streak</div>
+        </div>
+        <div class="streak-sub" id="statLongestStreak">Longest: 0 days</div>
+      </div>
+
+      <!-- Subject Coverage Panel -->
+      <div class="stats-panel-card subject-stats-card">
+        <h3>Subject Progress (Click to filter)</h3>
+        <div class="subject-bars" id="subjectBars">
+          <!-- Dynamically populated -->
+        </div>
+      </div>
+
+      <!-- Pace & Average Panel -->
+      <div class="stats-panel-card pace-card">
+        <div class="card-icon">⚡</div>
+        <div class="card-info">
+          <div class="card-num" id="statPace">0.0h</div>
+          <div class="card-label">Daily Avg</div>
+        </div>
+        <div class="pace-sub" id="statEstFinish">Est. Finish: --</div>
+      </div>
+    </section>
 
     <section class="grid-card">
       <div class="grid-card-head">
@@ -929,6 +1210,12 @@
       </div>
       <div class="heatmap" id="heatmap"></div>
     </section>
+
+    <!-- Flagged Revision List -->
+    <div class="revision-pills-container" id="revisionPillsContainer" style="display: none;">
+      <div class="rev-label">Revision List:</div>
+      <div class="rev-pills" id="revisionPills"></div>
+    </div>
 
     <section class="day-panel" id="dayPanel">
       <div class="day-panel-layout">
@@ -1037,7 +1324,7 @@ function loadState(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(raw) return JSON.parse(raw);
   }catch(e){}
-  return { checks:{}, hours:{}, notes:{}, bookmarks:{}, currentDay:1 };
+  return { checks:{}, hours:{}, notes:{}, bookmarks:{}, theme:"amber", currentDay:1 };
 }
 function saveState(){
   try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
@@ -1048,7 +1335,12 @@ if(!state.checks) state.checks = {};
 if(!state.hours) state.hours = {};
 if(!state.notes) state.notes = {};
 if(!state.bookmarks) state.bookmarks = {};
+if(!state.theme) state.theme = "amber";
 if(!state.currentDay) state.currentDay = 1;
+
+// Apply theme on start
+document.documentElement.setAttribute("data-theme", state.theme);
+updateThemeSwitcherUI();
 
 function dayTasks(dayObj){
   return TASK_KEYS.filter(k => dayObj[k] !== undefined && dayObj[k] !== null && dayObj[k] !== "");
@@ -1124,10 +1416,170 @@ function renderStations(){
   document.getElementById("trackFill").style.height = pct + "%";
 }
 
+/* ===== Subject Stats Filtering ===== */
+let activeSubjectFilter = null;
+const SUBJECTS = [
+  { key: "lang", label: "Python" },
+  { key: "dsa", label: "DSA" },
+  { key: "dbms", label: "DBMS" },
+  { key: "cn", label: "Networks" },
+  { key: "os", label: "OS" },
+  { key: "mock", label: "Mocks" }
+];
+
+function renderSubjectStats(){
+  const container = document.getElementById("subjectBars");
+  container.innerHTML = "";
+  
+  SUBJECTS.forEach(sub => {
+    let totalTasks = 0;
+    let checkedTasks = 0;
+    
+    for (let d = 1; d <= 60; d++) {
+      const dayObj = DATA.DAYS[d-1];
+      if (dayObj[sub.key] !== undefined && dayObj[sub.key] !== null && dayObj[sub.key] !== "") {
+        totalTasks++;
+        if (state.checks[d + "_" + sub.key]) {
+          checkedTasks++;
+        }
+      }
+    }
+    
+    const pct = totalTasks > 0 ? Math.round((checkedTasks / totalTasks) * 100) : 0;
+    
+    const item = document.createElement("div");
+    item.className = "sub-bar-item" + (activeSubjectFilter === sub.key ? " active-filter" : "");
+    item.setAttribute("title", `Click to filter heatmap by ${sub.label}`);
+    item.innerHTML = `
+      <div class="sub-bar-meta">
+        <span>${sub.label}</span>
+        <span>${checkedTasks}/${totalTasks} (${pct}%)</span>
+      </div>
+      <div class="sub-bar-track">
+        <div class="sub-bar-fill" style="width: ${pct}%;"></div>
+      </div>
+    `;
+    
+    item.addEventListener("click", () => {
+      if (activeSubjectFilter === sub.key) {
+        activeSubjectFilter = null;
+      } else {
+        activeSubjectFilter = sub.key;
+      }
+      renderSubjectStats();
+      renderHeatmap();
+    });
+    
+    container.appendChild(item);
+  });
+}
+
+/* ===== Study Streak & Pace Calculations ===== */
+function renderStreakAndPace() {
+  // Streak calculations
+  let currentStreak = 0;
+  let longestStreak = 0;
+  let tempStreak = 0;
+  
+  for (let d = 1; d <= 60; d++) {
+    const s = dayStatus(d);
+    const isDone = s.total > 0 && s.checked === s.total;
+    if (isDone) {
+      tempStreak++;
+      if (tempStreak > longestStreak) longestStreak = tempStreak;
+    } else {
+      tempStreak = 0;
+    }
+  }
+  
+  // Calculate current streak backward from latest completed day
+  let latestCompleted = 0;
+  for (let d = 60; d >= 1; d--) {
+    const s = dayStatus(d);
+    if (s.total > 0 && s.checked === s.total) {
+      latestCompleted = d;
+      break;
+    }
+  }
+  
+  if (latestCompleted > 0) {
+    // Verify it is contiguous with today
+    // If they haven't finished today, but finished yesterday, streak is still active
+    const todayStatus = dayStatus(state.currentDay);
+    const isTodayDone = todayStatus.total > 0 && todayStatus.checked === todayStatus.total;
+    
+    let isStreakActive = isTodayDone || (state.currentDay - latestCompleted <= 1);
+    
+    if (isStreakActive) {
+      for (let d = latestCompleted; d >= 1; d--) {
+        const s = dayStatus(d);
+        if (s.total > 0 && s.checked === s.total) {
+          currentStreak++;
+        } else {
+          break;
+        }
+      }
+    }
+  }
+  
+  document.getElementById("statStreak").textContent = `${currentStreak} day${currentStreak !== 1 ? 's' : ''}`;
+  document.getElementById("statLongestStreak").textContent = `Longest: ${longestStreak} day${longestStreak !== 1 ? 's' : ''}`;
+  
+  // Daily Average Pace
+  const daysDone = totalDaysComplete();
+  const hours = totalHours();
+  const avg = daysDone > 0 ? (hours / daysDone).toFixed(1) : "0.0";
+  document.getElementById("statPace").textContent = `${avg}h/day`;
+  
+  // Est. Finish Date
+  const remaining = 60 - daysDone;
+  if (remaining === 0) {
+    document.getElementById("statEstFinish").textContent = "Completed! 🎉";
+  } else {
+    const estDays = remaining; // assuming 1 day completed per day
+    const finishDate = new Date();
+    finishDate.setDate(finishDate.getDate() + estDays);
+    const options = { month: 'short', day: 'numeric' };
+    document.getElementById("statEstFinish").textContent = `Est. Finish: ${finishDate.toLocaleDateString(undefined, options)}`;
+  }
+}
+
+/* ===== Revision Flagged Days List ===== */
+function renderRevisionList() {
+  const container = document.getElementById("revisionPillsContainer");
+  const pillsWrap = document.getElementById("revisionPills");
+  pillsWrap.innerHTML = "";
+  
+  let flaggedCount = 0;
+  for (let d = 1; d <= 60; d++) {
+    if (state.bookmarks[d]) {
+      flaggedCount++;
+      const pill = document.createElement("button");
+      pill.className = "rev-pill";
+      pill.textContent = `Day ${d}`;
+      pill.addEventListener("click", () => goToDay(d));
+      pillsWrap.appendChild(pill);
+    }
+  }
+  
+  if (flaggedCount > 0) {
+    container.style.display = "flex";
+  } else {
+    container.style.display = "none";
+  }
+}
+
 /* ===== render: heatmap ===== */
 function renderHeatmap(){
   const grid = document.getElementById("heatmap");
   grid.innerHTML = "";
+  
+  if (activeSubjectFilter) {
+    grid.classList.add("filtering");
+  } else {
+    grid.classList.remove("filtering");
+  }
+  
   for(let d=1; d<=60; d++){
     const s = dayStatus(d);
     const cell = document.createElement("button");
@@ -1141,6 +1593,14 @@ function renderHeatmap(){
     // Add notes and bookmark indicators
     if(state.bookmarks[d]) cell.classList.add("bookmarked");
     if(state.notes[d] && state.notes[d].trim() !== "") cell.classList.add("has-note");
+
+    // Add filter matching class
+    if (activeSubjectFilter) {
+      const dayObj = DATA.DAYS[d-1];
+      if (dayObj[activeSubjectFilter] !== undefined && dayObj[activeSubjectFilter] !== null && dayObj[activeSubjectFilter] !== "") {
+        cell.classList.add("filter-match");
+      }
+    }
 
     cell.addEventListener("click", ()=> goToDay(d));
     grid.appendChild(cell);
@@ -1245,6 +1705,9 @@ function renderAll(){
   renderHeatmap();
   renderDayPanel();
   renderTopStats();
+  renderSubjectStats();
+  renderStreakAndPace();
+  renderRevisionList();
 }
 
 function goToDay(d){
@@ -1316,7 +1779,7 @@ function startTimer() {
         const currentHours = parseFloat(state.hours[curDay]) || 0;
         state.hours[curDay] = (currentHours + 0.5).toFixed(1);
         saveState();
-        renderTopStats();
+        renderAll();
         
         // Update current field
         document.getElementById("timeInput").value = state.hours[curDay];
@@ -1368,6 +1831,27 @@ function playBeep() {
   } catch (e) {}
 }
 
+/* ===== Color Theme Handler ===== */
+function updateThemeSwitcherUI() {
+  document.querySelectorAll(".theme-opt").forEach(btn => {
+    if (btn.getAttribute("data-theme-val") === state.theme) {
+      btn.classList.add("active");
+    } else {
+      btn.classList.remove("active");
+    }
+  });
+}
+
+document.querySelectorAll(".theme-opt").forEach(btn => {
+  btn.addEventListener("click", (e) => {
+    const t = btn.getAttribute("data-theme-val");
+    state.theme = t;
+    saveState();
+    document.documentElement.setAttribute("data-theme", t);
+    updateThemeSwitcherUI();
+  });
+});
+
 /* ===== Event Wiring ===== */
 document.getElementById("prevBtn").addEventListener("click", ()=> goToDay(state.currentDay - 1));
 document.getElementById("nextBtn").addEventListener("click", ()=> goToDay(state.currentDay + 1));
@@ -1381,6 +1865,7 @@ document.getElementById("timeInput").addEventListener("input", (e)=>{
   }
   saveState();
   renderTopStats();
+  renderStreakAndPace(); // recalculate pace
 });
 
 document.getElementById("notesInput").addEventListener("input", (e)=>{
@@ -1392,6 +1877,7 @@ document.getElementById("notesInput").addEventListener("input", (e)=>{
   }
   saveState();
   renderHeatmap(); // update note indicator on cell
+  renderRevisionList(); // update revision panel in case bookmark changed (Wait, notes change, so revision list remains unaffected, but good practice)
 });
 
 document.getElementById("bookmarkBtn").addEventListener("click", ()=>{
@@ -1450,10 +1936,12 @@ document.getElementById("jumpInput").addEventListener("change", (e)=>{
 
 document.getElementById("resetBtn").addEventListener("click", ()=>{
   if(confirm("Reset all progress? This clears every checked task and logged hour. This can't be undone.")){
-    state = { checks:{}, hours:{}, notes:{}, bookmarks:{}, currentDay:1 };
+    state = { checks:{}, hours:{}, notes:{}, bookmarks:{}, theme:"amber", currentDay:1 };
     saveState();
     if(timerRunning) pauseTimer();
     resetTimerState();
+    document.documentElement.setAttribute("data-theme", state.theme);
+    updateThemeSwitcherUI();
     renderAll();
   }
 });
