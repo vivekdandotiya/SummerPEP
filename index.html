@@ -1078,6 +1078,157 @@
     color: var(--ink);
     border-color: var(--amber);
   }
+
+  /* ===== Heatmap Tooltip ===== */
+  .heatmap-tooltip {
+    position: absolute;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 10px 14px;
+    font-size: 0.74rem;
+    color: var(--paper);
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.15s ease;
+    z-index: 1000;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    max-width: 250px;
+    line-height: 1.4;
+  }
+  .heatmap-tooltip .tt-title {
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    margin-bottom: 6px;
+    color: var(--amber);
+    border-bottom: 1px solid var(--line-soft);
+    padding-bottom: 4px;
+  }
+  .heatmap-tooltip .tt-item {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 4px;
+  }
+  .heatmap-tooltip .tt-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.58rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    padding: 1px 4px;
+    border-radius: 3px;
+    background: rgba(245, 241, 232, 0.05);
+    height: fit-content;
+  }
+
+  /* ===== Help Button ===== */
+  .help-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    color: var(--slate);
+    font-weight: 700;
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .help-btn:hover {
+    color: var(--paper);
+    border-color: var(--amber);
+  }
+  
+  /* ===== Modal overlay ===== */
+  .modal-overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(15, 17, 21, 0.85);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+    z-index: 2000;
+  }
+  .modal-overlay.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .modal-card {
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    width: 90%;
+    max-width: 460px;
+    padding: 28px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+  }
+  .modal-overlay.show .modal-card {
+    transform: scale(1);
+  }
+  .modal-close {
+    position: absolute;
+    top: 16px; right: 18px;
+    font-size: 1.6rem;
+    color: var(--slate);
+    cursor: pointer;
+    transition: color 0.2s;
+    line-height: 1;
+    background: none;
+    border: none;
+  }
+  .modal-close:hover {
+    color: var(--red);
+  }
+  .modal-card h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.3rem;
+    color: var(--paper);
+    margin-bottom: 18px;
+  }
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+  .guide-sec h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.9rem;
+    color: var(--amber);
+    margin-bottom: 6px;
+  }
+  .guide-sec ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .guide-sec li {
+    font-size: 0.8rem;
+    color: var(--slate);
+    line-height: 1.4;
+  }
+  .guide-sec kbd {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.68rem;
+    color: var(--paper);
+  }
+  .guide-sec li strong {
+    color: var(--paper);
+  }
 </style>
 </head>
 <body>
@@ -1154,6 +1305,8 @@
         <h1>60-Day Prep Tracker</h1>
       </div>
       <div class="topbar-right">
+        <!-- Help Button -->
+        <button class="help-btn" id="helpBtn" aria-label="Open Help Guide">?</button>
         <!-- Theme Switcher -->
         <div class="theme-switcher">
           <button class="theme-opt active" data-theme-val="amber" style="background:#FF8A3D;" aria-label="Amber Theme"></button>
@@ -1602,6 +1755,40 @@ function renderHeatmap(){
       }
     }
 
+    // Heatmap cell tooltips
+    cell.addEventListener("mouseenter", (e) => {
+      const tooltip = document.getElementById("heatmapTooltip");
+      const dayObj = DATA.DAYS[d-1];
+      const keys = dayTasks(dayObj);
+      
+      let html = `<div class="tt-title">Day ${d} Tasks</div>`;
+      if (keys.length === 0) {
+        html += `<div>No tasks logged</div>`;
+      } else {
+        keys.forEach(k => {
+          const meta = TASK_META[k];
+          const taskText = dayObj[k].length > 65 ? dayObj[k].slice(0, 62) + "..." : dayObj[k];
+          html += `
+            <div class="tt-item">
+              <span class="tt-tag ${meta.cls}">${meta.label}</span>
+              <span style="font-size:0.7rem; color:var(--slate);">${taskText}</span>
+            </div>
+          `;
+        });
+      }
+      tooltip.innerHTML = html;
+      tooltip.style.opacity = "1";
+      
+      const rect = cell.getBoundingClientRect();
+      tooltip.style.left = (rect.left + window.scrollX + rect.width / 2) + "px";
+      tooltip.style.top = (rect.top + window.scrollY - 8) + "px";
+      tooltip.style.transform = "translate(-50%, -100%)";
+    });
+    
+    cell.addEventListener("mouseleave", () => {
+      document.getElementById("heatmapTooltip").style.opacity = "0";
+    });
+
     cell.addEventListener("click", ()=> goToDay(d));
     grid.appendChild(cell);
   }
@@ -1641,8 +1828,21 @@ function renderDayPanel(){
     btn.setAttribute("aria-label", (isChecked ? "Mark incomplete: " : "Mark complete: ") + meta.label);
     btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0F1115" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
     btn.addEventListener("click", ()=>{
-      state.checks[checkKey] = !state.checks[checkKey];
+      const wasChecked = isChecked;
+      const statusBefore = dayStatus(dayNum);
+      const wasDayDone = statusBefore.total > 0 && statusBefore.checked === statusBefore.total;
+
+      state.checks[checkKey] = !wasChecked;
       saveState();
+      
+      const statusAfter = dayStatus(dayNum);
+      const isDayDoneNow = statusAfter.total > 0 && statusAfter.checked === statusAfter.total;
+
+      if (!wasDayDone && isDayDoneNow) {
+        triggerConfetti();
+        playBeep();
+      }
+
       renderAll();
     });
 
@@ -1954,10 +2154,132 @@ document.addEventListener("keydown", (e)=>{
   if(e.key === "ArrowLeft") goToDay(state.currentDay - 1);
 });
 
+/* ===== Help Modal Toggle Wiring ===== */
+document.getElementById("helpBtn").addEventListener("click", () => {
+  document.getElementById("helpModal").classList.add("show");
+});
+
+document.getElementById("helpCloseBtn").addEventListener("click", () => {
+  document.getElementById("helpModal").classList.remove("show");
+});
+
+document.getElementById("helpModal").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("helpModal")) {
+    document.getElementById("helpModal").classList.remove("show");
+  }
+});
+
+/* ===== Confetti Particle Burst Logic ===== */
+function triggerConfetti() {
+  const canvas = document.createElement("canvas");
+  canvas.style.position = "fixed";
+  canvas.style.top = "0";
+  canvas.style.left = "0";
+  canvas.style.width = "100%";
+  canvas.style.height = "100%";
+  canvas.style.pointerEvents = "none";
+  canvas.style.zIndex = "9999";
+  document.body.appendChild(canvas);
+  
+  const ctx = canvas.getContext("2d");
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+  
+  window.addEventListener("resize", () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+  
+  // Custom colors matching theme presets
+  const colors = ["#FF8A3D", "#3DDC97", "#4CC9F0", "#FF007F", "#F72585", "#FFB703"];
+  const particles = [];
+  
+  // Create 85 flying confetti particles
+  for (let i = 0; i < 85; i++) {
+    particles.push({
+      x: width / 2,
+      y: height / 2 + 100, // burst from center area
+      angle: Math.random() * Math.PI * 2,
+      speed: 4 + Math.random() * 8,
+      radius: 4 + Math.random() * 4,
+      color: colors[Math.floor(Math.random() * colors.length)],
+      decay: 0.95 + Math.random() * 0.03,
+      gravity: 0.2 + Math.random() * 0.1,
+      tilt: Math.random() * 10 - 5,
+      tiltAngle: Math.random() * Math.PI
+    });
+  }
+  
+  function update() {
+    ctx.clearRect(0, 0, width, height);
+    let active = false;
+    
+    particles.forEach(p => {
+      p.x += Math.cos(p.angle) * p.speed;
+      p.y += Math.sin(p.angle) * p.speed + p.gravity;
+      p.speed *= p.decay;
+      p.tiltAngle += 0.15;
+      p.tilt = Math.sin(p.tiltAngle) * 4;
+      
+      if (p.speed > 0.08 && p.y < height && p.x > 0 && p.x < width) {
+        active = true;
+        ctx.beginPath();
+        ctx.lineWidth = p.radius;
+        ctx.strokeStyle = p.color;
+        ctx.moveTo(p.x + p.tilt + p.radius / 2, p.y);
+        ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.radius / 2);
+        ctx.stroke();
+      }
+    });
+    
+    if (active) {
+      requestAnimationFrame(update);
+    } else {
+      canvas.remove();
+    }
+  }
+  
+  update();
+}
+
 // Initial display setup
 updateTimerDisplay();
 renderAll();
 </script>
+
+<!-- Global Heatmap Tooltip -->
+<div class="heatmap-tooltip" id="heatmapTooltip"></div>
+
+<!-- Help Modal Guide -->
+<div class="modal-overlay" id="helpModal">
+  <div class="modal-card">
+    <button class="modal-close" id="helpCloseBtn">&times;</button>
+    <h2>Placement Tracker Guide</h2>
+    <div class="modal-body">
+      <div class="guide-sec">
+        <h3>⌨️ Keyboard Shortcuts</h3>
+        <ul>
+          <li><kbd>←</kbd> / <kbd>→</kbd> : Go to previous / next day</li>
+        </ul>
+      </div>
+      <div class="guide-sec">
+        <h3>💡 Study Tips</h3>
+        <ul>
+          <li><strong>Feynman Technique:</strong> Explain complex terms (like ACID transactions or CIDR subnetting) in simple language out loud.</li>
+          <li><strong>Spaced Repetition:</strong> Click the bookmark icon (<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>) to flag difficult days for review. Flagged days appear in a quick-list.</li>
+        </ul>
+      </div>
+      <div class="guide-sec">
+        <h3>⚡ Productive Tools</h3>
+        <ul>
+          <li><strong>Pomodoro Timer:</strong> Study for 25 minutes. Completing a Pomodoro automatically logs 0.5 hours!</li>
+          <li><strong>Stopwatch:</strong> Track your custom study session. Log hours directly when resetting.</li>
+          <li><strong>Subject Filters:</strong> Click any subject (like DSA or OS) in the dashboard to highlight relevant days on the heatmap.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>
