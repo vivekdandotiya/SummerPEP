@@ -1235,12 +1235,12 @@
   <!-- ===== SIDEBAR / PHASE RAIL ===== -->
   <aside class="rail">
     <div class="brand">
-      <div class="mark">THE<span>SIXTY</span></div>
-      <div class="sub">Placement Prep · Day Tracker</div>
+      <div class="mark">THE<span>SEVENTY</span></div>
+      <div class="sub">DevOps & L2 · Day Tracker</div>
     </div>
 
     <div class="rail-stat">
-      <div class="num" id="statDaysDone">0<small>/60</small></div>
+      <div class="num" id="statDaysDone">0<small>/70</small></div>
     </div>
     <div class="label" style="margin-top:-22px; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--slate); text-transform:uppercase; letter-spacing:0.06em;">days complete</div>
 
@@ -1299,7 +1299,7 @@
     <div class="topbar">
       <div>
         <div class="phase-tag" id="topPhaseTag">PHASE 1 · FOUNDATIONS</div>
-        <h1>60-Day Prep Tracker</h1>
+        <h1>70-Day L2/DevOps Prep Tracker</h1>
       </div>
       <div class="topbar-right">
         <!-- Help Button -->
@@ -1351,7 +1351,7 @@
 
     <section class="grid-card">
       <div class="grid-card-head">
-        <h2>All 60 days</h2>
+        <h2>All 70 days</h2>
         <div class="legend">
           <span><i class="sw" style="background:var(--ink-3); border:1px solid var(--line-soft);"></i> not started</span>
           <span><i class="sw" style="background:rgba(255,138,61,0.5);"></i> in progress</span>
@@ -1373,7 +1373,7 @@
         <div class="day-panel-main">
           <div class="day-head">
             <div>
-              <div class="big-day"><span id="dayNumBig">1</span><span class="of">/ 60</span></div>
+              <div class="big-day"><span id="dayNumBig">1</span><span class="of">/ 70</span></div>
               <span class="phase-pill" id="dayPhasePill">Foundations</span>
             </div>
             <div class="day-nav">
@@ -1447,8 +1447,8 @@
 
     <div class="day-pager">
       <span>Jump to day</span>
-      <input type="number" id="jumpInput" min="1" max="60" />
-      <span>of 60</span>
+      <input type="number" id="jumpInput" min="1" max="70" />
+      <span>of 70</span>
     </div>
 
   </main>
@@ -1581,7 +1581,7 @@ function phaseForDay(dayNum){
 
 function totalDaysComplete(){
   let n = 0;
-  for(let d=1; d<=60; d++){
+  for(let d=1; d<=70; d++){
     const s = dayStatus(d);
     if(s.total > 0 && s.checked === s.total) n++;
   }
@@ -1628,9 +1628,9 @@ function renderStations(){
     wrap.appendChild(el);
   });
 
-  // track fill = overall % across all 60 days
+  // track fill = overall % across all 70 days
   const totalDone = totalDaysComplete();
-  const pct = Math.round((totalDone/60)*100);
+  const pct = Math.round((totalDone/70)*100);
   document.getElementById("trackFill").style.height = pct + "%";
 }
 
@@ -1653,13 +1653,16 @@ function renderSubjectStats(){
     let totalTasks = 0;
     let checkedTasks = 0;
     
-    for (let d = 1; d <= 60; d++) {
+    for (let d = 1; d <= 70; d++) {
       const dayObj = DATA.DAYS[d-1];
-      if (dayObj[sub.key] !== undefined && dayObj[sub.key] !== null && dayObj[sub.key] !== "") {
-        totalTasks++;
-        if (state.checks[d + "_" + sub.key]) {
-          checkedTasks++;
-        }
+      if (dayObj.subject === sub.key) {
+        const keys = dayTasks(dayObj);
+        totalTasks += keys.length;
+        keys.forEach(k => {
+          if (state.checks[d + "_" + k]) {
+            checkedTasks++;
+          }
+        });
       }
     }
     
@@ -1699,7 +1702,7 @@ function renderStreakAndPace() {
   let longestStreak = 0;
   let tempStreak = 0;
   
-  for (let d = 1; d <= 60; d++) {
+  for (let d = 1; d <= 70; d++) {
     const s = dayStatus(d);
     const isDone = s.total > 0 && s.checked === s.total;
     if (isDone) {
@@ -1712,7 +1715,7 @@ function renderStreakAndPace() {
   
   // Calculate current streak backward from latest completed day
   let latestCompleted = 0;
-  for (let d = 60; d >= 1; d--) {
+  for (let d = 70; d >= 1; d--) {
     const s = dayStatus(d);
     if (s.total > 0 && s.checked === s.total) {
       latestCompleted = d;
@@ -1750,7 +1753,7 @@ function renderStreakAndPace() {
   document.getElementById("statPace").textContent = `${avg}h/day`;
   
   // Est. Finish Date
-  const remaining = 60 - daysDone;
+  const remaining = 70 - daysDone;
   if (remaining === 0) {
     document.getElementById("statEstFinish").textContent = "Completed! 🎉";
   } else {
@@ -1769,7 +1772,7 @@ function renderRevisionList() {
   pillsWrap.innerHTML = "";
   
   let flaggedCount = 0;
-  for (let d = 1; d <= 60; d++) {
+  for (let d = 1; d <= 70; d++) {
     if (state.bookmarks[d]) {
       flaggedCount++;
       const pill = document.createElement("button");
@@ -1798,7 +1801,7 @@ function renderHeatmap(){
     grid.classList.remove("filtering");
   }
   
-  for(let d=1; d<=60; d++){
+  for(let d=1; d<=70; d++){
     const s = dayStatus(d);
     const cell = document.createElement("button");
     cell.className = "cell";
@@ -1815,7 +1818,7 @@ function renderHeatmap(){
     // Add filter matching class
     if (activeSubjectFilter) {
       const dayObj = DATA.DAYS[d-1];
-      if (dayObj[activeSubjectFilter] !== undefined && dayObj[activeSubjectFilter] !== null && dayObj[activeSubjectFilter] !== "") {
+      if (dayObj.subject === activeSubjectFilter) {
         cell.classList.add("filter-match");
       }
     }
@@ -1954,14 +1957,14 @@ function renderDayPanel(){
 
   // nav buttons
   document.getElementById("prevBtn").disabled = dayNum <= 1;
-  document.getElementById("nextBtn").disabled = dayNum >= 60;
+  document.getElementById("nextBtn").disabled = dayNum >= 70;
 
   document.getElementById("jumpInput").value = dayNum;
 }
 
 /* ===== render: top stats ===== */
 function renderTopStats(){
-  document.getElementById("statDaysDone").innerHTML = totalDaysComplete() + "<small>/60</small>";
+  document.getElementById("statDaysDone").innerHTML = totalDaysComplete() + "<small>/70</small>";
   document.getElementById("statTotalHours").textContent = totalHours().toFixed(1) + "h";
 }
 
@@ -1976,7 +1979,7 @@ function renderAll(){
 }
 
 function goToDay(d){
-  d = Math.max(1, Math.min(60, d));
+  d = Math.max(1, Math.min(70, d));
   state.currentDay = d;
   saveState();
   renderAll();
