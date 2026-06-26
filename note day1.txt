@@ -1,0 +1,4 @@
+Day 1 - Linux Basics
+1. Linux Distributions Definition-
+
+A Linux distribution (distro) is an

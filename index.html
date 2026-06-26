@@ -1855,13 +1855,13 @@ function renderNotesVault() {
       count++;
       const item = document.createElement("a");
       item.className = "vault-item";
-      item.href = "#";
+      item.href = `./note day${d}.txt`;
+      item.target = "_blank";
       item.innerHTML = `
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
         note day${d}
       `;
       item.addEventListener("click", (e) => {
-        e.preventDefault();
         goToDay(d);
       });
       list.appendChild(item);
@@ -2224,13 +2224,33 @@ document.getElementById("timeInput").addEventListener("input", (e)=>{
 
 document.getElementById("saveNotesBtn").addEventListener("click", () => {
   const notesInput = document.getElementById("notesInput");
-  const v = notesInput.value;
+  const v = notesInput.value.trim();
   if (v === "") {
     delete state.notes[state.currentDay];
-  } else {
-    state.notes[state.currentDay] = v;
+    saveState();
+    renderHeatmap();
+    renderNotesVault();
+    return;
   }
+  
+  const curDay = state.currentDay;
+  state.notes[curDay] = v;
   saveState();
+  
+  // Trigger file download
+  const blob = new Blob([v], {type: "text/plain;charset=utf-8"});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `note day${curDay}.txt`;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  URL.revokeObjectURL(url);
+  
+  // Clear textarea
+  notesInput.value = "";
+  
   renderHeatmap(); // update note indicator on cell
   renderNotesVault(); // update notes vault list in sidebar
   
