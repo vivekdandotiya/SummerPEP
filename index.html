@@ -60,15 +60,30 @@
 
   /* ===== sidebar / phase rail ===== */
   .rail{
-    position:relative;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
     border-right:1px solid var(--line);
     padding:32px 24px 32px 32px;
     display:flex;
     flex-direction:column;
     gap:28px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line) transparent;
+  }
+  .rail::-webkit-scrollbar {
+    width: 6px;
+  }
+  .rail::-webkit-scrollbar-thumb {
+    background: var(--line);
+    border-radius: 3px;
   }
   @media (max-width:900px){
     .rail{
+      position: static;
+      height: auto;
+      overflow-y: visible;
       border-right:none;
       border-bottom:1px solid var(--line);
       padding:24px 20px;
@@ -1278,6 +1293,12 @@
       <div id="stationList"></div>
     </div>
 
+    <!-- Revision Notes Vault -->
+    <div class="vault-section" id="notesVaultSection" style="display: none;">
+      <div class="vault-title">Revision Notes</div>
+      <div class="vault-list" id="notesVaultList"></div>
+    </div>
+
     <!-- Reference Vault (PDFs) -->
     <div class="vault-section">
       <div class="vault-title">Reference Vault</div>
@@ -1315,12 +1336,6 @@
           Web Dev Certificate
         </a>
       </div>
-    </div>
-
-    <!-- Revision Notes Vault -->
-    <div class="vault-section" id="notesVaultSection" style="display: none;">
-      <div class="vault-title">Revision Notes</div>
-      <div class="vault-list" id="notesVaultList"></div>
     </div>
 
     <div class="rail-footer">
