@@ -2429,12 +2429,18 @@ function triggerConfetti() {
   update();
 }
 
-// Initial display setup on DOMContentLoaded to guarantee DOM readiness
-window.addEventListener("DOMContentLoaded", () => {
+// Initial display setup with document.readyState check to handle quick loading/caching
+function initApp() {
   updateThemeSwitcherUI();
   updateTimerDisplay();
   renderAll();
-});
+}
+
+if (document.readyState === "loading") {
+  window.addEventListener("DOMContentLoaded", initApp);
+} else {
+  initApp();
+}
 </script>
 
 <!-- Global Heatmap Tooltip -->
