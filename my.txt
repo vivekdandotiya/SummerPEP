@@ -1,0 +1,494 @@
+========================================================================
+                  L2/DEVOPS 70-DAY PLACEMENT STUDY PLAN                 
+========================================================================
+
+DAY 1: OS Fundamentals (Ubuntu/RHEL)
+Subject: LINUX
+Learning Objectives: Understand Linux distributions, kernel vs user space, filesystem hierarchy (/bin, /etc, /usr, /var).
+Hands-on Tasks: Install a Linux VM; explore / directory structure.
+Interview Prep: Explain /etc vs /home.
+--------------------------------------------------------------------------------
+
+DAY 2: Essential Linux Commands
+Subject: LINUX
+Learning Objectives: Learn pwd, ls, cd, mkdir, rm, cp, mv, touch, cat, head, tail, grep, find, locate.
+Hands-on Tasks: Practice file operations: create/move/copy files, use grep search.
+Interview Prep: How to find large files?
+--------------------------------------------------------------------------------
+
+DAY 3: Users & Permissions
+Subject: LINUX
+Learning Objectives: Manage users/groups; file permission bits (rwx), chmod, chown, sudo.
+Hands-on Tasks: Create users/groups; change file ownership/permissions.
+Interview Prep: Explain chmod 755.
+--------------------------------------------------------------------------------
+
+DAY 4: Processes & SSH
+Subject: LINUX
+Learning Objectives: Understand processes (ps, top, kill), services (systemctl, journalctl); SSH basics (connectivity, key auth).
+Hands-on Tasks: Start/stop a service, view logs; set up SSH key login.
+Interview Prep: Difference between kill and kill -9.
+--------------------------------------------------------------------------------
+
+DAY 5: Package Mgmt & OSI Model
+Subject: NETWORKING
+Learning Objectives: Learn Debian (apt) vs RHEL (yum/dnf) package tools. Review networking models: OSI vs TCP/IP layers, TCP vs UDP.
+Hands-on Tasks: Install/remove packages (e.g. sudo apt install nginx); map out OSI layers for TCP/UDP, HTTP.
+Interview Prep: When to use TCP vs UDP?
+--------------------------------------------------------------------------------
+
+DAY 6: Docker Basics
+Subject: DOCKER
+Learning Objectives: Intro to Docker: container vs VM, Docker client-server. Key commands: docker pull/run/ps/images.
+Hands-on Tasks: Install Docker; pull an image (e.g. nginx), run/inspect/stop a container.
+Interview Prep: Explain image vs container.
+--------------------------------------------------------------------------------
+
+DAY 7: Docker Advanced
+Subject: DOCKER
+Learning Objectives: Intermediate Docker: docker stop/rm, exec, logs; Dockerfile syntax (FROM, RUN, CMD); port mapping, volumes, networking. Troubleshooting (container not starting).
+Hands-on Tasks: Write a simple Dockerfile (e.g. Python app), build & run; experiment with exposing ports.
+Interview Prep: How to persist data with Docker?
+--------------------------------------------------------------------------------
+
+DAY 8: Monitoring & Bash Intro
+Subject: LINUX
+Learning Objectives: Monitoring concepts (metrics, alerts). Nagios and Grafana basics. Bash scripting intro: shebang, variables, I/O.
+Hands-on Tasks: Spin up a Grafana or Nagios container; write a bash script with variables, echo.
+Interview Prep: What is Prometheus exporter?
+--------------------------------------------------------------------------------
+
+DAY 9: Prometheus & Bash Scripting
+Subject: LINUX
+Learning Objectives: Prometheus fundamentals (metrics collection, exporters); Zabbix intro. Bash scripting (loops, conditionals, functions).
+Hands-on Tasks: Run a simple Prometheus exporter (e.g. Node exporter); write a bash loop with if.
+Interview Prep: Write a bash for loop example.
+--------------------------------------------------------------------------------
+
+DAY 10: Bash & Python & Networking
+Subject: LINUX
+Learning Objectives: Finish Bash (file handling scripts, cron jobs). Python basics: variables, data types, loops, functions, lists, dicts, file I/O. Networking intro (DNS, HTTP, firewalls).
+Hands-on Tasks: Automate a simple backup in bash. Write a Python script to parse a file.
+Interview Prep: Python list vs dict.
+--------------------------------------------------------------------------------
+
+DAY 11: Storage: Disks & LVM
+Subject: LINUX
+Learning Objectives: Disk partitioning (fdisk, lsblk). LVM concepts (PV, VG, LV) for flexible storage.
+Hands-on Tasks: Use fdisk to partition a disk; create LVM PV/VG/LV; format and mount.
+Interview Prep: Explain the steps to extend a filesystem with LVM.
+--------------------------------------------------------------------------------
+
+DAY 12: Storage: Filesharing & Backup
+Subject: LINUX
+Learning Objectives: NFS setup, SFTP usage, backup strategies (e.g. rsync).
+Hands-on Tasks: Configure an NFS share between two VMs; transfer a file via SFTP; schedule a cron backup.
+Interview Prep: Describe a full vs incremental backup.
+--------------------------------------------------------------------------------
+
+DAY 13: Virtualization Concepts
+Subject: DOCKER
+Learning Objectives: Hypervisor types (Type-1 vs Type-2), VMware/VirtualBox overview, snapshots/cloning.
+Hands-on Tasks: Install VirtualBox or VMware Player, create a VM, take snapshots.
+Interview Prep: Differences between VM and container.
+--------------------------------------------------------------------------------
+
+DAY 14: AWS Cloud Basics (EC2/S3/IAM)
+Subject: CLOUD
+Learning Objectives: AWS IaaS: EC2 instances (launch/configure), S3 object storage, IAM roles.
+Hands-on Tasks: Launch a free-tier EC2 VM, create an S3 bucket and upload a file, create an IAM user.
+Interview Prep: What is an EC2 instance?
+--------------------------------------------------------------------------------
+
+DAY 15: Azure Cloud Basics (VM/Storage)
+Subject: CLOUD
+Learning Objectives: Azure fundamentals: Resource Groups, Virtual Machines, Storage Accounts, Virtual Network, NSG (firewall).
+Hands-on Tasks: Provision an Azure VM (Linux/Windows) in a VNet; attach storage.
+Interview Prep: Azure VM vs AWS EC2.
+--------------------------------------------------------------------------------
+
+DAY 16: Git Version Control
+Subject: GIT
+Learning Objectives: Git basics: repositories, clone, add, commit, push, pull, branching/merging.
+Hands-on Tasks: Initialize a Git repo, create/merge a branch, resolve a merge conflict.
+Interview Prep: Git vs SVN differences.
+--------------------------------------------------------------------------------
+
+DAY 17: Jira & ServiceNow Intro
+Subject: SUPPORT
+Learning Objectives: Issue tracking: Jira (projects, tickets, sprints, workflows) and ServiceNow (Incident, Change, Problem, SLA concepts).
+Hands-on Tasks: Create/sample Jira tickets and workflow; explore a ServiceNow instance (incidents, SLAs).
+Interview Prep: Define incident vs problem.
+--------------------------------------------------------------------------------
+
+DAY 18: Confluence & Documentation
+Subject: SUPPORT
+Learning Objectives: Confluence basics (spaces, pages); writing SOP/knowledge-base articles for IT processes.
+Hands-on Tasks: Create a Confluence page (e.g. runbook template) documenting a common task.
+Interview Prep: Why is documentation important?
+--------------------------------------------------------------------------------
+
+DAY 19: L2 Support Fundamentals
+Subject: SUPPORT
+Learning Objectives: L1->L2->L3 ticket flow; Incident vs Problem vs Change; escalation criteria; SLAs (response/resolution times).
+Hands-on Tasks: Case-study: Triaging sample tickets, deciding escalation, tracking SLAs.
+Interview Prep: How do you define Root Cause (RCA)?
+--------------------------------------------------------------------------------
+
+DAY 20: L2 Support Communication
+Subject: SUPPORT
+Learning Objectives: Professional communication and reports: status updates, RCA report structure; service request handling.
+Hands-on Tasks: Draft a mock incident update email and an RCA summary for an example outage.
+Interview Prep: What to include in an RCA report?
+--------------------------------------------------------------------------------
+
+DAY 21: Linux & Networking Review
+Subject: NETWORKING
+Learning Objectives: Review key Linux skills (users, processes, commands) and networking (OSI layers, TCP/UDP, DNS, DHCP, firewalls).
+Hands-on Tasks: Quick quiz: set permissions; troubleshoot a mock network issue.
+Interview Prep: Explain subnetting basics.
+--------------------------------------------------------------------------------
+
+DAY 22: Database Basics (SQL)
+Subject: NETWORKING
+Learning Objectives: Relational model, ER diagrams, primary/foreign keys, ACID. SQL queries (SELECT, JOIN, GROUP BY).
+Hands-on Tasks: Sketch a simple schema; run sample SQL queries on a database.
+Interview Prep: What is a JOIN?
+--------------------------------------------------------------------------------
+
+DAY 23: Networking Deep Dive
+Subject: NETWORKING
+Learning Objectives: Advanced CN: DNS hierarchy, DHCP, NAT/PAT, SNMP (monitoring), LDAP (auth), VPN types.
+Hands-on Tasks: Set up a simple DNS lookup; configure SNMP agent; test a VPN tunnel.
+Interview Prep: How does DHCP work?
+--------------------------------------------------------------------------------
+
+DAY 24: Storage & Backup Review
+Subject: LINUX
+Learning Objectives: Review LVM, filesystems. Backup/restore (tar/rsync, snapshot strategies).
+Hands-on Tasks: Use tar or rsync to backup files; simulate data restore.
+Interview Prep: Pros/cons of tape vs disk backup.
+--------------------------------------------------------------------------------
+
+DAY 25: Virtualization Review
+Subject: DOCKER
+Learning Objectives: Recap hypervisors (ESXi/Hyper-V basics), containers vs VMs, VirtualBox network modes.
+Hands-on Tasks: Experiment with VirtualBox networking (NAT/bridged); review VM/host resources.
+Interview Prep: What is VMware ESXi?
+--------------------------------------------------------------------------------
+
+DAY 26: Cloud Services Review
+Subject: CLOUD
+Learning Objectives: Recap AWS/Azure: EC2 (types, scaling), S3/EBS, Azure VMs, Storage, VNets.
+Hands-on Tasks: Use AWS CLI/Azure CLI for sample commands (e.g. list instances).
+Interview Prep: What are AWS Availability Zones?
+--------------------------------------------------------------------------------
+
+DAY 27: Git & CI/CD Basics
+Subject: GIT
+Learning Objectives: Git advanced (rebasing, tags). Introduction to CI/CD (Jenkins or GitHub Actions basics).
+Hands-on Tasks: Configure a simple GitHub Actions workflow to auto-run tests on push.
+Interview Prep: Benefits of CI/CD pipelines.
+--------------------------------------------------------------------------------
+
+DAY 28: Jira/ServiceNow Review
+Subject: SUPPORT
+Learning Objectives: Recap Jira fields (Epic, Story, Task), ServiceNow modules (Incident, Change, Problem).
+Hands-on Tasks: Draft a Jira user story; simulate a change request in ServiceNow with rollback plan.
+Interview Prep: What is an SLA in ITIL?
+--------------------------------------------------------------------------------
+
+DAY 29: Confluence & Docs Review
+Subject: SUPPORT
+Learning Objectives: Recap Confluence usage and documentation best-practices (SOPs, KBs).
+Hands-on Tasks: Organize a Confluence space (pages and hierarchy) for a sample project.
+Interview Prep: What goes into a good SOP?
+--------------------------------------------------------------------------------
+
+DAY 30: Milestone Review (Linux & Docker)
+Subject: LINUX
+Learning Objectives: Consolidate Linux and Docker knowledge (self-test, peer discussion).
+Hands-on Tasks: Solve Linux/Docker practice problems from online quizzes.
+Interview Prep: Check mastery: common Linux, Docker questions.
+--------------------------------------------------------------------------------
+
+DAY 31: Milestone Review (Networking & Storage)
+Subject: NETWORKING
+Learning Objectives: Consolidate networking and storage (LVM/NFS/backup) topics.
+Hands-on Tasks: Troubleshoot a network scenario; perform a full data restore.
+Interview Prep: Check mastery: network/storage FAQs.
+--------------------------------------------------------------------------------
+
+DAY 32: Milestone Review (Monitoring & Scripting)
+Subject: LINUX
+Learning Objectives: Consolidate monitoring tools and scripting.
+Hands-on Tasks: Create a Grafana panel on sample data; write a monitoring alert script.
+Interview Prep: Check: sample bash scripting questions.
+--------------------------------------------------------------------------------
+
+DAY 33: Milestone Review (Cloud Platforms)
+Subject: CLOUD
+Learning Objectives: Consolidate AWS/Azure basics.
+Hands-on Tasks: Work through an AWS Labs tutorial; simulate Azure VM creation.
+Interview Prep: Check: cloud provider comparison questions.
+--------------------------------------------------------------------------------
+
+DAY 34: Milestone Review (Tools & Support)
+Subject: SUPPORT
+Learning Objectives: Consolidate Git, Jira, L2 support process knowledge.
+Hands-on Tasks: Role-play closing a ticket using Jira from creation to resolution.
+Interview Prep: Check: support workflow Qs.
+--------------------------------------------------------------------------------
+
+DAY 35: Interview Prep: Mock Q&A
+Subject: SUPPORT
+Learning Objectives: Practice interviews on all key areas.
+Hands-on Tasks: Conduct a mock interview (self or peer).
+Interview Prep: Review common Linux, Docker, networking Qs.
+--------------------------------------------------------------------------------
+
+DAY 36: Interview Prep: Final Practice
+Subject: SUPPORT
+Learning Objectives: Focus on weaker areas identified; timed practice.
+Hands-on Tasks: Complete a timed quiz on mixed topics.
+Interview Prep: Final check: clarify difficult concepts.
+--------------------------------------------------------------------------------
+
+DAY 37: Post-Plan Review
+Subject: SUPPORT
+Learning Objectives: Reflect on learning; identify remaining gaps.
+Hands-on Tasks: Revise notes/cheatsheets.
+Interview Prep: Prepare one-sheet summaries per topic.
+--------------------------------------------------------------------------------
+
+DAY 38: Review: Linux & Bash
+Subject: LINUX
+Learning Objectives: Revisit Linux commands and bash scripting.
+Hands-on Tasks: Write a combined Bash script utilizing arrays/functions.
+Interview Prep: Quick Qs: sed/awk differences, etc.
+--------------------------------------------------------------------------------
+
+DAY 39: Review: Networking
+Subject: NETWORKING
+Learning Objectives: Revisit core networking protocols and models.
+Hands-on Tasks: Solve a networking puzzle (OSI mapping, IP config).
+Interview Prep: Quick Qs: subnetting example.
+--------------------------------------------------------------------------------
+
+DAY 40: Review: Docker & Virtualization
+Subject: DOCKER
+Learning Objectives: Revisit Docker usage and hypervisor concepts.
+Hands-on Tasks: Deploy a multi-container app with Docker Compose or Kubernetes (if covered).
+Interview Prep: Quick Qs: Docker networking.
+--------------------------------------------------------------------------------
+
+DAY 41: Review: Cloud (AWS/Azure)
+Subject: CLOUD
+Learning Objectives: Revisit cloud essentials for AWS and Azure.
+Hands-on Tasks: Use AWS Console/Azure portal to view resources, review logs.
+Interview Prep: Quick Qs: IAM vs RBAC.
+--------------------------------------------------------------------------------
+
+DAY 42: Review: Git & CI/CD
+Subject: GIT
+Learning Objectives: Revisit Git workflows and CI/CD concepts.
+Hands-on Tasks: Trigger a full CI build (e.g. GitHub Actions).
+Interview Prep: Quick Qs: git rebase vs merge.
+--------------------------------------------------------------------------------
+
+DAY 43: Review: Support Tools
+Subject: SUPPORT
+Learning Objectives: Revisit Jira workflows and L2 support policies.
+Hands-on Tasks: Resolve a sample incident from ticket to closure.
+Interview Prep: Quick Qs: SLA scenario.
+--------------------------------------------------------------------------------
+
+DAY 44: Mock Interview 1
+Subject: SUPPORT
+Learning Objectives: Conduct a full-length technical mock interview.
+Hands-on Tasks: Simulate an interview session with peer or mentor.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 45: Mock Interview 2
+Subject: SUPPORT
+Learning Objectives: Continue interview practice focusing on tricky questions.
+Hands-on Tasks: Focus on difficult topics revealed in first mock.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 46: Final Revision & Planning
+Subject: SUPPORT
+Learning Objectives: Consolidate all notes; prepare study materials.
+Hands-on Tasks: Create finalized one-page cheatsheets for Linux, Docker, Networking.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 47: Buffer / Rest Day
+Subject: SUPPORT
+Learning Objectives: Rest or catch up any unfinished topics.
+Hands-on Tasks: Light review or relax.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 48: Open Study / Contingency
+Subject: SUPPORT
+Learning Objectives: Flexible study to fill gaps or practice more.
+Hands-on Tasks: Work on any self-chosen topic as needed.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 49: Wrap-up / Final Prep
+Subject: SUPPORT
+Learning Objectives: Summarize achievements; final checklist for interviews.
+Hands-on Tasks: Review cheat-sheets lightly; ensure readiness.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 50: End of Plan
+Subject: SUPPORT
+Learning Objectives: Plan complete; prepare for interviews.
+Hands-on Tasks: Final review of top priorities.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 51: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 52: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 53: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 54: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 55: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 56: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 57: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 58: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 59: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 60: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 61: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 62: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 63: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 64: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 65: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 66: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 67: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 68: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 69: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
+DAY 70: Spare / Optional Review
+Subject: SUPPORT
+Learning Objectives: Additional review or project work as time allows.
+Hands-on Tasks: Continue practice or take breaks.
+Interview Prep: N/A
+--------------------------------------------------------------------------------
+
