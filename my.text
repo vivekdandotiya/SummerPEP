@@ -1,494 +1,643 @@
 ========================================================================
-                  L2/DEVOPS 70-DAY PLACEMENT STUDY PLAN                 
+        L2/DEVOPS 70-DAY INTERVIEW-FOCUSED STUDY PLAN (THEORY ONLY)
+                         2 HOURS/DAY — NO HANDS-ON
 ========================================================================
 
 DAY 1: OS Fundamentals (Ubuntu/RHEL)
 Subject: LINUX
-Learning Objectives: Understand Linux distributions, kernel vs user space, filesystem hierarchy (/bin, /etc, /usr, /var).
-Hands-on Tasks: Install a Linux VM; explore / directory structure.
-Interview Prep: Explain /etc vs /home.
+Theory (70 min): Linux vs Unix vs Windows for servers. Kernel vs user space. Filesystem hierarchy — purpose of /bin, /etc, /usr, /var, /home, /opt, /lib, /tmp. Boot process overview: BIOS/UEFI -> bootloader (GRUB) -> kernel -> init/systemd.
+Interview Q&A (30 min): 
+- Explain /etc vs /home
+- What is a kernel? Why is Linux preferred for servers?
+- Describe the Linux boot process briefly
+- Linux vs Unix - key differences
+Quick Revision (20 min): 5-line cheat notes on filesystem hierarchy + boot steps.
 --------------------------------------------------------------------------------
 
 DAY 2: Essential Linux Commands
 Subject: LINUX
-Learning Objectives: Learn pwd, ls, cd, mkdir, rm, cp, mv, touch, cat, head, tail, grep, find, locate.
-Hands-on Tasks: Practice file operations: create/move/copy files, use grep search.
-Interview Prep: How to find large files?
+Theory (70 min): Purpose & syntax pattern (not typing) for: pwd, ls (-l,-a,-lh), cd, mkdir, rm (-r,-f), cp, mv, touch, cat, head, tail (-f), grep (-i,-r,-v), find, locate.
+Interview Q&A (30 min):
+- How to find large files on a system?
+- grep vs find vs locate - differences
+- How do you search for a string inside multiple files?
+- What does tail -f do and when is it used?
+Quick Revision (20 min): One-line purpose for each command, memorized as a list.
 --------------------------------------------------------------------------------
 
 DAY 3: Users & Permissions
 Subject: LINUX
-Learning Objectives: Manage users/groups; file permission bits (rwx), chmod, chown, sudo.
-Hands-on Tasks: Create users/groups; change file ownership/permissions.
-Interview Prep: Explain chmod 755.
+Theory (70 min): rwx bits, numeric notation (4-2-1 logic), chmod, chown, sudo vs su, /etc/passwd vs /etc/shadow, default umask concept.
+Interview Q&A (30 min):
+- Explain chmod 755 and chmod 644
+- sudo vs su - difference
+- What happens if a script lacks execute permission?
+- How do you add a user to a group?
+Quick Revision (20 min): Permission number table (rwx = 4+2+1) on one card.
 --------------------------------------------------------------------------------
 
 DAY 4: Processes & SSH
 Subject: LINUX
-Learning Objectives: Understand processes (ps, top, kill), services (systemctl, journalctl); SSH basics (connectivity, key auth).
-Hands-on Tasks: Start/stop a service, view logs; set up SSH key login.
-Interview Prep: Difference between kill and kill -9.
+Theory (70 min): Process vs thread, PID/PPID, ps aux vs top, systemctl (start/stop/status/enable/disable), journalctl basics, SSH key-based auth flow (public/private key, authorized_keys).
+Interview Q&A (30 min):
+- kill vs kill -9 - difference
+- How does SSH key authentication work end-to-end?
+- Zombie process vs orphan process
+- How to check if a service is running?
+Quick Revision (20 min): SSH auth flow diagram in words, signal types (SIGTERM/SIGKILL).
 --------------------------------------------------------------------------------
 
 DAY 5: Package Mgmt & OSI Model
 Subject: NETWORKING
-Learning Objectives: Learn Debian (apt) vs RHEL (yum/dnf) package tools. Review networking models: OSI vs TCP/IP layers, TCP vs UDP.
-Hands-on Tasks: Install/remove packages (e.g. sudo apt install nginx); map out OSI layers for TCP/UDP, HTTP.
-Interview Prep: When to use TCP vs UDP?
+Theory (70 min): apt vs yum/dnf, repository concept. OSI 7 layers (mnemonic), TCP/IP 4-layer mapping, TCP vs UDP, 3-way handshake (SYN, SYN-ACK, ACK).
+Interview Q&A (30 min):
+- TCP vs UDP - when to use which, with examples
+- Explain the OSI 7 layers briefly
+- What layer does HTTP work at? What about IP and TCP?
+- What is the 3-way handshake?
+Quick Revision (20 min): OSI layer list with one protocol example per layer.
 --------------------------------------------------------------------------------
 
 DAY 6: Docker Basics
 Subject: DOCKER
-Learning Objectives: Intro to Docker: container vs VM, Docker client-server. Key commands: docker pull/run/ps/images.
-Hands-on Tasks: Install Docker; pull an image (e.g. nginx), run/inspect/stop a container.
-Interview Prep: Explain image vs container.
+Theory (70 min): VM vs container (shared kernel vs full guest OS), Docker architecture (client-daemon-registry), image vs container analogy (class vs object / recipe vs dish).
+Interview Q&A (30 min):
+- Explain image vs container
+- docker run vs docker start - difference
+- What is Docker Hub?
+- Why are containers lightweight compared to VMs?
+Quick Revision (20 min): VM vs container comparison table (resource use, boot time, isolation).
 --------------------------------------------------------------------------------
 
 DAY 7: Docker Advanced
 Subject: DOCKER
-Learning Objectives: Intermediate Docker: docker stop/rm, exec, logs; Dockerfile syntax (FROM, RUN, CMD); port mapping, volumes, networking. Troubleshooting (container not starting).
-Hands-on Tasks: Write a simple Dockerfile (e.g. Python app), build & run; experiment with exposing ports.
-Interview Prep: How to persist data with Docker?
+Theory (70 min): Dockerfile instructions (FROM, RUN, CMD, ENTRYPOINT, COPY, EXPOSE), volumes for data persistence, port mapping (-p host:container), bridge networking basics, common container startup failures.
+Interview Q&A (30 min):
+- How to persist data with Docker? (volumes vs bind mounts)
+- CMD vs ENTRYPOINT - difference
+- Container exits immediately after running - why? How to debug?
+- What does -p 8080:80 mean?
+Quick Revision (20 min): Dockerfile instruction list with one-line purpose each.
 --------------------------------------------------------------------------------
 
 DAY 8: Monitoring & Bash Intro
 Subject: LINUX
-Learning Objectives: Monitoring concepts (metrics, alerts). Nagios and Grafana basics. Bash scripting intro: shebang, variables, I/O.
-Hands-on Tasks: Spin up a Grafana or Nagios container; write a bash script with variables, echo.
-Interview Prep: What is Prometheus exporter?
+Theory (70 min): Monitoring concepts (metrics, logs, alerts, dashboards). Prometheus pull-model overview, Grafana as visualization layer, Nagios as classic alerting tool. Bash basics: shebang, variables, echo, read.
+Interview Q&A (30 min):
+- What is a Prometheus exporter?
+- Prometheus vs Grafana - roles of each
+- What is the difference between monitoring and alerting?
+- How do you declare and use a variable in bash?
+Quick Revision (20 min): Monitoring stack roles (collect/store/visualize/alert) mapped to tools.
 --------------------------------------------------------------------------------
 
 DAY 9: Prometheus & Bash Scripting
 Subject: LINUX
-Learning Objectives: Prometheus fundamentals (metrics collection, exporters); Zabbix intro. Bash scripting (loops, conditionals, functions).
-Hands-on Tasks: Run a simple Prometheus exporter (e.g. Node exporter); write a bash loop with if.
-Interview Prep: Write a bash for loop example.
+Theory (70 min): Prometheus scrape interval, time-series DB concept, Zabbix agent-based push/pull model (contrast with Prometheus). Bash: if/else, for/while loops, functions, exit codes.
+Interview Q&A (30 min):
+- Prometheus vs Zabbix - pull vs push/agent-based
+- How do you check the exit status of the last command? ($?)
+- Explain a bash for loop structure (conceptually)
+- What is a time-series database and why does Prometheus use one?
+Quick Revision (20 min): Bash loop/conditional syntax patterns written out.
 --------------------------------------------------------------------------------
 
 DAY 10: Bash & Python & Networking
 Subject: LINUX
-Learning Objectives: Finish Bash (file handling scripts, cron jobs). Python basics: variables, data types, loops, functions, lists, dicts, file I/O. Networking intro (DNS, HTTP, firewalls).
-Hands-on Tasks: Automate a simple backup in bash. Write a Python script to parse a file.
-Interview Prep: Python list vs dict.
+Theory (70 min): Cron job syntax (5 fields), file handling in bash. Python basics: variables, data types, lists vs dicts, loops, functions, basic file I/O. DNS resolution flow, HTTP request-response cycle, firewall basics.
+Interview Q&A (30 min):
+- Python list vs dict - difference
+- How does DNS resolution work end-to-end?
+- Explain cron syntax with an example
+- What is a firewall and how does it filter traffic?
+Quick Revision (20 min): Cron field meanings + DNS resolution steps as a flow.
 --------------------------------------------------------------------------------
 
 DAY 11: Storage: Disks & LVM
 Subject: LINUX
-Learning Objectives: Disk partitioning (fdisk, lsblk). LVM concepts (PV, VG, LV) for flexible storage.
-Hands-on Tasks: Use fdisk to partition a disk; create LVM PV/VG/LV; format and mount.
-Interview Prep: Explain the steps to extend a filesystem with LVM.
+Theory (70 min): Disk partitioning concepts (fdisk, lsblk), MBR vs GPT basics. LVM concepts: Physical Volume (PV), Volume Group (VG), Logical Volume (LV) and why LVM offers flexibility over raw partitions.
+Interview Q&A (30 min):
+- Explain the steps to extend a filesystem with LVM
+- What is the difference between a partition and an LVM volume?
+- PV vs VG vs LV - relationship between them
+- Why use LVM instead of plain partitions?
+Quick Revision (20 min): PV -> VG -> LV flow diagram in words.
 --------------------------------------------------------------------------------
 
 DAY 12: Storage: Filesharing & Backup
 Subject: LINUX
-Learning Objectives: NFS setup, SFTP usage, backup strategies (e.g. rsync).
-Hands-on Tasks: Configure an NFS share between two VMs; transfer a file via SFTP; schedule a cron backup.
-Interview Prep: Describe a full vs incremental backup.
+Theory (70 min): NFS concept (network file sharing), SFTP vs FTP, backup strategies overview (full, incremental, differential), rsync purpose.
+Interview Q&A (30 min):
+- Describe full vs incremental vs differential backup
+- What is NFS and where is it used?
+- SFTP vs FTP - why is SFTP preferred?
+- What does rsync do differently from cp?
+Quick Revision (20 min): Backup type comparison table (speed, storage, restore time).
 --------------------------------------------------------------------------------
 
 DAY 13: Virtualization Concepts
 Subject: DOCKER
-Learning Objectives: Hypervisor types (Type-1 vs Type-2), VMware/VirtualBox overview, snapshots/cloning.
-Hands-on Tasks: Install VirtualBox or VMware Player, create a VM, take snapshots.
-Interview Prep: Differences between VM and container.
+Theory (70 min): Hypervisor types (Type-1 bare-metal vs Type-2 hosted), VMware/VirtualBox overview, snapshots vs cloning, use cases for each.
+Interview Q&A (30 min):
+- Differences between VM and container
+- Type-1 vs Type-2 hypervisor - examples of each
+- What is a snapshot and how is it different from a clone?
+- When would you choose a VM over a container?
+Quick Revision (20 min): Hypervisor type comparison + VM vs container summary table.
 --------------------------------------------------------------------------------
 
 DAY 14: AWS Cloud Basics (EC2/S3/IAM)
 Subject: CLOUD
-Learning Objectives: AWS IaaS: EC2 instances (launch/configure), S3 object storage, IAM roles.
-Hands-on Tasks: Launch a free-tier EC2 VM, create an S3 bucket and upload a file, create an IAM user.
-Interview Prep: What is an EC2 instance?
+Theory (70 min): AWS IaaS overview. EC2 instances (types, AMI concept), S3 object storage (buckets, durability), IAM (users, roles, policies).
+Interview Q&A (30 min):
+- What is an EC2 instance?
+- S3 vs EBS - difference
+- What is an IAM role vs IAM user?
+- What is an AMI?
+Quick Revision (20 min): EC2/S3/IAM one-liners on a single card.
 --------------------------------------------------------------------------------
 
 DAY 15: Azure Cloud Basics (VM/Storage)
 Subject: CLOUD
-Learning Objectives: Azure fundamentals: Resource Groups, Virtual Machines, Storage Accounts, Virtual Network, NSG (firewall).
-Hands-on Tasks: Provision an Azure VM (Linux/Windows) in a VNet; attach storage.
-Interview Prep: Azure VM vs AWS EC2.
+Theory (70 min): Azure fundamentals: Resource Groups, Virtual Machines, Storage Accounts, Virtual Network (VNet), Network Security Group (NSG).
+Interview Q&A (30 min):
+- Azure VM vs AWS EC2 - comparison
+- What is a Resource Group used for?
+- What is an NSG and how does it compare to a firewall?
+- VNet vs subnet - relationship
+Quick Revision (20 min): AWS-to-Azure terminology mapping table.
 --------------------------------------------------------------------------------
 
 DAY 16: Git Version Control
 Subject: GIT
-Learning Objectives: Git basics: repositories, clone, add, commit, push, pull, branching/merging.
-Hands-on Tasks: Initialize a Git repo, create/merge a branch, resolve a merge conflict.
-Interview Prep: Git vs SVN differences.
+Theory (70 min): Git basics: repository concept, clone, add, commit, push, pull, branching, merging, merge conflicts.
+Interview Q&A (30 min):
+- Git vs SVN - key differences
+- What is a merge conflict and how do you resolve it conceptually?
+- git pull vs git fetch - difference
+- What is the difference between git merge and git rebase (basic)?
+Quick Revision (20 min): Git workflow diagram (local -> staging -> commit -> remote).
 --------------------------------------------------------------------------------
 
 DAY 17: Jira & ServiceNow Intro
 Subject: SUPPORT
-Learning Objectives: Issue tracking: Jira (projects, tickets, sprints, workflows) and ServiceNow (Incident, Change, Problem, SLA concepts).
-Hands-on Tasks: Create/sample Jira tickets and workflow; explore a ServiceNow instance (incidents, SLAs).
-Interview Prep: Define incident vs problem.
+Theory (70 min): Issue tracking with Jira (projects, tickets, sprints, workflows). ServiceNow modules: Incident, Change, Problem, SLA concepts.
+Interview Q&A (30 min):
+- Define incident vs problem vs change
+- What is a Jira sprint?
+- What is an SLA and why does it matter in support?
+- How does a ticket move through a workflow in Jira?
+Quick Revision (20 min): Incident vs Problem vs Change definitions side by side.
 --------------------------------------------------------------------------------
 
 DAY 18: Confluence & Documentation
 Subject: SUPPORT
-Learning Objectives: Confluence basics (spaces, pages); writing SOP/knowledge-base articles for IT processes.
-Hands-on Tasks: Create a Confluence page (e.g. runbook template) documenting a common task.
-Interview Prep: Why is documentation important?
+Theory (70 min): Confluence basics (spaces, pages, hierarchy). Why SOPs and knowledge-base articles matter for IT processes and team continuity.
+Interview Q&A (30 min):
+- Why is documentation important in IT/DevOps support?
+- What should a good SOP contain?
+- What is the difference between a runbook and an SOP?
+- How would you structure a knowledge-base article?
+Quick Revision (20 min): SOP structure checklist (purpose, steps, rollback, contacts).
 --------------------------------------------------------------------------------
 
 DAY 19: L2 Support Fundamentals
 Subject: SUPPORT
-Learning Objectives: L1->L2->L3 ticket flow; Incident vs Problem vs Change; escalation criteria; SLAs (response/resolution times).
-Hands-on Tasks: Case-study: Triaging sample tickets, deciding escalation, tracking SLAs.
-Interview Prep: How do you define Root Cause (RCA)?
+Theory (70 min): L1 -> L2 -> L3 ticket flow, escalation criteria, SLA (response time vs resolution time), Root Cause Analysis (RCA) basics.
+Interview Q&A (30 min):
+- How do you define Root Cause Analysis (RCA)?
+- When do you escalate a ticket from L1 to L2 or L2 to L3?
+- Response time vs resolution time - difference
+- What makes a good RCA?
+Quick Revision (20 min): L1/L2/L3 escalation flow with criteria for each level.
 --------------------------------------------------------------------------------
 
 DAY 20: L2 Support Communication
 Subject: SUPPORT
-Learning Objectives: Professional communication and reports: status updates, RCA report structure; service request handling.
-Hands-on Tasks: Draft a mock incident update email and an RCA summary for an example outage.
-Interview Prep: What to include in an RCA report?
+Theory (70 min): Professional communication during incidents: status update structure, RCA report structure (timeline, impact, root cause, fix, prevention), service request handling basics.
+Interview Q&A (30 min):
+- What should an RCA report include?
+- How do you communicate an ongoing outage to stakeholders?
+- What is the difference between an incident update and an RCA?
+- How do you handle a service request vs an incident?
+Quick Revision (20 min): RCA report template outline (5 sections) memorized.
 --------------------------------------------------------------------------------
 
 DAY 21: Linux & Networking Review
 Subject: NETWORKING
-Learning Objectives: Review key Linux skills (users, processes, commands) and networking (OSI layers, TCP/UDP, DNS, DHCP, firewalls).
-Hands-on Tasks: Quick quiz: set permissions; troubleshoot a mock network issue.
-Interview Prep: Explain subnetting basics.
+Theory (70 min): Recap Linux users/processes/commands. Recap networking: OSI layers, TCP/UDP, DNS, DHCP, firewalls.
+Interview Q&A (30 min):
+- Explain subnetting basics
+- Recap: kill -9, chmod 755, grep usage
+- DNS vs DHCP - difference
+- What is a firewall rule and how is traffic filtered?
+Quick Revision (20 min): Combined Linux + networking one-pager glance.
 --------------------------------------------------------------------------------
 
 DAY 22: Database Basics (SQL)
 Subject: NETWORKING
-Learning Objectives: Relational model, ER diagrams, primary/foreign keys, ACID. SQL queries (SELECT, JOIN, GROUP BY).
-Hands-on Tasks: Sketch a simple schema; run sample SQL queries on a database.
-Interview Prep: What is a JOIN?
+Theory (70 min): Relational model, ER diagrams, primary key vs foreign key, ACID properties. SQL query types: SELECT, JOIN, GROUP BY, WHERE.
+Interview Q&A (30 min):
+- What is a JOIN? Name the types (INNER, LEFT, RIGHT, FULL)
+- Primary key vs foreign key
+- What does ACID stand for?
+- SELECT vs GROUP BY - when do you use GROUP BY?
+Quick Revision (20 min): JOIN types diagram in words + ACID acronym breakdown.
 --------------------------------------------------------------------------------
 
 DAY 23: Networking Deep Dive
 Subject: NETWORKING
-Learning Objectives: Advanced CN: DNS hierarchy, DHCP, NAT/PAT, SNMP (monitoring), LDAP (auth), VPN types.
-Hands-on Tasks: Set up a simple DNS lookup; configure SNMP agent; test a VPN tunnel.
-Interview Prep: How does DHCP work?
+Theory (70 min): DNS hierarchy (root, TLD, authoritative), DHCP lease process, NAT/PAT concept, SNMP for monitoring, LDAP for authentication, VPN types (site-to-site vs remote access).
+Interview Q&A (30 min):
+- How does DHCP work? (Discover, Offer, Request, Ack)
+- What is NAT and why is it used?
+- What is LDAP used for?
+- VPN types - difference between site-to-site and remote access
+Quick Revision (20 min): DHCP DORA process + NAT purpose one-liner.
 --------------------------------------------------------------------------------
 
 DAY 24: Storage & Backup Review
 Subject: LINUX
-Learning Objectives: Review LVM, filesystems. Backup/restore (tar/rsync, snapshot strategies).
-Hands-on Tasks: Use tar or rsync to backup files; simulate data restore.
-Interview Prep: Pros/cons of tape vs disk backup.
+Theory (70 min): Recap LVM and filesystems. Recap backup/restore strategies (tar/rsync), snapshot-based backup strategy.
+Interview Q&A (30 min):
+- Pros/cons of tape vs disk backup
+- Recap: PV/VG/LV extension steps
+- tar vs rsync - difference
+- What is a snapshot-based backup and its limitation?
+Quick Revision (20 min): Backup method pros/cons table.
 --------------------------------------------------------------------------------
 
 DAY 25: Virtualization Review
 Subject: DOCKER
-Learning Objectives: Recap hypervisors (ESXi/Hyper-V basics), containers vs VMs, VirtualBox network modes.
-Hands-on Tasks: Experiment with VirtualBox networking (NAT/bridged); review VM/host resources.
-Interview Prep: What is VMware ESXi?
+Theory (70 min): Recap hypervisors (ESXi/Hyper-V basics), containers vs VMs, VirtualBox network modes (NAT, Bridged, Host-only).
+Interview Q&A (30 min):
+- What is VMware ESXi?
+- NAT vs Bridged networking in VirtualBox - difference
+- Recap: VM vs container resource usage
+- What is Hyper-V and how does it compare to ESXi?
+Quick Revision (20 min): Network mode comparison table (NAT/Bridged/Host-only).
 --------------------------------------------------------------------------------
 
 DAY 26: Cloud Services Review
 Subject: CLOUD
-Learning Objectives: Recap AWS/Azure: EC2 (types, scaling), S3/EBS, Azure VMs, Storage, VNets.
-Hands-on Tasks: Use AWS CLI/Azure CLI for sample commands (e.g. list instances).
-Interview Prep: What are AWS Availability Zones?
+Theory (70 min): Recap AWS (EC2 types, scaling concept), S3/EBS, Azure VMs, Storage, VNets. Intro to Availability Zones and Regions.
+Interview Q&A (30 min):
+- What are AWS Availability Zones?
+- Region vs Availability Zone - difference
+- S3 vs EBS - recap difference
+- What is auto-scaling and why is it used?
+Quick Revision (20 min): Region/AZ/Zone hierarchy diagram in words.
 --------------------------------------------------------------------------------
 
 DAY 27: Git & CI/CD Basics
 Subject: GIT
-Learning Objectives: Git advanced (rebasing, tags). Introduction to CI/CD (Jenkins or GitHub Actions basics).
-Hands-on Tasks: Configure a simple GitHub Actions workflow to auto-run tests on push.
-Interview Prep: Benefits of CI/CD pipelines.
+Theory (70 min): Git advanced concepts: rebasing, tags. CI/CD introduction: what continuous integration and continuous deployment mean, pipeline stages.
+Interview Q&A (30 min):
+- Benefits of CI/CD pipelines
+- git rebase vs git merge - difference
+- What is a Git tag used for?
+- What are typical stages in a CI/CD pipeline?
+Quick Revision (20 min): CI/CD pipeline stage list (build -> test -> deploy).
 --------------------------------------------------------------------------------
 
 DAY 28: Jira/ServiceNow Review
 Subject: SUPPORT
-Learning Objectives: Recap Jira fields (Epic, Story, Task), ServiceNow modules (Incident, Change, Problem).
-Hands-on Tasks: Draft a Jira user story; simulate a change request in ServiceNow with rollback plan.
-Interview Prep: What is an SLA in ITIL?
+Theory (70 min): Recap Jira fields (Epic, Story, Task, Sub-task). ServiceNow modules recap: Incident, Change, Problem, and how Change Requests work.
+Interview Q&A (30 min):
+- What is an SLA in ITIL context?
+- Epic vs Story vs Task - hierarchy in Jira
+- What is a Change Request and why does it need approval?
+- Recap: Incident vs Problem vs Change
+Quick Revision (20 min): Jira hierarchy (Epic > Story > Task > Sub-task) memorized.
 --------------------------------------------------------------------------------
 
 DAY 29: Confluence & Docs Review
 Subject: SUPPORT
-Learning Objectives: Recap Confluence usage and documentation best-practices (SOPs, KBs).
-Hands-on Tasks: Organize a Confluence space (pages and hierarchy) for a sample project.
-Interview Prep: What goes into a good SOP?
+Theory (70 min): Recap Confluence space/page structure and documentation best practices (SOPs, KBs, runbooks).
+Interview Q&A (30 min):
+- What goes into a good SOP?
+- How do you keep documentation up to date in a team?
+- Runbook vs SOP vs KB article - difference
+- Why do support teams rely heavily on documentation?
+Quick Revision (20 min): Documentation types comparison (SOP/runbook/KB) one-liner each.
 --------------------------------------------------------------------------------
 
 DAY 30: Milestone Review (Linux & Docker)
 Subject: LINUX
-Learning Objectives: Consolidate Linux and Docker knowledge (self-test, peer discussion).
-Hands-on Tasks: Solve Linux/Docker practice problems from online quizzes.
-Interview Prep: Check mastery: common Linux, Docker questions.
+Theory (70 min): Self-test recap of all Linux topics (Days 1-12) and Docker topics (Days 6-7, 13) at a conceptual level.
+Interview Q&A (30 min):
+- Mixed rapid-fire: permissions, processes, SSH, Docker image vs container
+- Common Linux interview traps (e.g. chmod numeric, kill signals)
+- Common Docker interview traps (CMD vs ENTRYPOINT, volumes)
+Quick Revision (20 min): Flip through Day 1-13 quick revision notes only.
 --------------------------------------------------------------------------------
 
 DAY 31: Milestone Review (Networking & Storage)
 Subject: NETWORKING
-Learning Objectives: Consolidate networking and storage (LVM/NFS/backup) topics.
-Hands-on Tasks: Troubleshoot a network scenario; perform a full data restore.
-Interview Prep: Check mastery: network/storage FAQs.
+Theory (70 min): Self-test recap of networking (Days 5, 21-23) and storage (Days 11-12, 24) topics.
+Interview Q&A (30 min):
+- Mixed rapid-fire: OSI layers, DNS/DHCP, LVM, backup types
+- Common networking interview traps (TCP/UDP use cases, subnetting)
+- Common storage interview traps (LVM extension steps)
+Quick Revision (20 min): Flip through Day 5, 11-12, 21-24 quick revision notes only.
 --------------------------------------------------------------------------------
 
 DAY 32: Milestone Review (Monitoring & Scripting)
 Subject: LINUX
-Learning Objectives: Consolidate monitoring tools and scripting.
-Hands-on Tasks: Create a Grafana panel on sample data; write a monitoring alert script.
-Interview Prep: Check: sample bash scripting questions.
+Theory (70 min): Self-test recap of monitoring (Days 8-9) and bash/Python scripting (Days 8-10) concepts.
+Interview Q&A (30 min):
+- Mixed rapid-fire: Prometheus, Grafana, Zabbix roles
+- Common scripting interview traps (loops, exit codes, variables)
+- Sample bash scripting conceptual questions
+Quick Revision (20 min): Flip through Day 8-10 quick revision notes only.
 --------------------------------------------------------------------------------
 
 DAY 33: Milestone Review (Cloud Platforms)
 Subject: CLOUD
-Learning Objectives: Consolidate AWS/Azure basics.
-Hands-on Tasks: Work through an AWS Labs tutorial; simulate Azure VM creation.
-Interview Prep: Check: cloud provider comparison questions.
+Theory (70 min): Self-test recap of AWS and Azure basics (Days 14-15, 26).
+Interview Q&A (30 min):
+- Cloud provider comparison questions (AWS vs Azure terminology)
+- Common cloud interview traps (EC2 vs VM, S3 vs EBS, IAM vs NSG)
+- Region/AZ and scaling recap questions
+Quick Revision (20 min): Flip through Day 14-15, 26 quick revision notes only.
 --------------------------------------------------------------------------------
 
 DAY 34: Milestone Review (Tools & Support)
 Subject: SUPPORT
-Learning Objectives: Consolidate Git, Jira, L2 support process knowledge.
-Hands-on Tasks: Role-play closing a ticket using Jira from creation to resolution.
-Interview Prep: Check: support workflow Qs.
+Theory (70 min): Self-test recap of Git (Day 16, 27), Jira/ServiceNow (Days 17, 28), and L2 support process (Days 19-20).
+Interview Q&A (30 min):
+- Support workflow questions: ticket lifecycle from creation to closure
+- Common Git interview traps (merge vs rebase, pull vs fetch)
+- Common support interview traps (SLA, RCA, escalation criteria)
+Quick Revision (20 min): Flip through Day 16-20, 27-28 quick revision notes only.
 --------------------------------------------------------------------------------
 
 DAY 35: Interview Prep: Mock Q&A
 Subject: SUPPORT
-Learning Objectives: Practice interviews on all key areas.
-Hands-on Tasks: Conduct a mock interview (self or peer).
-Interview Prep: Review common Linux, Docker, networking Qs.
+Theory (70 min): Review common Linux, Docker, and networking interview questions end-to-end, speaking answers aloud as if in a real interview.
+Interview Q&A (30 min): Self-conducted mock interview - answer 15-20 mixed questions from Days 1-15 out loud without notes.
+Quick Revision (20 min): Note down 3-5 questions you struggled with.
 --------------------------------------------------------------------------------
 
 DAY 36: Interview Prep: Final Practice
 Subject: SUPPORT
-Learning Objectives: Focus on weaker areas identified; timed practice.
-Hands-on Tasks: Complete a timed quiz on mixed topics.
-Interview Prep: Final check: clarify difficult concepts.
+Theory (70 min): Deep-focus on the weak areas identified on Day 35 - re-read theory for those specific topics only.
+Interview Q&A (30 min): Timed mixed quiz - answer questions from across all subjects within set time limits, simulating interview pressure.
+Quick Revision (20 min): Update your "weak topics" list.
 --------------------------------------------------------------------------------
 
 DAY 37: Post-Plan Review
 Subject: SUPPORT
-Learning Objectives: Reflect on learning; identify remaining gaps.
-Hands-on Tasks: Revise notes/cheatsheets.
-Interview Prep: Prepare one-sheet summaries per topic.
+Theory (70 min): Reflect on what's learned so far (Days 1-36); identify remaining conceptual gaps across all subjects.
+Interview Q&A (30 min): Re-attempt only the questions previously marked weak.
+Quick Revision (20 min): Begin drafting one-sheet summaries per subject (Linux, Docker, Networking, Cloud, Git, Support).
 --------------------------------------------------------------------------------
 
 DAY 38: Review: Linux & Bash
 Subject: LINUX
-Learning Objectives: Revisit Linux commands and bash scripting.
-Hands-on Tasks: Write a combined Bash script utilizing arrays/functions.
-Interview Prep: Quick Qs: sed/awk differences, etc.
+Theory (70 min): Revisit Linux commands and bash scripting concepts (loops, arrays, functions) conceptually.
+Interview Q&A (30 min):
+- sed vs awk - basic difference
+- Recap: file permission and process management questions
+- What is an array in bash used for?
+Quick Revision (20 min): sed/awk one-liner purpose, bash array syntax pattern.
 --------------------------------------------------------------------------------
 
 DAY 39: Review: Networking
 Subject: NETWORKING
-Learning Objectives: Revisit core networking protocols and models.
-Hands-on Tasks: Solve a networking puzzle (OSI mapping, IP config).
-Interview Prep: Quick Qs: subnetting example.
+Theory (70 min): Revisit core networking protocols and OSI/TCP-IP models.
+Interview Q&A (30 min):
+- Subnetting example walkthrough (conceptual, no calculation tools)
+- Recap: TCP vs UDP, 3-way handshake
+- IP configuration basics - static vs dynamic
+Quick Revision (20 min): Subnetting key terms (CIDR, subnet mask) defined simply.
 --------------------------------------------------------------------------------
 
 DAY 40: Review: Docker & Virtualization
 Subject: DOCKER
-Learning Objectives: Revisit Docker usage and hypervisor concepts.
-Hands-on Tasks: Deploy a multi-container app with Docker Compose or Kubernetes (if covered).
-Interview Prep: Quick Qs: Docker networking.
+Theory (70 min): Revisit Docker usage and hypervisor concepts. Conceptual intro to Docker Compose (multi-container orchestration) and how Kubernetes extends this idea, if applicable.
+Interview Q&A (30 min):
+- Docker networking - bridge vs host vs none
+- What problem does Docker Compose solve?
+- Recap: VM vs container, hypervisor types
+Quick Revision (20 min): Docker network mode one-liner each.
 --------------------------------------------------------------------------------
 
 DAY 41: Review: Cloud (AWS/Azure)
 Subject: CLOUD
-Learning Objectives: Revisit cloud essentials for AWS and Azure.
-Hands-on Tasks: Use AWS Console/Azure portal to view resources, review logs.
-Interview Prep: Quick Qs: IAM vs RBAC.
+Theory (70 min): Revisit cloud essentials for AWS and Azure, focusing on IAM/RBAC and resource viewing/log review concepts.
+Interview Q&A (30 min):
+- IAM vs RBAC - difference
+- How would you check logs for a cloud VM conceptually?
+- Recap: EC2 vs Azure VM, S3 vs Storage Account
+Quick Revision (20 min): IAM vs RBAC one-liner comparison.
 --------------------------------------------------------------------------------
 
 DAY 42: Review: Git & CI/CD
 Subject: GIT
-Learning Objectives: Revisit Git workflows and CI/CD concepts.
-Hands-on Tasks: Trigger a full CI build (e.g. GitHub Actions).
-Interview Prep: Quick Qs: git rebase vs merge.
+Theory (70 min): Revisit Git workflows and CI/CD pipeline concepts end-to-end.
+Interview Q&A (30 min):
+- git rebase vs merge - recap with a scenario
+- What triggers a CI/CD build typically?
+- What is a merge conflict and how is it resolved conceptually?
+Quick Revision (20 min): CI/CD trigger types (push, PR, schedule) one-liner.
 --------------------------------------------------------------------------------
 
 DAY 43: Review: Support Tools
 Subject: SUPPORT
-Learning Objectives: Revisit Jira workflows and L2 support policies.
-Hands-on Tasks: Resolve a sample incident from ticket to closure.
-Interview Prep: Quick Qs: SLA scenario.
+Theory (70 min): Revisit Jira workflows and L2 support policies end-to-end, focusing on SLA scenarios.
+Interview Q&A (30 min):
+- SLA scenario: ticket breach handling - how do you respond?
+- Recap: ticket lifecycle from creation to closure
+- How do you prioritize multiple tickets at once?
+Quick Revision (20 min): Ticket priority matrix (impact vs urgency) outline.
 --------------------------------------------------------------------------------
 
 DAY 44: Mock Interview 1
 Subject: SUPPORT
-Learning Objectives: Conduct a full-length technical mock interview.
-Hands-on Tasks: Simulate an interview session with peer or mentor.
-Interview Prep: N/A
+Theory (70 min): Conduct a full-length self mock interview covering Linux, Docker, Networking, Cloud, Git, and Support topics together.
+Interview Q&A (30 min): Answer 20+ random mixed questions out loud, timed.
+Quick Revision (20 min): List the 5 weakest answers from this mock.
 --------------------------------------------------------------------------------
 
 DAY 45: Mock Interview 2
 Subject: SUPPORT
-Learning Objectives: Continue interview practice focusing on tricky questions.
-Hands-on Tasks: Focus on difficult topics revealed in first mock.
-Interview Prep: N/A
+Theory (70 min): Second full mock interview, focusing specifically on the tricky/weak questions identified in Mock Interview 1.
+Interview Q&A (30 min): Re-attempt those specific weak questions with full, confident answers.
+Quick Revision (20 min): Update weak-topics list again; should be shrinking.
 --------------------------------------------------------------------------------
 
 DAY 46: Final Revision & Planning
 Subject: SUPPORT
-Learning Objectives: Consolidate all notes; prepare study materials.
-Hands-on Tasks: Create finalized one-page cheatsheets for Linux, Docker, Networking.
-Interview Prep: N/A
+Theory (70 min): Consolidate all notes across all subjects into clean, quick-glance form.
+Interview Q&A (30 min): N/A - focus purely on content consolidation.
+Quick Revision (20 min): Finalize one-page cheat-sheets for Linux, Docker, Networking, Cloud, Git, and Support.
 --------------------------------------------------------------------------------
 
 DAY 47: Buffer / Rest Day
 Subject: SUPPORT
-Learning Objectives: Rest or catch up any unfinished topics.
-Hands-on Tasks: Light review or relax.
-Interview Prep: N/A
+Theory (70 min): Light review only - skim cheat-sheets, no new learning.
+Interview Q&A (30 min): N/A - optional light recall only.
+Quick Revision (20 min): Relax; mentally review one subject of your choice.
 --------------------------------------------------------------------------------
 
 DAY 48: Open Study / Contingency
 Subject: SUPPORT
-Learning Objectives: Flexible study to fill gaps or practice more.
-Hands-on Tasks: Work on any self-chosen topic as needed.
-Interview Prep: N/A
+Theory (70 min): Flexible - revisit whichever subject still feels weakest.
+Interview Q&A (30 min): Self-quiz on that weak subject only.
+Quick Revision (20 min): Update cheat-sheet for that subject if needed.
 --------------------------------------------------------------------------------
 
 DAY 49: Wrap-up / Final Prep
 Subject: SUPPORT
-Learning Objectives: Summarize achievements; final checklist for interviews.
-Hands-on Tasks: Review cheat-sheets lightly; ensure readiness.
-Interview Prep: N/A
+Theory (70 min): Summarize overall readiness; go through final checklist across all subjects.
+Interview Q&A (30 min): Quick rapid-fire self-test, one question per subject.
+Quick Revision (20 min): Ensure all 6 cheat-sheets are complete and clear.
 --------------------------------------------------------------------------------
 
-DAY 50: End of Plan
+DAY 50: End of Plan (Core 50 Days Complete)
 Subject: SUPPORT
-Learning Objectives: Plan complete; prepare for interviews.
-Hands-on Tasks: Final review of top priorities.
-Interview Prep: N/A
+Theory (70 min): Final review of top-priority topics most likely to appear in interviews (permissions, Docker basics, OSI/TCP-UDP, RCA, SLA).
+Interview Q&A (30 min): Final rapid review of top 20 high-frequency questions.
+Quick Revision (20 min): Read through all cheat-sheets once, cover to cover.
 --------------------------------------------------------------------------------
 
-DAY 51: Spare / Optional Review
+DAY 51: Deep Revision Cycle - Linux (Days 1-4)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise Days 1-4 (OS fundamentals, commands, permissions, processes/SSH) at full depth.
+Interview Q&A (30 min): Re-answer all interview questions from Days 1-4.
+Quick Revision (20 min): Tighten cheat-sheet for these topics further.
 --------------------------------------------------------------------------------
 
-DAY 52: Spare / Optional Review
+DAY 52: Deep Revision Cycle - Networking (Day 5, 21-23)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise package management, OSI model, and networking deep dive topics.
+Interview Q&A (30 min): Re-answer all interview questions from Day 5, 21-23.
+Quick Revision (20 min): Tighten cheat-sheet for networking further.
 --------------------------------------------------------------------------------
 
-DAY 53: Spare / Optional Review
+DAY 53: Deep Revision Cycle - Docker (Days 6-7, 13)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise Docker basics, advanced Docker, and virtualization concepts.
+Interview Q&A (30 min): Re-answer all interview questions from Days 6-7, 13.
+Quick Revision (20 min): Tighten cheat-sheet for Docker/virtualization further.
 --------------------------------------------------------------------------------
 
-DAY 54: Spare / Optional Review
+DAY 54: Deep Revision Cycle - Monitoring/Scripting (Days 8-10)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise monitoring tools and bash/Python scripting concepts.
+Interview Q&A (30 min): Re-answer all interview questions from Days 8-10.
+Quick Revision (20 min): Tighten cheat-sheet for monitoring/scripting further.
 --------------------------------------------------------------------------------
 
-DAY 55: Spare / Optional Review
+DAY 55: Deep Revision Cycle - Storage (Days 11-12, 24)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise LVM, filesharing, and backup strategy concepts.
+Interview Q&A (30 min): Re-answer all interview questions from Days 11-12, 24.
+Quick Revision (20 min): Tighten cheat-sheet for storage further.
 --------------------------------------------------------------------------------
 
-DAY 56: Spare / Optional Review
+DAY 56: Deep Revision Cycle - Cloud (Days 14-15, 26)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise AWS and Azure fundamentals and cloud review topics.
+Interview Q&A (30 min): Re-answer all interview questions from Days 14-15, 26.
+Quick Revision (20 min): Tighten cheat-sheet for cloud further.
 --------------------------------------------------------------------------------
 
-DAY 57: Spare / Optional Review
+DAY 57: Deep Revision Cycle - Git/CI-CD (Days 16, 27, 42)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise Git fundamentals and CI/CD pipeline concepts.
+Interview Q&A (30 min): Re-answer all interview questions from Days 16, 27, 42.
+Quick Revision (20 min): Tighten cheat-sheet for Git/CI-CD further.
 --------------------------------------------------------------------------------
 
-DAY 58: Spare / Optional Review
+DAY 58: Deep Revision Cycle - Support/ITIL (Days 17-20, 28-29, 43)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise Jira/ServiceNow, documentation, and L2 support process concepts.
+Interview Q&A (30 min): Re-answer all interview questions from Days 17-20, 28-29, 43.
+Quick Revision (20 min): Tighten cheat-sheet for support/ITIL further.
 --------------------------------------------------------------------------------
 
-DAY 59: Spare / Optional Review
+DAY 59: Deep Revision Cycle - Database/SQL (Day 22)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Re-revise relational model, SQL JOINs, and ACID properties.
+Interview Q&A (30 min): Re-answer all interview questions from Day 22.
+Quick Revision (20 min): Tighten cheat-sheet for SQL further.
 --------------------------------------------------------------------------------
 
-DAY 60: Spare / Optional Review
+DAY 60: Mixed Subject Mock Interview 3
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Full mixed mock interview covering all 6 subjects equally.
+Interview Q&A (30 min): Answer 25+ randomly mixed questions, timed, no notes.
+Quick Revision (20 min): Identify any topic still below confidence level.
 --------------------------------------------------------------------------------
 
-DAY 61: Spare / Optional Review
+DAY 61: Targeted Weak-Topic Fix Day 1
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Deep-focus only on the single weakest subject from Day 60.
+Interview Q&A (30 min): Drill that subject's questions repeatedly until fluent.
+Quick Revision (20 min): Rewrite that subject's cheat-sheet from memory.
 --------------------------------------------------------------------------------
 
-DAY 62: Spare / Optional Review
+DAY 62: Targeted Weak-Topic Fix Day 2
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Deep-focus on the second weakest subject from Day 60.
+Interview Q&A (30 min): Drill that subject's questions repeatedly until fluent.
+Quick Revision (20 min): Rewrite that subject's cheat-sheet from memory.
 --------------------------------------------------------------------------------
 
-DAY 63: Spare / Optional Review
+DAY 63: Targeted Weak-Topic Fix Day 3
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Deep-focus on the third weakest subject from Day 60.
+Interview Q&A (30 min): Drill that subject's questions repeatedly until fluent.
+Quick Revision (20 min): Rewrite that subject's cheat-sheet from memory.
 --------------------------------------------------------------------------------
 
-DAY 64: Spare / Optional Review
+DAY 64: Mixed Subject Mock Interview 4
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Full mixed mock interview again, covering all 6 subjects, focused on previously weak areas now retested.
+Interview Q&A (30 min): Answer 25+ randomly mixed questions, timed, no notes.
+Quick Revision (20 min): Confirm improvement vs Mock Interview 3 (Day 60).
 --------------------------------------------------------------------------------
 
-DAY 65: Spare / Optional Review
+DAY 65: High-Frequency Questions Day 1
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Compile and review the most commonly-asked L2/DevOps interview questions across Linux and Docker.
+Interview Q&A (30 min): Answer each from memory, aiming for confident, concise responses (30-60 seconds each).
+Quick Revision (20 min): Star the 5 hardest questions for tomorrow's recall.
 --------------------------------------------------------------------------------
 
-DAY 66: Spare / Optional Review
+DAY 66: High-Frequency Questions Day 2
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Compile and review the most commonly-asked interview questions across Networking and Cloud.
+Interview Q&A (30 min): Answer each from memory, aiming for confident, concise responses (30-60 seconds each).
+Quick Revision (20 min): Star the 5 hardest questions for tomorrow's recall.
 --------------------------------------------------------------------------------
 
-DAY 67: Spare / Optional Review
+DAY 67: High-Frequency Questions Day 3
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Compile and review the most commonly-asked interview questions across Git, SQL, and Support/ITIL.
+Interview Q&A (30 min): Answer each from memory, aiming for confident, concise responses (30-60 seconds each).
+Quick Revision (20 min): Star the 5 hardest questions for tomorrow's recall.
 --------------------------------------------------------------------------------
 
-DAY 68: Spare / Optional Review
+DAY 68: Behavioral + Technical Combo Practice
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Practice combining technical answers with situational/ behavioral framing (e.g. "Tell me about a time you handled an incident" using STAR method, even hypothetically).
+Interview Q&A (30 min): Prepare 3-4 STAR-style stories tied to RCA, escalation, and ticket handling scenarios.
+Quick Revision (20 min): Write down your 3-4 STAR stories in short bullet form.
 --------------------------------------------------------------------------------
 
-DAY 69: Spare / Optional Review
+DAY 69: Final Mock Interview 5 (Full Simulation)
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Full end-to-end mock interview - technical + behavioral - simulating real interview conditions as closely as possible.
+Interview Q&A (30 min): Treat this as the real thing; answer everything out loud, no notes, timed.
+Quick Revision (20 min): Note only critical last-minute gaps, if any.
 --------------------------------------------------------------------------------
 
-DAY 70: Spare / Optional Review
+DAY 70: Final Day - Complete Readiness Check
 Subject: SUPPORT
-Learning Objectives: Additional review or project work as time allows.
-Hands-on Tasks: Continue practice or take breaks.
-Interview Prep: N/A
+Theory (70 min): Read through all 6 cheat-sheets one final time, calmly, without trying to learn anything new.
+Interview Q&A (30 min): Light recall only - top 10 questions you feel are most likely to be asked.
+Quick Revision (20 min): Confidence check - rate yourself 1-10 per subject; relax, you are ready.
 --------------------------------------------------------------------------------
-
