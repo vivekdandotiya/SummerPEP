@@ -1317,6 +1317,12 @@
       </div>
     </div>
 
+    <!-- Revision Notes Vault -->
+    <div class="vault-section" id="notesVaultSection" style="display: none;">
+      <div class="vault-title">Revision Notes</div>
+      <div class="vault-list" id="notesVaultList"></div>
+    </div>
+
     <div class="rail-footer">
       <button class="reset-btn" id="resetBtn">⟲ Reset all progress</button>
     </div>
@@ -1820,6 +1826,40 @@ function renderRevisionList() {
   }
 }
 
+/* ===== Revision Notes Section in Left Sidebar ===== */
+function renderNotesVault() {
+  const section = document.getElementById("notesVaultSection");
+  const list = document.getElementById("notesVaultList");
+  if (!section || !list) return;
+  
+  list.innerHTML = "";
+  let count = 0;
+  
+  for (let d = 1; d <= 70; d++) {
+    if (state.notes[d] && state.notes[d].trim() !== "") {
+      count++;
+      const item = document.createElement("a");
+      item.className = "vault-item";
+      item.href = "#";
+      item.innerHTML = `
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+        note day${d}
+      `;
+      item.addEventListener("click", (e) => {
+        e.preventDefault();
+        goToDay(d);
+      });
+      list.appendChild(item);
+    }
+  }
+  
+  if (count > 0) {
+    section.style.display = "flex";
+  } else {
+    section.style.display = "none";
+  }
+}
+
 /* ===== render: heatmap ===== */
 function renderHeatmap(){
   const grid = document.getElementById("heatmap");
@@ -2006,6 +2046,7 @@ function renderAll(){
   renderSubjectStats();
   renderStreakAndPace();
   renderRevisionList();
+  renderNotesVault();
 }
 
 function goToDay(d){
@@ -2176,6 +2217,7 @@ document.getElementById("saveNotesBtn").addEventListener("click", () => {
   }
   saveState();
   renderHeatmap(); // update note indicator on cell
+  renderNotesVault(); // update notes vault list in sidebar
   
   // Visual feedback
   const btn = document.getElementById("saveNotesBtn");
