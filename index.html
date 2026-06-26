@@ -1505,6 +1505,40 @@
   </main>
 </div>
 
+<!-- Global Heatmap Tooltip -->
+<div class="heatmap-tooltip" id="heatmapTooltip"></div>
+
+<!-- Help Modal Guide -->
+<div class="modal-overlay" id="helpModal">
+  <div class="modal-card">
+    <button class="modal-close" id="helpCloseBtn">&times;</button>
+    <h2>L2/DevOps Prep Tracker Guide</h2>
+    <div class="modal-body">
+      <div class="guide-sec">
+        <h3>⌨️ Keyboard Shortcuts</h3>
+        <ul>
+          <li><kbd>←</kbd> / <kbd>→</kbd> : Go to previous / next day</li>
+        </ul>
+      </div>
+      <div class="guide-sec">
+        <h3>💡 Study Tips</h3>
+        <ul>
+          <li><strong>Feynman Technique:</strong> Explain complex terms (like Docker volumes, LVM partition sizing, L2 SLA escalations, or CIDR subnetting) in simple language out loud.</li>
+          <li><strong>Spaced Repetition:</strong> Click the flag icon (<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>) to flag difficult days for review. Flagged days appear in a quick-list at the top of the day panel.</li>
+        </ul>
+      </div>
+      <div class="guide-sec">
+        <h3>⚡ Productive Tools</h3>
+        <ul>
+          <li><strong>Pomodoro Timer:</strong> Study for 25 minutes. Completing a Pomodoro automatically logs 0.5 hours to the current day!</li>
+          <li><strong>Stopwatch:</strong> Track your custom study session. Resetting the stopwatch allows you to log the tracked duration directly.</li>
+          <li><strong>Subject Filters:</strong> Click any subject bar (e.g. Linux, Docker, Networking, Cloud, Git, or Support) in the dashboard to highlight relevant days on the heatmap.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 const DATA = {
   "PHASES": [
@@ -2445,40 +2479,6 @@ if (document.readyState === "loading") {
   initApp();
 }
 </script>
-
-<!-- Global Heatmap Tooltip -->
-<div class="heatmap-tooltip" id="heatmapTooltip"></div>
-
-<!-- Help Modal Guide -->
-<div class="modal-overlay" id="helpModal">
-  <div class="modal-card">
-    <button class="modal-close" id="helpCloseBtn">&times;</button>
-    <h2>L2/DevOps Prep Tracker Guide</h2>
-    <div class="modal-body">
-      <div class="guide-sec">
-        <h3>⌨️ Keyboard Shortcuts</h3>
-        <ul>
-          <li><kbd>←</kbd> / <kbd>→</kbd> : Go to previous / next day</li>
-        </ul>
-      </div>
-      <div class="guide-sec">
-        <h3>💡 Study Tips</h3>
-        <ul>
-          <li><strong>Feynman Technique:</strong> Explain complex terms (like Docker volumes, LVM partition sizing, L2 SLA escalations, or CIDR subnetting) in simple language out loud.</li>
-          <li><strong>Spaced Repetition:</strong> Click the flag icon (<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>) to flag difficult days for review. Flagged days appear in a quick-list at the top of the day panel.</li>
-        </ul>
-      </div>
-      <div class="guide-sec">
-        <h3>⚡ Productive Tools</h3>
-        <ul>
-          <li><strong>Pomodoro Timer:</strong> Study for 25 minutes. Completing a Pomodoro automatically logs 0.5 hours to the current day!</li>
-          <li><strong>Stopwatch:</strong> Track your custom study session. Resetting the stopwatch allows you to log the tracked duration directly.</li>
-          <li><strong>Subject Filters:</strong> Click any subject bar (e.g. Linux, Docker, Networking, Cloud, Git, or Support) in the dashboard to highlight relevant days on the heatmap.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
