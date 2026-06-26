@@ -725,6 +725,35 @@
     border-color: var(--amber);
     background: rgba(255, 138, 61, 0.03);
   }
+  .save-notes-btn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    background: var(--ink);
+    border: 1.5px solid transparent;
+    border-radius: var(--r-md);
+    padding: 8px 10px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--paper);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .save-notes-btn:hover {
+    background: var(--ink-2);
+  }
+  .save-notes-btn:active {
+    transform: scale(0.98);
+  }
+  .save-notes-btn.saved {
+    background: var(--teal) !important;
+    color: var(--ink) !important;
+  }
 
   /* Bookmark / Flag widget */
   .bookmark-btn {
@@ -1439,7 +1468,8 @@
           <!-- Daily Study Notes -->
           <div class="notes-widget">
             <label for="notesInput">Study Notes</label>
-            <textarea id="notesInput" placeholder="Save key formulas, concepts, or tricky question patterns... (auto-saves)"></textarea>
+            <textarea id="notesInput" placeholder="Save key formulas, concepts, or tricky question patterns..."></textarea>
+            <button class="save-notes-btn" id="saveNotesBtn">Save Notes</button>
           </div>
         </div>
       </div>
@@ -2136,16 +2166,25 @@ document.getElementById("timeInput").addEventListener("input", (e)=>{
   renderStreakAndPace(); // recalculate pace
 });
 
-document.getElementById("notesInput").addEventListener("input", (e)=>{
-  const v = e.target.value;
-  if(v === ""){
+document.getElementById("saveNotesBtn").addEventListener("click", () => {
+  const notesInput = document.getElementById("notesInput");
+  const v = notesInput.value;
+  if (v === "") {
     delete state.notes[state.currentDay];
   } else {
     state.notes[state.currentDay] = v;
   }
   saveState();
   renderHeatmap(); // update note indicator on cell
-  renderRevisionList(); // update revision panel in case bookmark changed (Wait, notes change, so revision list remains unaffected, but good practice)
+  
+  // Visual feedback
+  const btn = document.getElementById("saveNotesBtn");
+  btn.classList.add("saved");
+  btn.textContent = "Saved! ✓";
+  setTimeout(() => {
+    btn.classList.remove("saved");
+    btn.textContent = "Save Notes";
+  }, 1500);
 });
 
 document.getElementById("bookmarkBtn").addEventListener("click", ()=>{
