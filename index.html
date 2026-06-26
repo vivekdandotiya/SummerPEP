@@ -1605,11 +1605,14 @@ if(!state.hours) state.hours = {};
 if(!state.notes) state.notes = {};
 if(!state.bookmarks) state.bookmarks = {};
 if(!state.theme) state.theme = "amber";
-if(!state.currentDay) state.currentDay = 1;
+
+// Ensure state.currentDay is a valid integer between 1 and 70
+let parsedDay = parseInt(state.currentDay, 10);
+if (isNaN(parsedDay)) parsedDay = 1;
+state.currentDay = Math.max(1, Math.min(70, parsedDay));
 
 // Apply theme on start
 document.documentElement.setAttribute("data-theme", state.theme);
-updateThemeSwitcherUI();
 
 function dayTasks(dayObj){
   return TASK_KEYS.filter(k => dayObj[k] !== undefined && dayObj[k] !== null && dayObj[k] !== "");
@@ -2426,9 +2429,12 @@ function triggerConfetti() {
   update();
 }
 
-// Initial display setup
-updateTimerDisplay();
-renderAll();
+// Initial display setup on DOMContentLoaded to guarantee DOM readiness
+window.addEventListener("DOMContentLoaded", () => {
+  updateThemeSwitcherUI();
+  updateTimerDisplay();
+  renderAll();
+});
 </script>
 
 <!-- Global Heatmap Tooltip -->
