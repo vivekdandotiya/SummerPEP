@@ -1600,6 +1600,9 @@ function saveState(){
 }
 
 let state = loadState();
+if (!state || typeof state !== "object") {
+  state = { checks:{}, hours:{}, notes:{}, bookmarks:{}, theme:"amber", currentDay:1 };
+}
 if(!state.checks) state.checks = {};
 if(!state.hours) state.hours = {};
 if(!state.notes) state.notes = {};
