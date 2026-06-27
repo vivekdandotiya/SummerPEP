@@ -27,6 +27,64 @@
     --r-md:10px;
     --r-lg:16px;
     font-size:16px;
+    
+    /* Day-panel specific theme variables (to maintain high contrast in both light/dark modes) */
+    --panel-bg: var(--paper);
+    --panel-ink: var(--ink);
+    
+    /* Dynamic task tags colors */
+    --tag-theory-color: #60A5FA;
+    --tag-revision-color: #34D399;
+    --tag-interview-color: #F87171;
+  }
+
+  /* ===== Light Mode variables ===== */
+  html[data-mode="light"] {
+    --ink: #FAF9F6;
+    --ink-2: #FFFFFF;
+    --ink-3: #EFECE6;
+    --paper: #12141A;
+    --paper-dim: #2A2F3D;
+    --slate: #5E667A;
+    --slate-dim: #7C869E;
+    --red: #D32F2F;
+    --line: rgba(18, 20, 26, 0.08);
+    --line-soft: rgba(18, 20, 26, 0.04);
+    
+    /* Keep panel light and text dark */
+    --panel-bg: #FFFFFF;
+    --panel-ink: #0F1115;
+    
+    /* Task tags high contrast colors */
+    --tag-theory-color: #1E3A8A;
+    --tag-revision-color: #064E3B;
+    --tag-interview-color: #7F1D1D;
+    
+    /* High contrast theme colors for light mode */
+    --amber: #E65F00;
+    --amber-dim: #7A4A26;
+    --teal: #10B981;
+    --teal-dim: #1F5C43;
+  }
+
+  /* Theme overrides in Light Mode */
+  html[data-mode="light"][data-theme="emerald"] {
+    --amber: #0D9488;
+    --amber-dim: #064E3B;
+    --teal: #2563EB;
+    --teal-dim: #1E3A8A;
+  }
+  html[data-mode="light"][data-theme="cyberpunk"] {
+    --amber: #E11D48;
+    --amber-dim: #881337;
+    --teal: #0891B2;
+    --teal-dim: #164E63;
+  }
+  html[data-mode="light"][data-theme="sunset"] {
+    --amber: #DB2777;
+    --amber-dim: #701A75;
+    --teal: #D97706;
+    --teal-dim: #78350F;
   }
   *{box-sizing:border-box; margin:0; padding:0;}
   html,body{background:var(--ink); color:var(--paper); font-family:'Inter',sans-serif; min-height:100vh;}
@@ -332,8 +390,8 @@
 
   /* ===== day panel ===== */
   .day-panel{
-    background:var(--paper);
-    color:var(--ink);
+    background:var(--panel-bg);
+    color:var(--panel-ink);
     border-radius:var(--r-lg);
     padding:36px 40px;
     position:relative;
@@ -1397,7 +1455,45 @@
     to {
       opacity: 1;
       transform: translateY(0);
-    }
+  }
+
+  /* ===== Light/Dark Mode Switcher Button ===== */
+  .mode-toggle-btn {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    color: var(--slate);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    padding: 0;
+    margin-right: 8px;
+  }
+  .mode-toggle-btn:hover {
+    color: var(--paper);
+    border-color: var(--amber);
+  }
+  /* Show sun/moon icon based on mode attribute */
+  html[data-mode="light"] .mode-toggle-btn .sun-icon {
+    display: none;
+  }
+  html[data-mode="light"] .mode-toggle-btn .moon-icon {
+    display: block;
+  }
+  html:not([data-mode="light"]) .mode-toggle-btn .sun-icon {
+    display: block;
+  }
+  html:not([data-mode="light"]) .mode-toggle-btn .moon-icon {
+    display: none;
+  }
+  
+  /* Completed cell font override in light mode to keep text dark */
+  html[data-mode="light"] .cell.complete {
+    color: #0F1115 !important;
   }
 </style>
 </head>
@@ -1481,6 +1577,11 @@
         <h1>70-Day L2/DevOps Prep Tracker</h1>
       </div>
       <div class="topbar-right">
+        <!-- Light/Dark Mode Toggle -->
+        <button class="mode-toggle-btn" id="modeToggleBtn" aria-label="Toggle Day/Night Mode">
+          <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="4.22" x2="19.78" y2="5.64"/></svg>
+          <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+        </button>
         <!-- Help Button -->
         <button class="help-btn" id="helpBtn" aria-label="Open Help Guide">?</button>
         <!-- Theme Switcher -->
@@ -1795,14 +1896,16 @@ if(!state.hours) state.hours = {};
 if(!state.notes) state.notes = {};
 if(!state.bookmarks) state.bookmarks = {};
 if(!state.theme) state.theme = "amber";
+if(!state.mode) state.mode = "dark";
 
 // Ensure state.currentDay is a valid integer between 1 and 70
 let parsedDay = parseInt(state.currentDay, 10);
 if (isNaN(parsedDay)) parsedDay = 1;
 state.currentDay = Math.max(1, Math.min(70, parsedDay));
 
-// Apply theme on start
+// Apply theme and mode on start
 document.documentElement.setAttribute("data-theme", state.theme);
+document.documentElement.setAttribute("data-mode", state.mode);
 
 function dayTasks(dayObj){
   return TASK_KEYS.filter(k => dayObj[k] !== undefined && dayObj[k] !== null && dayObj[k] !== "");
@@ -2403,6 +2506,17 @@ document.querySelectorAll(".theme-opt").forEach(btn => {
     updateThemeSwitcherUI();
   });
 });
+
+/* ===== Day/Night Mode Handler ===== */
+function toggleMode() {
+  const currentMode = state.mode || "dark";
+  const newMode = currentMode === "light" ? "dark" : "light";
+  state.mode = newMode;
+  saveState();
+  document.documentElement.setAttribute("data-mode", newMode);
+}
+
+document.getElementById("modeToggleBtn").addEventListener("click", toggleMode);
 
 /* ===== Event Wiring ===== */
 document.getElementById("prevBtn").addEventListener("click", ()=> goToDay(state.currentDay - 1));
