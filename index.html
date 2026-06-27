@@ -1668,6 +1668,22 @@
   </div>
 </div>
 
+<!-- Mobile Navigation Bar HTML -->
+<nav class="mobile-nav">
+  <button class="mobile-nav-btn active" id="btnTabDashboard">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+    <span>Dashboard</span>
+  </button>
+  <button class="mobile-nav-btn" id="btnTabFocus">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
+    <span>Today's Focus</span>
+  </button>
+  <button class="mobile-nav-btn" id="btnTabResources">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"/></svg>
+    <span>Resources</span>
+  </button>
+</nav>
+
 <script>
 const DATA = {
   "PHASES": [
@@ -2684,22 +2700,5 @@ dayPanel.addEventListener("touchend", e => {
   handleSwipeGesture();
 }, {passive: true});
 </script>
-
-<!-- Mobile Navigation Bar HTML -->
-<nav class="mobile-nav">
-  <button class="mobile-nav-btn active" id="btnTabDashboard">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
-    <span>Dashboard</span>
-  </button>
-  <button class="mobile-nav-btn" id="btnTabFocus">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
-    <span>Today's Focus</span>
-  </button>
-  <button class="mobile-nav-btn" id="btnTabResources">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"/></svg>
-    <span>Resources</span>
-  </button>
-</nav>
-
 </body>
 </html>
