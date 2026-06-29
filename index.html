@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="amber" data-mode="dark">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>The Sixty — Prep Tracker</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prep Track - Company-focused Study Plan</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <style>
   :root{
     --ink:#0F1115;
@@ -28,17 +28,12 @@
     --r-lg:16px;
     font-size:16px;
     
-    /* Day-panel specific theme variables (to maintain high contrast in both light/dark modes) */
-    --panel-bg: var(--paper);
-    --panel-ink: var(--ink);
-    
     /* Dynamic task tags colors */
     --tag-theory-color: #60A5FA;
     --tag-revision-color: #34D399;
     --tag-interview-color: #F87171;
   }
 
-  /* ===== Light Mode variables ===== */
   html[data-mode="light"] {
     --ink: #FAF9F6;
     --ink-2: #FFFFFF;
@@ -50,10 +45,6 @@
     --red: #D32F2F;
     --line: rgba(18, 20, 26, 0.08);
     --line-soft: rgba(18, 20, 26, 0.04);
-    
-    /* Keep panel light and text dark */
-    --panel-bg: #FFFFFF;
-    --panel-ink: #0F1115;
     
     /* Task tags high contrast colors */
     --tag-theory-color: #1E3A8A;
@@ -67,918 +58,7 @@
     --teal-dim: #1F5C43;
   }
 
-  /* Theme overrides in Light Mode */
-  html[data-mode="light"][data-theme="emerald"] {
-    --amber: #0D9488;
-    --amber-dim: #064E3B;
-    --teal: #2563EB;
-    --teal-dim: #1E3A8A;
-  }
-  html[data-mode="light"][data-theme="cyberpunk"] {
-    --amber: #E11D48;
-    --amber-dim: #881337;
-    --teal: #0891B2;
-    --teal-dim: #164E63;
-  }
-  html[data-mode="light"][data-theme="sunset"] {
-    --amber: #DB2777;
-    --amber-dim: #701A75;
-    --teal: #D97706;
-    --teal-dim: #78350F;
-  }
-  *{box-sizing:border-box; margin:0; padding:0;}
-  html,body{background:var(--ink); color:var(--paper); font-family:'Inter',sans-serif; min-height:100vh;}
-  body{
-    background-image:
-      radial-gradient(circle at 15% 0%, rgba(255,138,61,0.07), transparent 45%),
-      radial-gradient(circle at 90% 80%, rgba(61,220,151,0.05), transparent 40%);
-  }
-  ::selection{background:var(--amber); color:var(--ink);}
-  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
-  a{color:inherit;}
-  ::-webkit-scrollbar{width:10px; height:10px;}
-  ::-webkit-scrollbar-track{background:transparent;}
-  ::-webkit-scrollbar-thumb{background:var(--ink-3); border-radius:10px;}
-  ::-webkit-scrollbar-thumb:hover{background:#2a2f42;}
-
-  :focus-visible{outline:2px solid var(--amber); outline-offset:2px; border-radius:4px;}
-
-  .display{font-family:'Space Grotesk',sans-serif;}
-  .mono{font-family:'JetBrains Mono',monospace;}
-
-  /* ===== layout shell ===== */
-  .shell{
-    display:grid;
-    grid-template-columns: 280px 1fr;
-    min-height:100vh;
-  }
-  @media (max-width: 900px){
-    .shell{grid-template-columns:1fr;}
-  }
-
-  /* ===== sidebar / phase rail ===== */
-  .rail{
-    position: sticky;
-    top: 0;
-    height: 100vh;
-    overflow-y: auto;
-    border-right:1px solid var(--line);
-    padding:32px 24px 32px 32px;
-    display:flex;
-    flex-direction:column;
-    gap:28px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--line) transparent;
-  }
-  .rail::-webkit-scrollbar {
-    width: 6px;
-  }
-  .rail::-webkit-scrollbar-thumb {
-    background: var(--line);
-    border-radius: 3px;
-  }
-  @media (max-width:900px){
-    .rail{
-      position: static;
-      height: auto;
-      overflow-y: visible;
-      border-right:none;
-      border-bottom:1px solid var(--line);
-      padding:24px 20px;
-    }
-  }
-  .brand{
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-  }
-  .brand .mark{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:700;
-    font-size:1.55rem;
-    letter-spacing:-0.02em;
-    color:var(--paper);
-  }
-  .brand .mark span{color:var(--amber);}
-  .brand .sub{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.7rem;
-    letter-spacing:0.08em;
-    color:var(--slate);
-    text-transform:uppercase;
-  }
-
-  .rail-stat{
-    display:flex;
-    align-items:baseline;
-    gap:10px;
-  }
-  .rail-stat .num{
-    font-family:'JetBrains Mono',monospace;
-    font-weight:700;
-    font-size:2.4rem;
-    color:var(--amber);
-    line-height:1;
-  }
-  .rail-stat .num small{font-size:1.1rem; color:var(--slate);}
-  .rail-stat .label{
-    font-size:0.72rem;
-    color:var(--slate);
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-  }
-
-  .track-wrap{
-    position:relative;
-    display:flex;
-    flex-direction:column;
-    gap:0;
-  }
-  .track-line{
-    position:absolute;
-    left:7px;
-    top:10px;
-    bottom:10px;
-    width:2px;
-    background:var(--line);
-    overflow:hidden;
-    border-radius:2px;
-  }
-  .track-line .fill{
-    position:absolute;
-    top:0; left:0; width:100%;
-    background:linear-gradient(to bottom, var(--amber), var(--teal));
-    height:0%;
-    transition:height 0.5s cubic-bezier(.4,0,.2,1);
-    box-shadow:0 0 12px rgba(255,138,61,0.5);
-  }
-  .station{
-    position:relative;
-    padding:14px 0 14px 32px;
-    cursor:pointer;
-  }
-  .station .dot{
-    position:absolute;
-    left:0; top:18px;
-    width:16px; height:16px;
-    border-radius:50%;
-    background:var(--ink-2);
-    border:2px solid var(--slate-dim);
-    transition:all 0.3s;
-    z-index:2;
-  }
-  .station.active .dot{
-    border-color:var(--amber);
-    background:var(--amber);
-    box-shadow:0 0 0 4px rgba(255,138,61,0.18);
-  }
-  .station.done .dot{
-    border-color:var(--teal);
-    background:var(--teal);
-  }
-  .station .pname{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:600;
-    font-size:0.92rem;
-    color:var(--slate);
-    transition:color 0.3s;
-  }
-  .station.active .pname{color:var(--paper);}
-  .station.done .pname{color:var(--teal);}
-  .station .prange{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.68rem;
-    color:var(--slate-dim);
-    letter-spacing:0.03em;
-    margin-top:2px;
-  }
-  .station .pblurb{
-    font-size:0.74rem;
-    color:var(--slate-dim);
-    margin-top:6px;
-    line-height:1.4;
-    max-width:200px;
-  }
-  .station.active .pblurb{color:var(--slate);}
-
-  .rail-footer{
-    margin-top:auto;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-  }
-  .reset-btn{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.68rem;
-    color:var(--slate-dim);
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    text-align:left;
-    padding:8px 0;
-    transition:color 0.2s;
-  }
-  .reset-btn:hover{color:var(--red);}
-
-  /* ===== main column ===== */
-  .main{
-    padding:32px 40px 80px;
-    display:flex;
-    flex-direction:column;
-    gap:32px;
-    min-width:0;
-  }
-  @media (max-width:700px){
-    .main{padding:20px 16px 60px;}
-  }
-
-  .topbar{
-    display:flex;
-    align-items:flex-end;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:16px;
-  }
-  .topbar h1{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:1.5rem;
-    font-weight:600;
-  }
-  .topbar .phase-tag{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.7rem;
-    color:var(--amber);
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-  }
-  .hours-total{
-    text-align:right;
-  }
-  .hours-total .num{
-    font-family:'JetBrains Mono',monospace;
-    font-weight:700;
-    font-size:1.6rem;
-    color:var(--teal);
-  }
-  .hours-total .label{
-    font-size:0.68rem;
-    color:var(--slate);
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-  }
-
-  /* ===== heatmap grid ===== */
-  .grid-card{
-    background:var(--ink-2);
-    border:1px solid var(--line);
-    border-radius:var(--r-lg);
-    padding:24px;
-  }
-  .grid-card-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    margin-bottom:18px;
-  }
-  .grid-card-head h2{
-    font-family:'Space Grotesk',sans-serif;
-    font-size:0.92rem;
-    font-weight:600;
-    color:var(--slate);
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-  }
-  .legend{
-    display:flex;
-    gap:14px;
-    font-size:0.68rem;
-    color:var(--slate-dim);
-    align-items:center;
-  }
-  .legend span{display:flex; align-items:center; gap:5px;}
-  .legend .sw{width:9px; height:9px; border-radius:2px; display:inline-block;}
-
-  .heatmap{
-    display:grid;
-    grid-template-columns:repeat(15, 1fr);
-    gap:6px;
-  }
-  @media (max-width:900px){ .heatmap{grid-template-columns:repeat(10,1fr);} }
-  @media (max-width:500px){ .heatmap{grid-template-columns:repeat(7,1fr);} }
-
-  .cell{
-    position:relative;
-    aspect-ratio:1;
-    border-radius:5px;
-    background:var(--ink-3);
-    border:1px solid var(--line-soft);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.62rem;
-    color:var(--slate-dim);
-    transition:all 0.18s;
-  }
-  .cell:hover{transform:translateY(-2px); border-color:var(--amber);}
-  .cell.current{
-    border-color:var(--amber);
-    box-shadow:0 0 0 2px rgba(255,138,61,0.25);
-    color:var(--paper);
-  }
-  .cell.partial{background:rgba(255,138,61,0.22); color:var(--paper); border-color:transparent;}
-  .cell.complete{background:var(--teal); color:var(--ink); border-color:transparent; font-weight:600;}
-
-  /* ===== day panel ===== */
-  .day-panel{
-    background:var(--panel-bg);
-    color:var(--panel-ink);
-    border-radius:var(--r-lg);
-    padding:36px 40px;
-    position:relative;
-    overflow:hidden;
-  }
-  @media (max-width:600px){ .day-panel{padding:24px 20px;} }
-
-  .day-panel::before{
-    content:'';
-    position:absolute;
-    top:0; right:0;
-    width:220px; height:220px;
-    background:radial-gradient(circle, rgba(255,138,61,0.10), transparent 70%);
-    pointer-events:none;
-  }
-
-  .day-head{
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:20px;
-    margin-bottom:28px;
-    position:relative;
-    z-index:1;
-    flex-wrap:wrap;
-  }
-  .day-head .big-day{
-    font-family:'Space Grotesk',sans-serif;
-    font-weight:700;
-    font-size:2.6rem;
-    line-height:1;
-    letter-spacing:-0.02em;
-  }
-  .day-head .big-day .of{
-    font-size:1rem;
-    color:var(--slate-dim);
-    font-weight:500;
-    margin-left:6px;
-  }
-  .day-head .phase-pill{
-    display:inline-block;
-    margin-top:8px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.66rem;
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    background:rgba(15,17,21,0.06);
-    padding:4px 10px;
-    border-radius:20px;
-    color:var(--ink);
-  }
-
-  .day-nav{
-    display:flex;
-    gap:8px;
-  }
-  .nav-btn{
-    width:38px; height:38px;
-    border-radius:50%;
-    border:1.5px solid rgba(15,17,21,0.15);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all 0.18s;
-    color:var(--ink);
-  }
-  .nav-btn:hover:not(:disabled){background:var(--ink); color:var(--paper); border-color:var(--ink);}
-  .nav-btn:disabled{opacity:0.3; cursor:not-allowed;}
-
-  .task-list{
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    position:relative;
-    z-index:1;
-  }
-  .task-row{
-    display:flex;
-    align-items:flex-start;
-    gap:14px;
-    background:rgba(15,17,21,0.035);
-    border:1px solid rgba(15,17,21,0.07);
-    border-radius:var(--r-md);
-    padding:16px 18px;
-    transition:all 0.18s;
-  }
-  .task-row.checked{
-    background:rgba(61,220,151,0.10);
-    border-color:rgba(31,92,67,0.25);
-  }
-  .check-btn{
-    flex-shrink:0;
-    width:24px; height:24px;
-    border-radius:7px;
-    border:2px solid rgba(15,17,21,0.25);
-    margin-top:1px;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:all 0.15s;
-  }
-  .task-row.checked .check-btn{
-    background:var(--teal);
-    border-color:var(--teal);
-  }
-  .check-btn svg{
-    width:14px; height:14px;
-    opacity:0;
-    transform:scale(0.5);
-    transition:all 0.15s;
-  }
-  .task-row.checked .check-btn svg{opacity:1; transform:scale(1);}
-
-  .task-body{flex:1; min-width:0;}
-  .task-tag{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.64rem;
-    font-weight:700;
-    text-transform:uppercase;
-    letter-spacing:0.06em;
-    margin-bottom:4px;
-    display:inline-block;
-  }
-  .tag-theory{color:#1d4e89;}
-  .tag-revision{color:#1f5c43;}
-  .tag-interview{color:#a13d3d;}
-
-  .task-text{
-    font-size:0.92rem;
-    line-height:1.45;
-    color:rgba(15,17,21,0.85);
-  }
-  .task-row.checked .task-text{
-    color:rgba(15,17,21,0.45);
-    text-decoration:line-through;
-    text-decoration-color:rgba(15,17,21,0.25);
-  }
-
-  .empty-note{
-    font-size:0.8rem;
-    color:rgba(15,17,21,0.35);
-    font-style:italic;
-    padding:8px 2px;
-  }
-
-  /* ===== day footer: time + progress ===== */
-  .day-footer{
-    margin-top:26px;
-    padding-top:22px;
-    border-top:1px dashed rgba(15,17,21,0.15);
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:18px;
-    position:relative;
-    z-index:1;
-  }
-  .time-input-wrap{
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .time-input-wrap label{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.68rem;
-    text-transform:uppercase;
-    letter-spacing:0.05em;
-    color:rgba(15,17,21,0.5);
-  }
-  .time-input{
-    width:70px;
-    background:rgba(15,17,21,0.05);
-    border:1.5px solid rgba(15,17,21,0.15);
-    border-radius:var(--r-sm);
-    padding:7px 10px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.95rem;
-    font-weight:600;
-    color:var(--ink);
-    text-align:center;
-  }
-  .time-input:focus{border-color:var(--amber); background:rgba(255,138,61,0.06);}
-  .time-input::-webkit-outer-spin-button,
-  .time-input::-webkit-inner-spin-button{-webkit-appearance:none; margin:0;}
-
-  .day-progress-mini{
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .mini-bar{
-    width:120px;
-    height:6px;
-    background:rgba(15,17,21,0.1);
-    border-radius:4px;
-    overflow:hidden;
-  }
-  .mini-bar .fill{
-    height:100%;
-    background:var(--teal);
-    border-radius:4px;
-    transition:width 0.3s;
-  }
-  .mini-bar-label{
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.72rem;
-    color:rgba(15,17,21,0.55);
-  }
-
-  .complete-banner{
-    display:none;
-    align-items:center;
-    gap:8px;
-    font-family:'JetBrains Mono',monospace;
-    font-size:0.75rem;
-    color:var(--teal-dim);
-    font-weight:600;
-  }
-  .complete-banner.show{display:flex;}
-
-  /* ===== quick jump pager (mobile-friendly) ===== */
-  .day-pager{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:14px;
-  }
-  .day-pager input{
-    width:64px;
-    text-align:center;
-    background:var(--ink-2);
-    border:1px solid var(--line);
-    border-radius:var(--r-sm);
-    color:var(--paper);
-    font-family:'JetBrains Mono',monospace;
-    padding:8px;
-  }
-  .day-pager span{font-size:0.78rem; color:var(--slate);}
-
-  /* utility */
-  .visually-hidden{
-    position:absolute; width:1px; height:1px;
-    overflow:hidden; clip:rect(0,0,0,0);
-  }
-
-  /* ===== day panel grid layout (added for side widgets) ===== */
-  .day-panel-layout {
-    display: grid;
-    grid-template-columns: 1fr 280px;
-    gap: 32px;
-  }
-  @media (max-width: 800px) {
-    .day-panel-layout {
-      grid-template-columns: 1fr;
-      gap: 24px;
-    }
-  }
-  .day-panel-main {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 100%;
-  }
-  .day-panel-side {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-left: 1px solid rgba(15, 17, 21, 0.08);
-    padding-left: 24px;
-  }
-  @media (max-width: 800px) {
-    .day-panel-side {
-      border-left: none;
-      border-top: 1px solid rgba(15, 17, 21, 0.08);
-      padding-left: 0;
-      padding-top: 24px;
-    }
-  }
-
-  /* Timer styles */
-  .timer-widget {
-    background: rgba(15, 17, 21, 0.03);
-    border: 1px solid rgba(15, 17, 21, 0.06);
-    border-radius: var(--r-md);
-    padding: 16px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-  }
-  .timer-tabs {
-    display: flex;
-    background: rgba(15, 17, 21, 0.05);
-    border-radius: 20px;
-    padding: 2px;
-    width: 100%;
-  }
-  .timer-tab {
-    flex: 1;
-    font-size: 0.72rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    padding: 6px 12px;
-    border-radius: 18px;
-    text-align: center;
-    color: rgba(15, 17, 21, 0.6);
-    transition: all 0.2s;
-  }
-  .timer-tab.active {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .timer-display-container {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .timer-circle-svg {
-    transform: rotate(-90deg);
-  }
-  .timer-circle-bg {
-    stroke: rgba(15, 17, 21, 0.05);
-  }
-  .timer-circle-fill {
-    stroke: var(--amber);
-    stroke-linecap: round;
-    transition: stroke-dashoffset 0.1s linear;
-  }
-  .timer-time {
-    position: absolute;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 700;
-    font-size: 1.35rem;
-    color: var(--ink);
-  }
-  .timer-controls {
-    display: flex;
-    gap: 8px;
-    width: 100%;
-  }
-  .timer-btn {
-    flex: 1;
-    font-size: 0.75rem;
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    padding: 8px 12px;
-    border-radius: var(--r-sm);
-    transition: all 0.2s;
-    text-align: center;
-  }
-  .timer-btn-primary {
-    background: var(--ink);
-    color: var(--paper);
-  }
-  .timer-btn-primary:hover {
-    background: rgba(15, 17, 21, 0.9);
-  }
-  .timer-btn-secondary {
-    background: rgba(15, 17, 21, 0.05);
-    border: 1px solid rgba(15, 17, 21, 0.1);
-    color: rgba(15, 17, 21, 0.8);
-  }
-  .timer-btn-secondary:hover {
-    background: rgba(15, 17, 21, 0.08);
-  }
-
-  /* Notes widget */
-  .notes-widget {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .notes-widget label {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: rgba(15, 17, 21, 0.5);
-  }
-  .notes-widget textarea {
-    width: 100%;
-    height: 100px;
-    background: rgba(15, 17, 21, 0.03);
-    border: 1.5px solid rgba(15, 17, 21, 0.12);
-    border-radius: var(--r-md);
-    padding: 10px 12px;
-    font-family: inherit;
-    font-size: 0.82rem;
-    color: var(--ink);
-    resize: none;
-    line-height: 1.4;
-    transition: border-color 0.2s;
-  }
-  .notes-widget textarea:focus {
-    outline: none;
-    border-color: var(--amber);
-    background: rgba(255, 138, 61, 0.03);
-  }
-  .save-notes-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    background: var(--ink);
-    border: 1.5px solid transparent;
-    border-radius: var(--r-md);
-    padding: 8px 10px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--paper);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .save-notes-btn:hover {
-    background: var(--ink-2);
-  }
-  .save-notes-btn:active {
-    transform: scale(0.98);
-  }
-  .save-notes-btn.saved {
-    background: var(--teal) !important;
-    color: var(--ink) !important;
-  }
-
-  /* Bookmark / Flag widget */
-  .bookmark-btn {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    background: rgba(15, 17, 21, 0.03);
-    border: 1.5px solid rgba(15, 17, 21, 0.12);
-    border-radius: var(--r-md);
-    padding: 10px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: rgba(15, 17, 21, 0.7);
-    transition: all 0.2s;
-  }
-  .bookmark-btn:hover {
-    background: rgba(15, 17, 21, 0.06);
-    color: var(--ink);
-    border-color: rgba(15, 17, 21, 0.2);
-  }
-  .bookmark-btn.active {
-    background: rgba(255, 138, 61, 0.1);
-    border-color: var(--amber);
-    color: var(--amber-dim);
-  }
-  .bookmark-btn.active svg {
-    fill: var(--amber);
-    stroke: var(--amber);
-  }
-
-  /* Reference Vault in Sidebar */
-  .vault-section {
-    margin-top: 15px;
-    border-top: 1px solid var(--line);
-    padding-top: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  .vault-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.78rem;
-    font-weight: 600;
-    color: var(--slate);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .vault-list {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    max-height: 180px;
-    overflow-y: auto;
-    padding-right: 4px;
-  }
-  .vault-item {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 0.76rem;
-    color: var(--slate);
-    text-decoration: none;
-    padding: 6px 8px;
-    border-radius: var(--r-sm);
-    background: rgba(245, 241, 232, 0.02);
-    border: 1px solid transparent;
-    transition: all 0.2s;
-  }
-  .vault-item:hover {
-    color: var(--paper);
-    background: rgba(245, 241, 232, 0.05);
-    border-color: var(--line-soft);
-  }
-  .vault-item svg {
-    color: var(--slate-dim);
-    flex-shrink: 0;
-  }
-  .vault-item:hover svg {
-    color: var(--amber);
-  }
-
-  /* Heatmap cell extras for notes and bookmarks */
-  .cell {
-    position: relative;
-  }
-  .cell::after {
-    content: '';
-    position: absolute;
-    bottom: 3px;
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: transparent;
-    transition: background 0.2s;
-  }
-  .cell.has-note::after {
-    background: var(--slate);
-  }
-  .cell.complete.has-note::after {
-    background: var(--ink);
-  }
-  .cell.bookmarked {
-    border-top: 3px solid var(--amber) !important;
-  }
-
-  /* ===== Theme Switcher ===== */
-  .topbar-right {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-  }
-  @media (max-width: 600px) {
-    .topbar-right {
-      flex-direction: column-reverse;
-      align-items: flex-start;
-      gap: 12px;
-      width: 100%;
-    }
-    .topbar {
-      align-items: flex-start;
-    }
-  }
-  .theme-switcher {
-    display: flex;
-    gap: 8px;
-    background: var(--ink-2);
-    border: 1px solid var(--line);
-    padding: 6px 10px;
-    border-radius: 20px;
-  }
-  .theme-opt {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: 2px solid transparent;
-    transition: transform 0.2s, border-color 0.2s;
-  }
-  .theme-opt:hover {
-    transform: scale(1.2);
-  }
-  .theme-opt.active {
-    border-color: var(--paper);
-    transform: scale(1.15);
-  }
-
-  /* ===== Theme Variables Overrides ===== */
+  /* Preset theme overrides */
   html[data-theme="emerald"] {
     --amber: #10B981;
     --amber-dim: #064E3B;
@@ -998,469 +78,121 @@
     --teal-dim: #78350F;
   }
 
-  /* ===== Stats Dashboard ===== */
-  .stats-dashboard {
-    display: grid;
-    grid-template-columns: 1.2fr 2fr 1.2fr;
-    gap: 20px;
+  html[data-mode="light"][data-theme="emerald"] {
+    --amber: #0D9488;
+    --amber-dim: #064E3B;
+    --teal: #2563EB;
+    --teal-dim: #1E3A8A;
   }
-  @media (max-width: 900px) {
-    .stats-dashboard {
-      grid-template-columns: 1fr;
-    }
+  html[data-mode="light"][data-theme="cyberpunk"] {
+    --amber: #E11D48;
+    --amber-dim: #881337;
+    --teal: #0891B2;
+    --teal-dim: #164E63;
   }
-  .stats-panel-card {
-    background: var(--ink-2);
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-    overflow: hidden;
-  }
-  .stats-panel-card h3 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.85rem;
-    font-weight: 600;
-    color: var(--slate);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    margin-bottom: 12px;
-  }
-  .streak-card, .pace-card {
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-    min-height: 100px;
-  }
-  .card-icon {
-    font-size: 2.2rem;
-    background: rgba(245, 241, 232, 0.03);
-    width: 54px;
-    height: 54px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 50%;
-    border: 1px solid var(--line-soft);
-  }
-  .card-info {
-    display: flex;
-    flex-direction: column;
-  }
-  .card-num {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 1.5rem;
-    font-weight: 700;
-    color: var(--paper);
-    line-height: 1.2;
-  }
-  .card-label {
-    font-size: 0.72rem;
-    color: var(--slate);
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-  }
-  .streak-sub, .pace-sub {
-    position: absolute;
-    bottom: 8px;
-    right: 14px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.65rem;
-    color: var(--slate-dim);
-  }
-  
-  /* Subject Bars */
-  .subject-bars {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    column-gap: 20px;
-    row-gap: 10px;
-  }
-  @media (max-width: 600px) {
-    .subject-bars {
-      grid-template-columns: 1fr;
-    }
-  }
-  .sub-bar-item {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    cursor: pointer;
-    padding: 6px 8px;
-    border-radius: var(--r-sm);
-    border: 1px solid transparent;
-    transition: all 0.2s;
-  }
-  .sub-bar-item:hover {
-    background: rgba(245, 241, 232, 0.03);
-    border-color: var(--line-soft);
-  }
-  .sub-bar-item.active-filter {
-    background: rgba(255, 138, 61, 0.06);
-    border: 1px dashed var(--amber);
-  }
-  .sub-bar-meta {
-    display: flex;
-    justify-content: space-between;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.66rem;
-    font-weight: 600;
-    color: var(--slate);
-  }
-  .sub-bar-track {
-    height: 5px;
-    background: var(--ink-3);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-  .sub-bar-fill {
-    height: 100%;
-    background: var(--amber);
-    width: 0%;
-    transition: width 0.4s ease-out;
-  }
-  .sub-bar-item:nth-child(even) .sub-bar-fill {
-    background: var(--teal);
-  }
-  
-  /* Heatmap filtering opacity classes */
-  .heatmap.filtering .cell {
-    opacity: 0.22;
-  }
-  .heatmap.filtering .cell.filter-match {
-    opacity: 1;
-    box-shadow: 0 0 10px rgba(255, 138, 61, 0.25);
-    border-color: var(--amber);
+  html[data-mode="light"][data-theme="sunset"] {
+    --amber: #DB2777;
+    --amber-dim: #701A75;
+    --teal: #D97706;
+    --teal-dim: #78350F;
   }
 
-  /* Revision Pills Container */
-  .revision-pills-container {
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    background: var(--ink);
+    color: var(--paper);
+    font-family: 'Inter', sans-serif;
+    min-height: 100vh;
+    transition: background 0.3s, color 0.3s;
+  }
+  body {
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(255,138,61,0.04), transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(61,220,151,0.03), transparent 40%);
+    padding: 40px 20px;
+  }
+  html[data-mode="light"] body {
+    background-image:
+      radial-gradient(circle at 15% 0%, rgba(255,138,61,0.02), transparent 45%),
+      radial-gradient(circle at 90% 80%, rgba(61,220,151,0.015), transparent 40%);
+  }
+  ::selection{background:var(--amber); color:var(--ink);}
+  button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit;}
+
+  ::-webkit-scrollbar{width:10px; height:10px;}
+  ::-webkit-scrollbar-track{background:transparent;}
+  ::-webkit-scrollbar-thumb{background:var(--ink-3); border-radius:10px;}
+  ::-webkit-scrollbar-thumb:hover{background:#2a2f42;}
+
+  .shell {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  /* ===== TOPBAR ===== */
+  .topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+  .topbar h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+  }
+  .phase-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--slate);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 4px;
+  }
+  .topbar-right {
     display: flex;
     align-items: center;
     gap: 12px;
-    flex-wrap: wrap;
+  }
+
+  /* ===== COMPANY SELECTOR ===== */
+  .company-select-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     background: var(--ink-2);
     border: 1px solid var(--line);
     border-radius: var(--r-md);
-    padding: 12px 18px;
-    margin-top: -12px;
+    padding: 4px 12px;
   }
-  .rev-label {
-    font-family: 'JetBrains Mono', monospace;
+  .company-select-wrap label {
     font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
     color: var(--slate);
     text-transform: uppercase;
-    letter-spacing: 0.05em;
   }
-  .rev-pills {
-    display: flex;
-    gap: 6px;
-    flex-wrap: wrap;
-  }
-  .rev-pill {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.72rem;
-    font-weight: 600;
-    background: rgba(255, 138, 61, 0.1);
-    color: var(--amber);
-    border: 1px solid rgba(255, 138, 61, 0.25);
-    padding: 4px 10px;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .rev-pill:hover {
-    background: var(--amber);
-    color: var(--ink);
-    border-color: var(--amber);
-  }
-
-  /* ===== Heatmap Tooltip ===== */
-  .heatmap-tooltip {
-    position: absolute;
-    background: var(--ink-2);
-    border: 1px solid var(--line);
-    border-radius: var(--r-md);
-    padding: 10px 14px;
-    font-size: 0.74rem;
-    color: var(--paper);
-    pointer-events: none;
-    opacity: 0;
-    transition: opacity 0.15s ease;
-    z-index: 1000;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    max-width: 250px;
-    line-height: 1.4;
-  }
-  .heatmap-tooltip .tt-title {
-    font-family: 'Space Grotesk', sans-serif;
-    font-weight: 600;
-    font-size: 0.8rem;
-    margin-bottom: 6px;
-    color: var(--amber);
-    border-bottom: 1px solid var(--line-soft);
-    padding-bottom: 4px;
-  }
-  .heatmap-tooltip .tt-item {
-    display: flex;
-    gap: 6px;
-    margin-bottom: 4px;
-  }
-  .heatmap-tooltip .tt-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.58rem;
-    font-weight: 700;
-    text-transform: uppercase;
-    padding: 1px 4px;
-    border-radius: 3px;
-    background: rgba(245, 241, 232, 0.05);
-    height: fit-content;
-  }
-
-  /* ===== Help Button ===== */
-  .help-btn {
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    background: var(--ink-2);
-    border: 1px solid var(--line);
-    color: var(--slate);
-    font-weight: 700;
-    font-size: 0.85rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-  .help-btn:hover {
-    color: var(--paper);
-    border-color: var(--amber);
-  }
-  
-  /* ===== Modal overlay ===== */
-  .modal-overlay {
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(15, 17, 21, 0.85);
-    backdrop-filter: blur(4px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    z-index: 2000;
-  }
-  .modal-overlay.show {
-    opacity: 1;
-    pointer-events: auto;
-  }
-  .modal-card {
-    background: var(--ink);
-    border: 1px solid var(--line);
-    border-radius: var(--r-lg);
-    width: 90%;
-    max-width: 460px;
-    padding: 28px;
-    position: relative;
-    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-    transform: scale(0.95);
-    transition: transform 0.3s ease;
-  }
-  .modal-overlay.show .modal-card {
-    transform: scale(1);
-  }
-  .modal-close {
-    position: absolute;
-    top: 16px; right: 18px;
-    font-size: 1.6rem;
-    color: var(--slate);
-    cursor: pointer;
-    transition: color 0.2s;
-    line-height: 1;
+  .company-select {
     background: none;
     border: none;
-  }
-  .modal-close:hover {
-    color: var(--red);
-  }
-  .modal-card h2 {
-    font-family: 'Space Grotesk', sans-serif;
-    font-size: 1.3rem;
     color: var(--paper);
-    margin-bottom: 18px;
-  }
-  .modal-body {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
-  }
-  .guide-sec h3 {
     font-family: 'Space Grotesk', sans-serif;
-    font-size: 0.9rem;
-    color: var(--amber);
-    margin-bottom: 6px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    outline: none;
+    cursor: pointer;
   }
-  .guide-sec ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-  .guide-sec li {
-    font-size: 0.8rem;
-    color: var(--slate);
-    line-height: 1.4;
-  }
-  .guide-sec kbd {
+  .company-select option {
     background: var(--ink-2);
-    border: 1px solid var(--line);
-    border-radius: 4px;
-    padding: 1px 5px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 0.68rem;
-    color: var(--paper);
-  }
-  .guide-sec li strong {
     color: var(--paper);
   }
 
-  /* ===== MOBILE WEB APP STYLE OVERRIDES ===== */
-  .mobile-nav {
-    display: none;
-  }
-
-  @media (max-width: 767px) {
-    /* Hide rail by default on mobile */
-    .rail {
-      display: none !important;
-    }
-    
-    /* Toggle view for Tab 3 (Resources) */
-    .shell.tab-resources .rail {
-      display: flex !important;
-      position: static;
-      height: 100vh;
-      width: 100%;
-      border-right: none;
-      padding: 24px 20px 100px;
-      overflow-y: auto;
-      animation: mobileFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-    .shell.tab-resources .main {
-      display: none !important;
-    }
-
-    /* Toggle view for Tab 1 (Dashboard) */
-    .shell.tab-dashboard .day-panel {
-      display: none !important;
-    }
-    .shell.tab-dashboard .main > *:not(.day-panel) {
-      animation: mobileFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-
-    /* Toggle view for Tab 2 (Focus Workspace) */
-    .shell.tab-focus .stats-dashboard,
-    .shell.tab-focus .grid-card,
-    .shell.tab-focus .revision-pills-container {
-      display: none !important;
-    }
-    .shell.tab-focus .day-panel {
-      display: block !important;
-      animation: mobileFadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
-    }
-
-    /* Mobile Bottom Navigation Bar */
-    .mobile-nav {
-      display: flex;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      height: 64px;
-      background: rgba(15, 17, 21, 0.88);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border-top: 1px solid var(--line);
-      z-index: 999;
-      justify-content: space-around;
-      align-items: center;
-      padding: 0 8px;
-    }
-    .mobile-nav-btn {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 4px;
-      background: none;
-      border: none;
-      color: var(--slate);
-      font-size: 0.68rem;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 500;
-      flex: 1;
-      height: 100%;
-      transition: color 0.2s, transform 0.1s;
-      cursor: pointer;
-      padding: 4px 0;
-      border-top: 2px solid transparent;
-    }
-    .mobile-nav-btn svg {
-      transition: transform 0.2s, stroke 0.2s;
-      stroke: var(--slate);
-    }
-    .mobile-nav-btn:active {
-      transform: scale(0.96);
-    }
-    .mobile-nav-btn.active {
-      color: var(--amber);
-      border-top-color: var(--amber);
-    }
-    .mobile-nav-btn.active svg {
-      transform: scale(1.1);
-      stroke: var(--amber);
-    }
-
-    /* Additional spacing for bottom nav */
-    .main {
-      padding: 16px 16px 100px !important;
-    }
-    
-    /* Make the calendar cell sizes fit beautifully on smallest mobile devices */
-    .heatmap {
-      grid-template-columns: repeat(7, 1fr) !important;
-      gap: 4px !important;
-    }
-    .cell {
-      font-size: 0.72rem !important;
-    }
-
-    /* Stack stats dashboard panels in single column on mobile */
-    .stats-dashboard {
-      grid-template-columns: 1fr !important;
-      gap: 12px !important;
-    }
-  }
-
-  @keyframes mobileFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-  }
-
-  /* ===== Light/Dark Mode Switcher Button ===== */
+  /* ===== MODE TOGGLE & THEME BUTTONS ===== */
   .mode-toggle-btn {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     background: var(--ink-2);
     border: 1px solid var(--line);
@@ -1470,120 +202,328 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
-    padding: 0;
-    margin-right: 8px;
   }
   .mode-toggle-btn:hover {
     color: var(--paper);
     border-color: var(--amber);
   }
-  /* Show sun/moon icon based on mode attribute */
-  html[data-mode="light"] .mode-toggle-btn .sun-icon {
-    display: none;
+  html[data-mode="light"] .mode-toggle-btn .sun-icon { display: none; }
+  html[data-mode="light"] .mode-toggle-btn .moon-icon { display: block; }
+  html:not([data-mode="light"]) .mode-toggle-btn .sun-icon { display: block; }
+  html:not([data-mode="light"]) .mode-toggle-btn .moon-icon { display: none; }
+
+  .theme-switcher {
+    display: flex;
+    gap: 6px;
+    background: var(--ink-2);
+    padding: 4px;
+    border-radius: 20px;
+    border: 1px solid var(--line);
   }
-  html[data-mode="light"] .mode-toggle-btn .moon-icon {
+  .theme-opt {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: transform 0.2s, border-color 0.2s;
+  }
+  .theme-opt:hover { transform: scale(1.2); }
+  .theme-opt.active {
+    border-color: var(--paper);
+    transform: scale(1.15);
+  }
+
+  /* ===== PROGRESS CARD ===== */
+  .progress-card {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    padding: 24px;
+    margin-bottom: 32px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  }
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .progress-info h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 600;
+  }
+  .progress-pct {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--amber);
+    font-weight: 600;
+  }
+  .progress-bar-wrap {
+    width: 100%;
+    background: var(--ink-3);
+    height: 10px;
+    border-radius: 5px;
+    margin-top: 14px;
+    overflow: hidden;
+  }
+  .progress-bar-fill {
+    height: 100%;
+    background: var(--amber);
+    width: 0%;
+    border-radius: 5px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* ===== DAY CARD LIST ===== */
+  .day-plan-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .day-card {
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--r-lg);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+  }
+  .day-card:hover {
+    border-color: var(--amber);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  }
+  .day-card-header {
+    padding: 20px 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+  }
+  .day-card-header-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .day-badge {
+    background: var(--ink-3);
+    color: var(--amber);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: var(--r-sm);
+  }
+  .day-card-header h3 {
+    font-size: 1.05rem;
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+  }
+  .day-progress-mini {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--slate);
+    background: var(--ink-3);
+    padding: 2px 8px;
+    border-radius: 12px;
+    transition: color 0.2s;
+  }
+  .day-progress-mini.complete {
+    color: var(--teal);
+  }
+  .day-card-header .chevron {
+    color: var(--slate);
+    transition: transform 0.25s;
+    flex-shrink: 0;
+    margin-left: 12px;
+  }
+  .day-card.expanded .chevron {
+    transform: rotate(180deg);
+    color: var(--amber);
+  }
+
+  .day-card-body {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s;
+    padding: 0 24px;
+  }
+  .day-card.expanded .day-card-body {
+    max-height: 1200px;
+    opacity: 1;
+    padding-bottom: 24px;
+  }
+
+  /* ===== TASK CHECKLIST ===== */
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 12px;
+  }
+  .task-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 12px 14px;
+    background: var(--ink-3);
+    border: 1px solid var(--line-soft);
+    border-radius: var(--r-md);
+    cursor: pointer;
+    transition: background 0.2s, border-color 0.2s;
+  }
+  .task-row:hover {
+    border-color: var(--line);
+  }
+  .task-checkbox-wrap {
+    display: flex;
+    align-items: center;
+    height: 20px;
+  }
+  .task-checkbox {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--amber);
+    cursor: pointer;
+  }
+  .task-content {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .task-type-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.62rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .tag-theory { color: var(--tag-theory-color); }
+  .tag-revision { color: var(--tag-revision-color); }
+  .tag-interview { color: var(--tag-interview-color); }
+
+  .task-desc {
+    font-size: 0.86rem;
+    line-height: 1.45;
+    color: var(--paper);
+    white-space: pre-line;
+  }
+  .task-row.checked {
+    opacity: 0.55;
+    background: rgba(0,0,0,0.1);
+  }
+  .task-row.checked .task-desc {
+    text-decoration: line-through;
+  }
+
+  /* ===== NOTES AREA ===== */
+  .notes-area {
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line-soft);
+  }
+  .notes-area label {
     display: block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--slate);
+    text-transform: uppercase;
+    margin-bottom: 8px;
   }
-  html:not([data-mode="light"]) .mode-toggle-btn .sun-icon {
-    display: block;
+  .notes-area textarea {
+    width: 100%;
+    height: 110px;
+    background: var(--ink-3);
+    border: 1px solid var(--line);
+    border-radius: var(--r-md);
+    padding: 12px;
+    color: var(--paper);
+    font-family: inherit;
+    font-size: 0.84rem;
+    resize: none;
+    line-height: 1.45;
+    outline: none;
+    transition: border-color 0.2s;
   }
-  html:not([data-mode="light"]) .mode-toggle-btn .moon-icon {
-    display: none;
+  .notes-area textarea:focus {
+    border-color: var(--amber);
   }
-  
-  /* Completed cell font override in light mode to keep text dark */
-  html[data-mode="light"] .cell.complete {
-    color: #0F1115 !important;
+  .save-notes-btn {
+    margin-top: 8px;
+    background: var(--amber);
+    color: var(--ink);
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    font-size: 0.8rem;
+    padding: 8px 18px;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .save-notes-btn:hover {
+    opacity: 0.95;
+    transform: translateY(-1px);
+  }
+
+  /* ===== FOOTER ===== */
+  .footer-actions {
+    margin-top: 48px;
+    display: flex;
+    justify-content: center;
+    border-top: 1px solid var(--line);
+    padding-top: 24px;
+  }
+  .reset-btn {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.82rem;
+    color: var(--red);
+    border: 1px solid transparent;
+    padding: 8px 16px;
+    border-radius: var(--r-sm);
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+  .reset-btn:hover {
+    background: rgba(232, 93, 93, 0.08);
+    border-color: var(--red);
+  }
+
+  @media (max-width: 600px) {
+    body { padding: 24px 12px; }
+    .topbar h1 { font-size: 1.5rem; }
+    .day-card-header { padding: 16px; }
+    .day-card-body { padding: 0 16px 16px; }
   }
 </style>
 </head>
 <body>
 
 <div class="shell">
-
-  <!-- ===== SIDEBAR / PHASE RAIL ===== -->
-  <aside class="rail">
-    <div class="brand">
-      <div class="mark">THE<span>SEVENTY</span></div>
-      <div class="sub">DevOps & L2 · Day Tracker</div>
-    </div>
-
-    <div class="rail-stat">
-      <div class="num" id="statDaysDone">0<small>/70</small></div>
-    </div>
-    <div class="label" style="margin-top:-22px; font-family:'JetBrains Mono',monospace; font-size:0.72rem; color:var(--slate); text-transform:uppercase; letter-spacing:0.06em;">days complete</div>
-
-    <div class="track-wrap">
-      <div class="track-line"><div class="fill" id="trackFill"></div></div>
-      <div id="stationList"></div>
-    </div>
-
-    <!-- Revision Notes Vault -->
-    <div class="vault-section" id="notesVaultSection" style="display: none;">
-      <div class="vault-title">Revision Notes</div>
-      <div class="vault-list" id="notesVaultList"></div>
-    </div>
-
-    <!-- Reference Vault (PDFs) -->
-    <div class="vault-section">
-      <div class="vault-title">Reference Vault</div>
-      <div class="vault-list">
-        <a class="vault-item" href="./Linux.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Linux Notes
-        </a>
-        <a class="vault-item" href="./SQL.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          SQL Notes
-        </a>
-        <a class="vault-item" href="./PRiority.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Priority CPU Scheduling
-        </a>
-        <a class="vault-item" href="./GD.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          GD Preparation
-        </a>
-        <a class="vault-item" href="./Vivek__cv.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Vivek CV (Short)
-        </a>
-        <a class="vault-item" href="./CV.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          My Resume / CV
-        </a>
-        <a class="vault-item" href="./Vivek Dandotiya_Java Programming Course.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Java Programming
-        </a>
-        <a class="vault-item" href="./Web Developer Certificate.pdf" target="_blank">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-          Web Dev Certificate
-        </a>
-      </div>
-    </div>
-
-    <div class="rail-footer">
-      <button class="reset-btn" id="resetBtn">⟲ Reset all progress</button>
-    </div>
-  </aside>
-
-  <!-- ===== MAIN ===== -->
   <main class="main">
-
     <div class="topbar">
       <div>
-        <div class="phase-tag" id="topPhaseTag">PHASE 1 · FOUNDATIONS</div>
-        <h1>70-Day L2/DevOps Prep Tracker</h1>
+        <div class="phase-tag">INTERVIEW-FOCUSED PREPARATION</div>
+        <h1>Prep Track</h1>
       </div>
       <div class="topbar-right">
+        <!-- Company Selector Dropdown -->
+        <div class="company-select-wrap">
+          <label for="companySelect">Company:</label>
+          <select id="companySelect" class="company-select">
+            <option value="edoofa">Edoofa</option>
+          </select>
+        </div>
+
         <!-- Light/Dark Mode Toggle -->
         <button class="mode-toggle-btn" id="modeToggleBtn" aria-label="Toggle Day/Night Mode">
           <svg class="sun-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="4.22" x2="19.78" y2="5.64"/></svg>
           <svg class="moon-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
         </button>
-        <!-- Help Button -->
-        <button class="help-btn" id="helpBtn" aria-label="Open Help Guide">?</button>
+
         <!-- Theme Switcher -->
         <div class="theme-switcher">
           <button class="theme-opt active" data-theme-val="amber" style="background:#FF8A3D;" aria-label="Amber Theme"></button>
@@ -1591,900 +531,353 @@
           <button class="theme-opt" data-theme-val="cyberpunk" style="background:#F43F5E;" aria-label="Cyberpunk Theme"></button>
           <button class="theme-opt" data-theme-val="sunset" style="background:#EC4899;" aria-label="Sunset Theme"></button>
         </div>
-        <div class="hours-total">
-          <div class="num" id="statTotalHours">0.0h</div>
-          <div class="label">total hours logged</div>
-        </div>
       </div>
     </div>
 
-    <!-- Stats Dashboard Section -->
-    <section class="stats-dashboard">
-      <!-- Streak Panel -->
-      <div class="stats-panel-card streak-card">
-        <div class="card-icon">🔥</div>
-        <div class="card-info">
-          <div class="card-num" id="statStreak">0 days</div>
-          <div class="card-label">Study Streak</div>
-        </div>
-        <div class="streak-sub" id="statLongestStreak">Longest: 0 days</div>
+    <!-- Company Progress Bar Card -->
+    <section class="progress-card">
+      <div class="progress-info">
+        <h2 id="companyProgressTitle">Edoofa Prep Progress</h2>
+        <span class="progress-pct" id="companyProgressText">0% Complete (0 / 45 tasks)</span>
       </div>
-
-      <!-- Subject Coverage Panel -->
-      <div class="stats-panel-card subject-stats-card">
-        <h3>Subject Progress (Click to filter)</h3>
-        <div class="subject-bars" id="subjectBars">
-          <!-- Dynamically populated -->
-        </div>
-      </div>
-
-      <!-- Pace & Average Panel -->
-      <div class="stats-panel-card pace-card">
-        <div class="card-icon">⚡</div>
-        <div class="card-info">
-          <div class="card-num" id="statPace">0.0h</div>
-          <div class="card-label">Daily Avg</div>
-        </div>
-        <div class="pace-sub" id="statEstFinish">Est. Finish: --</div>
+      <div class="progress-bar-wrap">
+        <div class="progress-bar-fill" id="companyProgressFill" style="width: 0%;"></div>
       </div>
     </section>
 
-    <section class="grid-card">
-      <div class="grid-card-head">
-        <h2>All 70 days</h2>
-        <div class="legend">
-          <span><i class="sw" style="background:var(--ink-3); border:1px solid var(--line-soft);"></i> not started</span>
-          <span><i class="sw" style="background:rgba(255,138,61,0.5);"></i> in progress</span>
-          <span><i class="sw" style="background:var(--teal);"></i> complete</span>
-        </div>
-      </div>
-      <div class="heatmap" id="heatmap"></div>
-    </section>
-
-    <!-- Flagged Revision List -->
-    <div class="revision-pills-container" id="revisionPillsContainer" style="display: none;">
-      <div class="rev-label">Revision List:</div>
-      <div class="rev-pills" id="revisionPills"></div>
+    <!-- Vertical List of Day Cards -->
+    <div class="day-plan-list" id="dayPlanList">
+      <!-- Dynamically rendered day cards -->
     </div>
 
-    <section class="day-panel" id="dayPanel">
-      <div class="day-panel-layout">
-        <!-- Left Side: Tasks & Navigation -->
-        <div class="day-panel-main">
-          <div class="day-head">
-            <div>
-              <div class="big-day"><span id="dayNumBig">1</span><span class="of">/ 70</span></div>
-              <span class="phase-pill" id="dayPhasePill">Foundations</span>
-            </div>
-            <div class="day-nav">
-              <button class="nav-btn" id="prevBtn" aria-label="Previous day">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-              <button class="nav-btn" id="nextBtn" aria-label="Next day">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </button>
-            </div>
-          </div>
-
-          <div class="task-list" id="taskList"></div>
-
-          <div class="day-footer">
-            <div class="time-input-wrap">
-              <label for="timeInput">Hours studied</label>
-              <input class="time-input" id="timeInput" type="number" min="0" max="24" step="0.5" placeholder="0" />
-            </div>
-
-            <div class="complete-banner" id="completeBanner">
-              ✓ Day complete — nice work
-            </div>
-
-            <div class="day-progress-mini">
-              <span class="mini-bar-label" id="miniBarLabel">0/4</span>
-              <div class="mini-bar"><div class="fill" id="miniBarFill"></div></div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Right Side: Action widgets (Timer, Notes, Bookmark) -->
-        <div class="day-panel-side">
-          <!-- Bookmark Button -->
-          <div class="side-action-row">
-            <button class="bookmark-btn" id="bookmarkBtn" aria-label="Bookmark day">
-              <svg class="bookmark-icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>
-              <span class="btn-text">Flag for Revision</span>
-            </button>
-          </div>
-
-          <!-- Pomodoro / Stopwatch Widget -->
-          <div class="timer-widget">
-            <div class="timer-tabs">
-              <button class="timer-tab active" id="tabPomodoro">Pomodoro</button>
-              <button class="timer-tab" id="tabStopwatch">Stopwatch</button>
-            </div>
-            
-            <div class="timer-display-container">
-              <svg class="timer-circle-svg" width="120" height="120" viewBox="0 0 120 120">
-                <circle class="timer-circle-bg" cx="60" cy="60" r="50" stroke-width="5" fill="transparent"/>
-                <circle class="timer-circle-fill" id="timerCircleFill" cx="60" cy="60" r="50" stroke-width="5" fill="transparent" stroke-dasharray="314.159" stroke-dashoffset="0"/>
-              </svg>
-              <div class="timer-time" id="timerTime">25:00</div>
-            </div>
-
-            <div class="timer-controls">
-              <button class="timer-btn timer-btn-primary" id="timerStartBtn">Start</button>
-              <button class="timer-btn timer-btn-secondary" id="timerResetBtn">Reset</button>
-            </div>
-          </div>
-
-          <!-- Daily Study Notes -->
-          <div class="notes-widget">
-            <label for="notesInput">Study Notes</label>
-            <textarea id="notesInput" placeholder="Save key formulas, concepts, or tricky question patterns..."></textarea>
-            <button class="save-notes-btn" id="saveNotesBtn">Save Notes</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="day-pager">
-      <span>Jump to day</span>
-      <input type="number" id="jumpInput" min="1" max="70" />
-      <span>of 70</span>
+    <!-- Reset Actions -->
+    <div class="footer-actions">
+      <button class="reset-btn" id="resetBtn">⟲ Reset company progress</button>
     </div>
-
   </main>
 </div>
 
-<!-- Global Heatmap Tooltip -->
-<div class="heatmap-tooltip" id="heatmapTooltip"></div>
-
-<!-- Help Modal Guide -->
-<div class="modal-overlay" id="helpModal">
-  <div class="modal-card">
-    <button class="modal-close" id="helpCloseBtn">&times;</button>
-    <h2>L2/DevOps Prep Tracker Guide</h2>
-    <div class="modal-body">
-      <div class="guide-sec">
-        <h3>⌨️ Keyboard Shortcuts</h3>
-        <ul>
-          <li><kbd>←</kbd> / <kbd>→</kbd> : Go to previous / next day</li>
-        </ul>
-      </div>
-      <div class="guide-sec">
-        <h3>💡 Study Tips</h3>
-        <ul>
-          <li><strong>Feynman Technique:</strong> Explain complex terms (like Docker volumes, LVM partition sizing, L2 SLA escalations, or CIDR subnetting) in simple language out loud.</li>
-          <li><strong>Spaced Repetition:</strong> Click the flag icon (<svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" style="vertical-align: middle;"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>) to flag difficult days for review. Flagged days appear in a quick-list at the top of the day panel.</li>
-        </ul>
-      </div>
-      <div class="guide-sec">
-        <h3>⚡ Productive Tools</h3>
-        <ul>
-          <li><strong>Pomodoro Timer:</strong> Study for 25 minutes. Completing a Pomodoro automatically logs 0.5 hours to the current day!</li>
-          <li><strong>Stopwatch:</strong> Track your custom study session. Resetting the stopwatch allows you to log the tracked duration directly.</li>
-          <li><strong>Subject Filters:</strong> Click any subject bar (e.g. Linux, Docker, Networking, Cloud, Git, or Support) in the dashboard to highlight relevant days on the heatmap.</li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Mobile Navigation Bar HTML -->
-<nav class="mobile-nav">
-  <button class="mobile-nav-btn active" id="btnTabDashboard">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
-    <span>Dashboard</span>
-  </button>
-  <button class="mobile-nav-btn" id="btnTabFocus">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12s4.477 10 10 10z"/><path d="M12 6v6l4 2"/></svg>
-    <span>Today's Focus</span>
-  </button>
-  <button class="mobile-nav-btn" id="btnTabResources">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1-2.5-2.5v-15z"/></svg>
-    <span>Resources</span>
-  </button>
-</nav>
-
 <script>
-const DATA = {
-  "PHASES": [
-    {"id":1,"name":"Intensive New Topics","range":[1,10],"blurb":"Linux OS, Docker, monitoring, Bash/Python scripting, and networking basics."},
-    {"id":2,"name":"Core Admin & Tools","range":[11,30],"blurb":"Storage/LVM, virtualization, cloud (AWS/Azure), Git version control, Jira/SNOW."},
-    {"id":3,"name":"Support & CN Deep Dive","range":[31,50],"blurb":"L2 support triaging, SLAs, database SQL, advanced networking, milestone reviews."},
-    {"id":4,"name":"Deep Revision & Interview Prep","range":[51,70],"blurb":"Deep revision cycles, targeted weak-topic fixes, high-frequency questions, behavioral prep, and mock interviews."}
-  ],
-  "DAYS": [
-    {"d":1,"topic":"OS Fundamentals (Ubuntu/RHEL)","theory":"Linux vs Unix vs Windows for servers. Kernel vs user space. Filesystem hierarchy \u2014 purpose of /bin, /etc, /usr, /var, /home, /opt, /lib, /tmp. Boot process overview: BIOS/UEFI -> bootloader (GRUB) -> kernel -> init/systemd.","interview":"- Explain /etc vs /home\n- What is a kernel? Why is Linux preferred for servers?\n- Describe the Linux boot process briefly\n- Linux vs Unix - key differences","revision":"5-line cheat notes on filesystem hierarchy + boot steps.","subject":"linux"},
-    {"d":2,"topic":"Essential Linux Commands","theory":"Purpose & syntax pattern (not typing) for: pwd, ls (-l,-a,-lh), cd, mkdir, rm (-r,-f), cp, mv, touch, cat, head, tail (-f), grep (-i,-r,-v), find, locate.","interview":"- How to find large files on a system?\n- grep vs find vs locate - differences\n- How do you search for a string inside multiple files?\n- What does tail -f do and when is it used?","revision":"One-line purpose for each command, memorized as a list.","subject":"linux"},
-    {"d":3,"topic":"Users & Permissions","theory":"rwx bits, numeric notation (4-2-1 logic), chmod, chown, sudo vs su, /etc/passwd vs /etc/shadow, default umask concept.","interview":"- Explain chmod 755 and chmod 644\n- sudo vs su - difference\n- What happens if a script lacks execute permission?\n- How do you add a user to a group?","revision":"Permission number table (rwx = 4+2+1) on one card.","subject":"linux"},
-    {"d":4,"topic":"Processes & SSH","theory":"Process vs thread, PID/PPID, ps aux vs top, systemctl (start/stop/status/enable/disable), journalctl basics, SSH key-based auth flow (public/private key, authorized_keys).","interview":"- kill vs kill -9 - difference\n- How does SSH key authentication work end-to-end?\n- Zombie process vs orphan process\n- How to check if a service is running?","revision":"SSH auth flow diagram in words, signal types (SIGTERM/SIGKILL).","subject":"linux"},
-    {"d":5,"topic":"Package Mgmt & OSI Model","theory":"apt vs yum/dnf, repository concept. OSI 7 layers (mnemonic), TCP/IP 4-layer mapping, TCP vs UDP, 3-way handshake (SYN, SYN-ACK, ACK).","interview":"- TCP vs UDP - when to use which, with examples\n- Explain the OSI 7 layers briefly\n- What layer does HTTP work at? What about IP and TCP?\n- What is the 3-way handshake?","revision":"OSI layer list with one protocol example per layer.","subject":"networking"},
-    {"d":6,"topic":"Docker Basics","theory":"VM vs container (shared kernel vs full guest OS), Docker architecture (client-daemon-registry), image vs container analogy (class vs object / recipe vs dish).","interview":"- Explain image vs container\n- docker run vs docker start - difference\n- What is Docker Hub?\n- Why are containers lightweight compared to VMs?","revision":"VM vs container comparison table (resource use, boot time, isolation).","subject":"docker"},
-    {"d":7,"topic":"Docker Advanced","theory":"Dockerfile instructions (FROM, RUN, CMD, ENTRYPOINT, COPY, EXPOSE), volumes for data persistence, port mapping (-p host:container), bridge networking basics, common container startup failures.","interview":"- How to persist data with Docker? (volumes vs bind mounts)\n- CMD vs ENTRYPOINT - difference\n- Container exits immediately after running - why? How to debug?\n- What does -p 8080:80 mean?","revision":"Dockerfile instruction list with one-line purpose each.","subject":"docker"},
-    {"d":8,"topic":"Monitoring & Bash Intro","theory":"Monitoring concepts (metrics, logs, alerts, dashboards). Prometheus pull-model overview, Grafana as visualization layer, Nagios as classic alerting tool. Bash basics: shebang, variables, echo, read.","interview":"- What is a Prometheus exporter?\n- Prometheus vs Grafana - roles of each\n- What is the difference between monitoring and alerting?\n- How do you declare and use a variable in bash?","revision":"Monitoring stack roles (collect/store/visualize/alert) mapped to tools.","subject":"linux"},
-    {"d":9,"topic":"Prometheus & Bash Scripting","theory":"Prometheus scrape interval, time-series DB concept, Zabbix agent-based push/pull model (contrast with Prometheus). Bash: if/else, for/while loops, functions, exit codes.","interview":"- Prometheus vs Zabbix - pull vs push/agent-based\n- How do you check the exit status of the last command? ($?)\n- Explain a bash for loop structure (conceptually)\n- What is a time-series database and why does Prometheus use one?","revision":"Bash loop/conditional syntax patterns written out.","subject":"linux"},
-    {"d":10,"topic":"Bash & Python & Networking","theory":"Cron job syntax (5 fields), file handling in bash. Python basics: variables, data types, lists vs dicts, loops, functions, basic file I/O. DNS resolution flow, HTTP request-response cycle, firewall basics.","interview":"- Python list vs dict - difference\n- How does DNS resolution work end-to-end?\n- Explain cron syntax with an example\n- What is a firewall and how does it filter traffic?","revision":"Cron field meanings + DNS resolution steps as a flow.","subject":"linux"},
-    {"d":11,"topic":"Storage: Disks & LVM","theory":"Disk partitioning concepts (fdisk, lsblk), MBR vs GPT basics. LVM concepts: Physical Volume (PV), Volume Group (VG), Logical Volume (LV) and why LVM offers flexibility over raw partitions.","interview":"- Explain the steps to extend a filesystem with LVM\n- What is the difference between a partition and an LVM volume?\n- PV vs VG vs LV - relationship between them\n- Why use LVM instead of plain partitions?","revision":"PV -> VG -> LV flow diagram in words.","subject":"linux"},
-    {"d":12,"topic":"Storage: Filesharing & Backup","theory":"NFS concept (network file sharing), SFTP vs FTP, backup strategies overview (full, incremental, differential), rsync purpose.","interview":"- Describe full vs incremental vs differential backup\n- What is NFS and where is it used?\n- SFTP vs FTP - why is SFTP preferred?\n- What does rsync do differently from cp?","revision":"Backup type comparison table (speed, storage, restore time).","subject":"linux"},
-    {"d":13,"topic":"Virtualization Concepts","theory":"Hypervisor types (Type-1 bare-metal vs Type-2 hosted), VMware/VirtualBox overview, snapshots vs cloning, use cases for each.","interview":"- Differences between VM and container\n- Type-1 vs Type-2 hypervisor - examples of each\n- What is a snapshot and how is it different from a clone?\n- When would you choose a VM over a container?","revision":"Hypervisor type comparison + VM vs container summary table.","subject":"docker"},
-    {"d":14,"topic":"AWS Cloud Basics (EC2/S3/IAM)","theory":"AWS IaaS overview. EC2 instances (types, AMI concept), S3 object storage (buckets, durability), IAM (users, roles, policies).","interview":"- What is an EC2 instance?\n- S3 vs EBS - difference\n- What is an IAM role vs IAM user?\n- What is an AMI?","revision":"EC2/S3/IAM one-liners on a single card.","subject":"cloud"},
-    {"d":15,"topic":"Azure Cloud Basics (VM/Storage)","theory":"Azure fundamentals: Resource Groups, Virtual Machines, Storage Accounts, Virtual Network (VNet), Network Security Group (NSG).","interview":"- Azure VM vs AWS EC2 - comparison\n- What is a Resource Group used for?\n- What is an NSG and how does it compare to a firewall?\n- VNet vs subnet - relationship","revision":"AWS-to-Azure terminology mapping table.","subject":"cloud"},
-    {"d":16,"topic":"Git Version Control","theory":"Git basics: repository concept, clone, add, commit, push, pull, branching, merging, merge conflicts.","interview":"- Git vs SVN - key differences\n- What is a merge conflict and how do you resolve it conceptually?\n- git pull vs git fetch - difference\n- What is the difference between git merge and git rebase (basic)?","revision":"Git workflow diagram (local -> staging -> commit -> remote).","subject":"git"},
-    {"d":17,"topic":"Jira & ServiceNow Intro","theory":"Issue tracking with Jira (projects, tickets, sprints, workflows). ServiceNow modules: Incident, Change, Problem, SLA concepts.","interview":"- Define incident vs problem vs change\n- What is a Jira sprint?\n- What is an SLA and why does it matter in support?\n- How does a ticket move through a workflow in Jira?","revision":"Incident vs Problem vs Change definitions side by side.","subject":"support"},
-    {"d":18,"topic":"Confluence & Documentation","theory":"Confluence basics (spaces, pages, hierarchy). Why SOPs and knowledge-base articles matter for IT processes and team continuity.","interview":"- Why is documentation important in IT/DevOps support?\n- What should a good SOP contain?\n- What is the difference between a runbook and an SOP?\n- How would you structure a knowledge-base article?","revision":"SOP structure checklist (purpose, steps, rollback, contacts).","subject":"support"},
-    {"d":19,"topic":"L2 Support Fundamentals","theory":"L1 -> L2 -> L3 ticket flow, escalation criteria, SLA (response time vs resolution time), Root Cause Analysis (RCA) basics.","interview":"- How do you define Root Cause Analysis (RCA)?\n- When do you escalate a ticket from L1 to L2 or L2 to L3?\n- Response time vs resolution time - difference\n- What makes a good RCA?","revision":"L1/L2/L3 escalation flow with criteria for each level.","subject":"support"},
-    {"d":20,"topic":"L2 Support Communication","theory":"Professional communication during incidents: status update structure, RCA report structure (timeline, impact, root cause, fix, prevention), service request handling basics.","interview":"- What should an RCA report include?\n- How do you communicate an ongoing outage to stakeholders?\n- What is the difference between an incident update and an RCA?\n- How do you handle a service request vs an incident?","revision":"RCA report template outline (5 sections) memorized.","subject":"support"},
-    {"d":21,"topic":"Linux & Networking Review","theory":"Recap Linux users/processes/commands. Recap networking: OSI layers, TCP/UDP, DNS, DHCP, firewalls.","interview":"- Explain subnetting basics\n- Recap: kill -9, chmod 755, grep usage\n- DNS vs DHCP - difference\n- What is a firewall rule and how is traffic filtered?","revision":"Combined Linux + networking one-pager glance.","subject":"networking"},
-    {"d":22,"topic":"Database Basics (SQL)","theory":"Relational model, ER diagrams, primary key vs foreign key, ACID properties. SQL query types: SELECT, JOIN, GROUP BY, WHERE.","interview":"- What is a JOIN? Name the types (INNER, LEFT, RIGHT, FULL)\n- Primary key vs foreign key\n- What does ACID stand for?\n- SELECT vs GROUP BY - when do you use GROUP BY?","revision":"JOIN types diagram in words + ACID acronym breakdown.","subject":"networking"},
-    {"d":23,"topic":"Networking Deep Dive","theory":"DNS hierarchy (root, TLD, authoritative), DHCP lease process, NAT/PAT concept, SNMP for monitoring, LDAP for authentication, VPN types (site-to-site vs remote access).","interview":"- How does DHCP work? (Discover, Offer, Request, Ack)\n- What is NAT and why is it used?\n- What is LDAP used for?\n- VPN types - difference between site-to-site and remote access","revision":"DHCP DORA process + NAT purpose one-liner.","subject":"networking"},
-    {"d":24,"topic":"Storage & Backup Review","theory":"Recap LVM and filesystems. Recap backup/restore strategies (tar/rsync), snapshot-based backup strategy.","interview":"- Pros/cons of tape vs disk backup\n- Recap: PV/VG/LV extension steps\n- tar vs rsync - difference\n- What is a snapshot-based backup and its limitation?","revision":"Backup method pros/cons table.","subject":"linux"},
-    {"d":25,"topic":"Virtualization Review","theory":"Recap hypervisors (ESXi/Hyper-V basics), containers vs VMs, VirtualBox network modes (NAT, Bridged, Host-only).","interview":"- What is VMware ESXi?\n- NAT vs Bridged networking in VirtualBox - difference\n- Recap: VM vs container resource usage\n- What is Hyper-V and how does it compare to ESXi?","revision":"Network mode comparison table (NAT/Bridged/Host-only).","subject":"docker"},
-    {"d":26,"topic":"Cloud Services Review","theory":"Recap AWS (EC2 types, scaling concept), S3/EBS, Azure VMs, Storage, VNets. Intro to Availability Zones and Regions.","interview":"- What are AWS Availability Zones?\n- Region vs Availability Zone - difference\n- S3 vs EBS - recap difference\n- What is auto-scaling and why is it used?","revision":"Region/AZ/Zone hierarchy diagram in words.","subject":"cloud"},
-    {"d":27,"topic":"Git & CI/CD Basics","theory":"Git advanced concepts: rebasing, tags. CI/CD introduction: what continuous integration and continuous deployment mean, pipeline stages.","interview":"- Benefits of CI/CD pipelines\n- git rebase vs git merge - difference\n- What is a Git tag used for?\n- What are typical stages in a CI/CD pipeline?","revision":"CI/CD pipeline stage list (build -> test -> deploy).","subject":"git"},
-    {"d":28,"topic":"Jira/ServiceNow Review","theory":"Recap Jira fields (Epic, Story, Task, Sub-task). ServiceNow modules recap: Incident, Change, Problem, and how Change Requests work.","interview":"- What is an SLA in ITIL context?\n- Epic vs Story vs Task - hierarchy in Jira\n- What is a Change Request and why does it need approval?\n- Recap: Incident vs Problem vs Change","revision":"Jira hierarchy (Epic > Story > Task > Sub-task) memorized.","subject":"support"},
-    {"d":29,"topic":"Confluence & Docs Review","theory":"Recap Confluence space/page structure and documentation best practices (SOPs, KBs, runbooks).","interview":"- What goes into a good SOP?\n- How do you keep documentation up to date in a team?\n- Runbook vs SOP vs KB article - difference\n- Why do support teams rely heavily on documentation?","revision":"Documentation types comparison (SOP/runbook/KB) one-liner each.","subject":"support"},
-    {"d":30,"topic":"Milestone Review (Linux & Docker)","theory":"Self-test recap of all Linux topics (Days 1-12) and Docker topics (Days 6-7, 13) at a conceptual level.","interview":"- Mixed rapid-fire: permissions, processes, SSH, Docker image vs container\n- Common Linux interview traps (e.g. chmod numeric, kill signals)\n- Common Docker interview traps (CMD vs ENTRYPOINT, volumes)","revision":"Flip through Day 1-13 quick revision notes only.","subject":"linux"},
-    {"d":31,"topic":"Milestone Review (Networking & Storage)","theory":"Self-test recap of networking (Days 5, 21-23) and storage (Days 11-12, 24) topics.","interview":"- Mixed rapid-fire: OSI layers, DNS/DHCP, LVM, backup types\n- Common networking interview traps (TCP/UDP use cases, subnetting)\n- Common storage interview traps (LVM extension steps)","revision":"Flip through Day 5, 11-12, 21-24 quick revision notes only.","subject":"networking"},
-    {"d":32,"topic":"Milestone Review (Monitoring & Scripting)","theory":"Self-test recap of monitoring (Days 8-9) and bash/Python scripting (Days 8-10) concepts.","interview":"- Mixed rapid-fire: Prometheus, Grafana, Zabbix roles\n- Common scripting interview traps (loops, exit codes, variables)\n- Sample bash scripting conceptual questions","revision":"Flip through Day 8-10 quick revision notes only.","subject":"linux"},
-    {"d":33,"topic":"Milestone Review (Cloud Platforms)","theory":"Self-test recap of AWS and Azure basics (Days 14-15, 26).","interview":"- Cloud provider comparison questions (AWS vs Azure terminology)\n- Common cloud interview traps (EC2 vs VM, S3 vs EBS, IAM vs NSG)\n- Region/AZ and scaling recap questions","revision":"Flip through Day 14-15, 26 quick revision notes only.","subject":"cloud"},
-    {"d":34,"topic":"Milestone Review (Tools & Support)","theory":"Self-test recap of Git (Day 16, 27), Jira/ServiceNow (Days 17, 28), and L2 support process (Days 19-20).","interview":"- Support workflow questions: ticket lifecycle from creation to closure\n- Common Git interview traps (merge vs rebase, pull vs fetch)\n- Common support interview traps (SLA, RCA, escalation criteria)","revision":"Flip through Day 16-20, 27-28 quick revision notes only.","subject":"support"},
-    {"d":35,"topic":"Interview Prep: Mock Q&A","theory":"Review common Linux, Docker, and networking interview questions end-to-end, speaking answers aloud as if in a real interview.","interview":"Self-conducted mock interview - answer 15-20 mixed questions from Days 1-15 out loud without notes.","revision":"Note down 3-5 questions you struggled with.","subject":"support"},
-    {"d":36,"topic":"Interview Prep: Final Practice","theory":"Deep-focus on the weak areas identified on Day 35 - re-read theory for those specific topics only.","interview":"Timed mixed quiz - answer questions from across all subjects within set time limits, simulating interview pressure.","revision":"Update your \"weak topics\" list.","subject":"support"},
-    {"d":37,"topic":"Post-Plan Review","theory":"Reflect on what's learned so far (Days 1-36); identify remaining conceptual gaps across all subjects.","interview":"Re-attempt only the questions previously marked weak.","revision":"Begin drafting one-sheet summaries per subject (Linux, Docker, Networking, Cloud, Git, Support).","subject":"support"},
-    {"d":38,"topic":"Review: Linux & Bash","theory":"Revisit Linux commands and bash scripting concepts (loops, arrays, functions) conceptually.","interview":"- sed vs awk - basic difference\n- Recap: file permission and process management questions\n- What is an array in bash used for?","revision":"sed/awk one-liner purpose, bash array syntax pattern.","subject":"linux"},
-    {"d":39,"topic":"Review: Networking","theory":"Revisit core networking protocols and OSI/TCP-IP models.","interview":"- Subnetting example walkthrough (conceptual, no calculation tools)\n- Recap: TCP vs UDP, 3-way handshake\n- IP configuration basics - static vs dynamic","revision":"Subnetting key terms (CIDR, subnet mask) defined simply.","subject":"networking"},
-    {"d":40,"topic":"Review: Docker & Virtualization","theory":"Revisit Docker usage and hypervisor concepts. Conceptual intro to Docker Compose (multi-container orchestration) and how Kubernetes extends this idea, if applicable.","interview":"- Docker networking - bridge vs host vs none\n- What problem does Docker Compose solve?\n- Recap: VM vs container, hypervisor types","revision":"Docker network mode one-liner each.","subject":"docker"},
-    {"d":41,"topic":"Review: Cloud (AWS/Azure)","theory":"Revisit cloud essentials for AWS and Azure, focusing on IAM/RBAC and resource viewing/log review concepts.","interview":"- IAM vs RBAC - difference\n- How would you check logs for a cloud VM conceptually?\n- Recap: EC2 vs Azure VM, S3 vs Storage Account","revision":"IAM vs RBAC one-liner comparison.","subject":"cloud"},
-    {"d":42,"topic":"Review: Git & CI/CD","theory":"Revisit Git workflows and CI/CD pipeline concepts end-to-end.","interview":"- git rebase vs merge - recap with a scenario\n- What triggers a CI/CD build typically?\n- What is a merge conflict and how is it resolved conceptually?","revision":"CI/CD trigger types (push, PR, schedule) one-liner.","subject":"git"},
-    {"d":43,"topic":"Review: Support Tools","theory":"Revisit Jira workflows and L2 support policies end-to-end, focusing on SLA scenarios.","interview":"- SLA scenario: ticket breach handling - how do you respond?\n- Recap: ticket lifecycle from creation to closure\n- How do you prioritize multiple tickets at once?","revision":"Ticket priority matrix (impact vs urgency) outline.","subject":"support"},
-    {"d":44,"topic":"Mock Interview 1","theory":"Conduct a full-length self mock interview covering Linux, Docker, Networking, Cloud, Git, and Support topics together.","interview":"Answer 20+ random mixed questions out loud, timed.","revision":"List the 5 weakest answers from this mock.","subject":"support"},
-    {"d":45,"topic":"Mock Interview 2","theory":"Second full mock interview, focusing specifically on the tricky/weak questions identified in Mock Interview 1.","interview":"Re-attempt those specific weak questions with full, confident answers.","revision":"Update weak-topics list again; should be shrinking.","subject":"support"},
-    {"d":46,"topic":"Final Revision & Planning","theory":"Consolidate all notes across all subjects into clean, quick-glance form.","interview":"N/A - focus purely on content consolidation.","revision":"Finalize one-page cheat-sheets for Linux, Docker, Networking, Cloud, Git, and Support.","subject":"support"},
-    {"d":47,"topic":"Buffer / Rest Day","theory":"Light review only - skim cheat-sheets, no new learning.","interview":"N/A - optional light recall only.","revision":"Relax; mentally review one subject of your choice.","subject":"support"},
-    {"d":48,"topic":"Open Study / Contingency","theory":"Flexible - revisit whichever subject still feels weakest.","interview":"Self-quiz on that weak subject only.","revision":"Update cheat-sheet for that subject if needed.","subject":"support"},
-    {"d":49,"topic":"Wrap-up / Final Prep","theory":"Summarize overall readiness; go through final checklist across all subjects.","interview":"Quick rapid-fire self-test, one question per subject.","revision":"Ensure all 6 cheat-sheets are complete and clear.","subject":"support"},
-    {"d":50,"topic":"End of Plan (Core 50 Days Complete)","theory":"Final review of top-priority topics most likely to appear in interviews (permissions, Docker basics, OSI/TCP-UDP, RCA, SLA).","interview":"Final rapid review of top 20 high-frequency questions.","revision":"Read through all cheat-sheets once, cover to cover.","subject":"support"},
-    {"d":51,"topic":"Deep Revision Cycle - Linux (Days 1-4)","theory":"Re-revise Days 1-4 (OS fundamentals, commands, permissions, processes/SSH) at full depth.","interview":"Re-answer all interview questions from Days 1-4.","revision":"Tighten cheat-sheet for these topics further.","subject":"support"},
-    {"d":52,"topic":"Deep Revision Cycle - Networking (Day 5, 21-23)","theory":"Re-revise package management, OSI model, and networking deep dive topics.","interview":"Re-answer all interview questions from Day 5, 21-23.","revision":"Tighten cheat-sheet for networking further.","subject":"support"},
-    {"d":53,"topic":"Deep Revision Cycle - Docker (Days 6-7, 13)","theory":"Re-revise Docker basics, advanced Docker, and virtualization concepts.","interview":"Re-answer all interview questions from Days 6-7, 13.","revision":"Tighten cheat-sheet for Docker/virtualization further.","subject":"support"},
-    {"d":54,"topic":"Deep Revision Cycle - Monitoring/Scripting (Days 8-10)","theory":"Re-revise monitoring tools and bash/Python scripting concepts.","interview":"Re-answer all interview questions from Days 8-10.","revision":"Tighten cheat-sheet for monitoring/scripting further.","subject":"support"},
-    {"d":55,"topic":"Deep Revision Cycle - Storage (Days 11-12, 24)","theory":"Re-revise LVM, filesharing, and backup strategy concepts.","interview":"Re-answer all interview questions from Days 11-12, 24.","revision":"Tighten cheat-sheet for storage further.","subject":"support"},
-    {"d":56,"topic":"Deep Revision Cycle - Cloud (Days 14-15, 26)","theory":"Re-revise AWS and Azure fundamentals and cloud review topics.","interview":"Re-answer all interview questions from Days 14-15, 26.","revision":"Tighten cheat-sheet for cloud further.","subject":"support"},
-    {"d":57,"topic":"Deep Revision Cycle - Git/CI-CD (Days 16, 27, 42)","theory":"Re-revise Git fundamentals and CI/CD pipeline concepts.","interview":"Re-answer all interview questions from Days 16, 27, 42.","revision":"Tighten cheat-sheet for Git/CI-CD further.","subject":"support"},
-    {"d":58,"topic":"Deep Revision Cycle - Support/ITIL (Days 17-20, 28-29, 43)","theory":"Re-revise Jira/ServiceNow, documentation, and L2 support process concepts.","interview":"Re-answer all interview questions from Days 17-20, 28-29, 43.","revision":"Tighten cheat-sheet for support/ITIL further.","subject":"support"},
-    {"d":59,"topic":"Deep Revision Cycle - Database/SQL (Day 22)","theory":"Re-revise relational model, SQL JOINs, and ACID properties.","interview":"Re-answer all interview questions from Day 22.","revision":"Tighten cheat-sheet for SQL further.","subject":"support"},
-    {"d":60,"topic":"Mixed Subject Mock Interview 3","theory":"Full mixed mock interview covering all 6 subjects equally.","interview":"Answer 25+ randomly mixed questions, timed, no notes.","revision":"Identify any topic still below confidence level.","subject":"support"},
-    {"d":61,"topic":"Targeted Weak-Topic Fix Day 1","theory":"Deep-focus only on the single weakest subject from Day 60.","interview":"Drill that subject's questions repeatedly until fluent.","revision":"Rewrite that subject's cheat-sheet from memory.","subject":"support"},
-    {"d":62,"topic":"Targeted Weak-Topic Fix Day 2","theory":"Deep-focus on the second weakest subject from Day 60.","interview":"Drill that subject's questions repeatedly until fluent.","revision":"Rewrite that subject's cheat-sheet from memory.","subject":"support"},
-    {"d":63,"topic":"Targeted Weak-Topic Fix Day 3","theory":"Deep-focus on the third weakest subject from Day 60.","interview":"Drill that subject's questions repeatedly until fluent.","revision":"Rewrite that subject's cheat-sheet from memory.","subject":"support"},
-    {"d":64,"topic":"Mixed Subject Mock Interview 4","theory":"Full mixed mock interview again, covering all 6 subjects, focused on previously weak areas now retested.","interview":"Answer 25+ randomly mixed questions, timed, no notes.","revision":"Confirm improvement vs Mock Interview 3 (Day 60).","subject":"support"},
-    {"d":65,"topic":"High-Frequency Questions Day 1","theory":"Compile and review the most commonly-asked L2/DevOps interview questions across Linux and Docker.","interview":"Answer each from memory, aiming for confident, concise responses (30-60 seconds each).","revision":"Star the 5 hardest questions for tomorrow's recall.","subject":"support"},
-    {"d":66,"topic":"High-Frequency Questions Day 2","theory":"Compile and review the most commonly-asked interview questions across Networking and Cloud.","interview":"Answer each from memory, aiming for confident, concise responses (30-60 seconds each).","revision":"Star the 5 hardest questions for tomorrow's recall.","subject":"support"},
-    {"d":67,"topic":"High-Frequency Questions Day 3","theory":"Compile and review the most commonly-asked interview questions across Git, SQL, and Support/ITIL.","interview":"Answer each from memory, aiming for confident, concise responses (30-60 seconds each).","revision":"Star the 5 hardest questions for tomorrow's recall.","subject":"support"},
-    {"d":68,"topic":"Behavioral + Technical Combo Practice","theory":"Practice combining technical answers with situational/ behavioral framing (e.g. \"Tell me about a time you handled an incident\" using STAR method, even hypothetically).","interview":"Prepare 3-4 STAR-style stories tied to RCA, escalation, and ticket handling scenarios.","revision":"Write down your 3-4 STAR stories in short bullet form.","subject":"support"},
-    {"d":69,"topic":"Final Mock Interview 5 (Full Simulation)","theory":"Full end-to-end mock interview - technical + behavioral - simulating real interview conditions as closely as possible.","interview":"Treat this as the real thing; answer everything out loud, no notes, timed.","revision":"Note only critical last-minute gaps, if any.","subject":"support"},
-    {"d":70,"topic":"Final Day - Complete Readiness Check","theory":"Read through all 6 cheat-sheets one final time, calmly, without trying to learn anything new.","interview":"Light recall only - top 10 questions you feel are most likely to be asked.","revision":"Confidence check - rate yourself 1-10 per subject; relax, you are ready.","subject":"support"}
-  ]
+const COMPANIES = {
+  "edoofa": {
+    name: "Edoofa",
+    days: [
+      {
+        d: 1,
+        topic: "OS Fundamentals (Ubuntu/RHEL)",
+        theory: "Linux vs Unix vs Windows for servers. Kernel vs user space. Filesystem hierarchy — purpose of /bin, /etc, /usr, /var, /home, /opt, /lib, /tmp. Boot process overview: BIOS/UEFI -> bootloader (GRUB) -> kernel -> init/systemd.",
+        interview: "• Explain /etc vs /home\n• What is a kernel? Why is Linux preferred for servers?\n• Describe the Linux boot process briefly\n• Linux vs Unix - key differences",
+        revision: "5-line cheat notes on filesystem hierarchy + boot steps."
+      },
+      {
+        d: 2,
+        topic: "Essential Linux Commands",
+        theory: "Purpose & syntax pattern for: pwd, ls (-l,-a,-lh), cd, mkdir, rm (-r,-f), cp, mv, touch, cat, head, tail (-f), grep (-i,-r,-v), find, locate.",
+        interview: "• How to find large files on a system?\n• grep vs find vs locate - differences\n• How do you search for a string inside multiple files?\n• What does tail -f do and when is it used?",
+        revision: "One-line purpose for each command, memorized as a list."
+      },
+      {
+        d: 3,
+        topic: "Users & Permissions",
+        theory: "rwx bits, numeric notation (4-2-1 logic), chmod, chown, sudo vs su, /etc/passwd vs /etc/shadow, default umask concept.",
+        interview: "• Explain chmod 755 and chmod 644\n• sudo vs su - difference\n• What happens if a script lacks execute permission?\n• How do you add a user to a group?",
+        revision: "Permission number table (rwx = 4+2+1) on one card."
+      },
+      {
+        d: 4,
+        topic: "Processes & SSH",
+        theory: "Process vs thread, PID/PPID, ps aux vs top, systemctl (start/stop/status/enable/disable), journalctl basics, SSH key-based auth flow (public/private key, authorized_keys).",
+        interview: "• kill vs kill -9 - difference\n• How does SSH key authentication work end-to-end?\n• Zombie process vs orphan process\n• How to check if a service is running?",
+        revision: "SSH auth flow diagram in words, signal types (SIGTERM/SIGKILL)."
+      },
+      {
+        d: 5,
+        topic: "Package Mgmt & OSI Model",
+        theory: "apt vs yum/dnf, repository concept. OSI 7 layers (mnemonic), TCP/IP 4-layer mapping, TCP vs UDP, 3-way handshake (SYN, SYN-ACK, ACK).",
+        interview: "• TCP vs UDP - when to use which, with examples\n• Explain the OSI 7 layers briefly\n• What layer does HTTP work at? What about IP and TCP?\n• What is the 3-way handshake?",
+        revision: "OSI layer list with one protocol example per layer."
+      },
+      {
+        d: 6,
+        topic: "Docker Basics",
+        theory: "VM vs container (shared kernel vs full guest OS), Docker architecture (client-daemon-registry), image vs container analogy (class vs object / recipe vs dish).",
+        interview: "• Explain image vs container\n• docker run vs docker start - difference\n• What is Docker Hub?\n• Why are containers lightweight compared to VMs?",
+        revision: "VM vs container comparison table (resource use, boot time, isolation)."
+      },
+      {
+        d: 7,
+        topic: "Docker Advanced",
+        theory: "Dockerfile instructions (FROM, RUN, CMD, ENTRYPOINT, COPY, EXPOSE), volumes for data persistence, port mapping (-p host:container), bridge networking basics, common container startup failures.",
+        interview: "• How to persist data with Docker? (volumes vs bind mounts)\n• CMD vs ENTRYPOINT - difference\n• Container exits immediately after running - why? How to debug?\n• What does -p 8080:80 mean?",
+        revision: "Dockerfile instruction list with one-line purpose each."
+      },
+      {
+        d: 8,
+        topic: "Monitoring & Bash Intro",
+        theory: "Monitoring concepts (metrics, logs, alerts, dashboards). Prometheus pull-model overview, Grafana as visualization layer, Nagios as classic alerting tool. Bash basics: shebang, variables, echo, read.",
+        interview: "• What is a Prometheus exporter?\n• Prometheus vs Grafana - roles of each\n• What is the difference between monitoring and alerting?\n• How do you declare and use a variable in bash?",
+        revision: "Monitoring stack roles (collect/store/visualize/alert) mapped to tools."
+      },
+      {
+        d: 9,
+        topic: "Prometheus & Bash Scripting",
+        theory: "Prometheus scrape interval, time-series DB concept, Zabbix agent-based push/pull model (contrast with Prometheus). Bash: if/else, for/while loops, functions, exit codes.",
+        interview: "• Prometheus vs Zabbix - pull vs push/agent-based\n• How do you check the exit status of the last command? ($?)\n• Explain a bash for loop structure (conceptually)\n• What is a time-series database and why does Prometheus use one?",
+        revision: "Bash loop/conditional syntax patterns written out."
+      },
+      {
+        d: 10,
+        topic: "Bash & Python & Networking",
+        theory: "Cron job syntax (5 fields), file handling in bash. Python basics: variables, data types, lists vs dicts, loops, functions, basic file I/O. DNS resolution flow, HTTP request-response cycle, firewall basics.",
+        interview: "• Python list vs dict - difference\n• How does DNS resolution work end-to-end?\n• Explain cron syntax with an example\n• What is a firewall and how does it filter traffic?",
+        revision: "Cron field meanings + DNS resolution steps as a flow."
+      },
+      {
+        d: 11,
+        topic: "Storage: Disks & LVM",
+        theory: "Disk partitioning concepts (fdisk, lsblk), MBR vs GPT basics. LVM concepts: Physical Volume (PV), Volume Group (VG), Logical Volume (LV) and why LVM offers flexibility over raw partitions.",
+        interview: "• Explain the steps to extend a filesystem with LVM\n• What is the difference between a partition and an LVM volume?\n• PV vs VG vs LV - relationship between them\n• Why use LVM instead of plain partitions?",
+        revision: "PV -> VG -> LV flow diagram in words."
+      },
+      {
+        d: 12,
+        topic: "Storage: Filesharing & Backup",
+        theory: "NFS concept (network file sharing), SFTP vs FTP, backup strategies overview (full, incremental, differential), rsync purpose.",
+        interview: "• Describe full vs incremental vs differential backup\n• What is NFS and where is it used?\n• SFTP vs FTP - why is SFTP preferred?\n• What does rsync do differently from cp?",
+        revision: "Backup type comparison table (speed, storage, restore time)."
+      },
+      {
+        d: 13,
+        topic: "Virtualization Concepts",
+        theory: "Hypervisor types (Type-1 bare-metal vs Type-2 hosted), VMware/VirtualBox overview, snapshots vs cloning, use cases for each.",
+        interview: "• Differences between VM and container\n• Type-1 vs Type-2 hypervisor - examples of each\n• What is a snapshot and how is it different from a clone?\n• When would you choose a VM over a container?",
+        revision: "Hypervisor type comparison + VM vs container summary table."
+      },
+      {
+        d: 14,
+        topic: "AWS Cloud Basics (EC2/S3/IAM)",
+        theory: "AWS IaaS overview. EC2 instances (types, AMI concept), S3 object storage (buckets, durability), IAM (users, roles, policies).",
+        interview: "• What is an EC2 instance?\n• S3 vs EBS - difference\n• What is an IAM role vs IAM user?\n• What is an AMI?",
+        revision: "EC2/S3/IAM one-liners on a single card."
+      },
+      {
+        d: 15,
+        topic: "Azure Cloud Basics (VM/Storage)",
+        theory: "Azure fundamentals: Resource Groups, Virtual Machines, Storage Accounts, Virtual Network (VNet), Network Security Group (NSG).",
+        interview: "• Azure VM vs AWS EC2 - comparison\n• What is a Resource Group used for?\n• What is an NSG and how does it compare to a firewall?\n• VNet vs subnet - relationship",
+        revision: "AWS-to-Azure terminology mapping table."
+      }
+    ]
+  }
 };
 
-const TASK_KEYS = ["theory", "interview", "revision"];
-const TASK_META = {
-  theory:    {label:"Theory (70 min)", cls:"tag-theory"},
-  interview: {label:"Interview Q&A (30 min)", cls:"tag-interview"},
-  revision:  {label:"Quick Revision (20 min)", cls:"tag-revision"}
-};
-
-const STORAGE_KEY = "devops_seventy_tracker_v1";
+const STORAGE_KEY = "company_seventy_tracker_v2";
 
 function loadState(){
   try{
     const raw = localStorage.getItem(STORAGE_KEY);
     if(raw) return JSON.parse(raw);
   }catch(e){}
-  return { checks:{}, hours:{}, notes:{}, bookmarks:{}, theme:"amber", currentDay:1 };
+  return { checks:{}, notes:{}, theme:"amber", mode:"dark", currentCompany:"edoofa", expandedDays:{} };
 }
+
 function saveState(){
   try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); }catch(e){}
 }
 
 let state = loadState();
 if (!state || typeof state !== "object") {
-  state = { checks:{}, hours:{}, notes:{}, bookmarks:{}, theme:"amber", currentDay:1 };
+  state = { checks:{}, notes:{}, theme:"amber", mode:"dark", currentCompany:"edoofa", expandedDays:{} };
 }
 if(!state.checks) state.checks = {};
-if(!state.hours) state.hours = {};
 if(!state.notes) state.notes = {};
-if(!state.bookmarks) state.bookmarks = {};
 if(!state.theme) state.theme = "amber";
 if(!state.mode) state.mode = "dark";
+if(!state.currentCompany) state.currentCompany = "edoofa";
+if(!state.expandedDays) state.expandedDays = {};
 
-// Ensure state.currentDay is a valid integer between 1 and 70
-let parsedDay = parseInt(state.currentDay, 10);
-if (isNaN(parsedDay)) parsedDay = 1;
-state.currentDay = Math.max(1, Math.min(70, parsedDay));
-
-// Apply theme and mode on start
+// Apply styles on start
 document.documentElement.setAttribute("data-theme", state.theme);
 document.documentElement.setAttribute("data-mode", state.mode);
 
-function dayTasks(dayObj){
-  return TASK_KEYS.filter(k => dayObj[k] !== undefined && dayObj[k] !== null && dayObj[k] !== "");
+function getCompanyPlan() {
+  return COMPANIES[state.currentCompany] || COMPANIES["edoofa"];
 }
 
-function dayStatus(dayNum){
-  const dayObj = DATA.DAYS[dayNum-1];
-  const keys = dayTasks(dayObj);
-  if(keys.length === 0) return {checked:0, total:0};
-  let checked = 0;
-  keys.forEach(k=>{
-    if(state.checks[dayNum + "_" + k]) checked++;
-  });
-  return {checked, total: keys.length};
-}
-
-function phaseForDay(dayNum){
-  return DATA.PHASES.find(p => dayNum >= p.range[0] && dayNum <= p.range[1]) || DATA.PHASES[0];
-}
-
-function totalDaysComplete(){
-  let n = 0;
-  for(let d=1; d<=70; d++){
-    const s = dayStatus(d);
-    if(s.total > 0 && s.checked === s.total) n++;
-  }
-  return n;
-}
-
-function totalHours(){
-  let sum = 0;
-  Object.values(state.hours).forEach(v=>{
-    const n = parseFloat(v);
-    if(!isNaN(n)) sum += n;
-  });
-  return sum;
-}
-
-function phaseDoneCount(phase){
-  let n = 0;
-  for(let d=phase.range[0]; d<=phase.range[1]; d++){
-    const s = dayStatus(d);
-    if(s.total > 0 && s.checked === s.total) n++;
-  }
-  return n;
-}
-
-/* ===== render: sidebar stations ===== */
-function renderStations(){
-  const wrap = document.getElementById("stationList");
-  wrap.innerHTML = "";
-  const curDay = state.currentDay;
-  DATA.PHASES.forEach(phase=>{
-    const span = phase.range[1] - phase.range[0] + 1;
-    const done = phaseDoneCount(phase);
-    const isActive = curDay >= phase.range[0] && curDay <= phase.range[1];
-    const isDone = done === span;
-    const el = document.createElement("div");
-    el.className = "station" + (isActive ? " active" : "") + (isDone ? " done" : "");
-    el.innerHTML = `
-      <div class="dot"></div>
-      <div class="pname">${phase.name}</div>
-      <div class="prange mono">DAY ${phase.range[0]}–${phase.range[1]} · ${done}/${span}</div>
-      <div class="pblurb">${phase.blurb}</div>
-    `;
-    el.addEventListener("click", ()=>{ goToDay(phase.range[0]); });
-    wrap.appendChild(el);
-  });
-
-  // track fill = overall % across all 70 days
-  const totalDone = totalDaysComplete();
-  const pct = Math.round((totalDone/70)*100);
-  document.getElementById("trackFill").style.height = pct + "%";
-}
-
-/* ===== Subject Stats Filtering ===== */
-let activeSubjectFilter = null;
-const SUBJECTS = [
-  { key: "linux", label: "Linux & Scripting" },
-  { key: "docker", label: "Docker & Virt" },
-  { key: "networking", label: "Networking & DB" },
-  { key: "cloud", label: "Cloud Platforms" },
-  { key: "git", label: "Git & CI/CD" },
-  { key: "support", label: "Support & Tools" }
-];
-
-function renderSubjectStats(){
-  const container = document.getElementById("subjectBars");
-  container.innerHTML = "";
+function renderAll() {
+  const company = getCompanyPlan();
+  const days = company.days;
   
-  SUBJECTS.forEach(sub => {
-    let totalTasks = 0;
-    let checkedTasks = 0;
+  // Render day cards
+  const listContainer = document.getElementById("dayPlanList");
+  listContainer.innerHTML = "";
+  
+  days.forEach(day => {
+    let dayCompleted = 0;
+    if (state.checks[`${state.currentCompany}_${day.d}_theory`]) dayCompleted++;
+    if (state.checks[`${state.currentCompany}_${day.d}_interview`]) dayCompleted++;
+    if (state.checks[`${state.currentCompany}_${day.d}_revision`]) dayCompleted++;
     
-    for (let d = 1; d <= 70; d++) {
-      const dayObj = DATA.DAYS[d-1];
-      if (dayObj.subject === sub.key) {
-        const keys = dayTasks(dayObj);
-        totalTasks += keys.length;
-        keys.forEach(k => {
-          if (state.checks[d + "_" + k]) {
-            checkedTasks++;
-          }
-        });
-      }
+    const card = document.createElement("div");
+    card.className = "day-card";
+    if (state.expandedDays[`${state.currentCompany}_${day.d}`]) {
+      card.classList.add("expanded");
     }
     
-    const pct = totalTasks > 0 ? Math.round((checkedTasks / totalTasks) * 100) : 0;
-    
-    const item = document.createElement("div");
-    item.className = "sub-bar-item" + (activeSubjectFilter === sub.key ? " active-filter" : "");
-    item.setAttribute("title", `Click to filter heatmap by ${sub.label}`);
-    item.innerHTML = `
-      <div class="sub-bar-meta">
-        <span>${sub.label}</span>
-        <span>${checkedTasks}/${totalTasks} (${pct}%)</span>
+    // Header block
+    const header = document.createElement("div");
+    header.className = "day-card-header";
+    header.innerHTML = `
+      <div class="day-card-header-left">
+        <span class="day-badge">Day ${day.d}</span>
+        <h3>${day.topic}</h3>
       </div>
-      <div class="sub-bar-track">
-        <div class="sub-bar-fill" style="width: ${pct}%;"></div>
+      <div style="display: flex; align-items: center; gap: 8px;">
+        <span class="day-progress-mini ${dayCompleted === 3 ? 'complete' : ''}">${dayCompleted}/3</span>
+        <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
     `;
     
-    item.addEventListener("click", () => {
-      if (activeSubjectFilter === sub.key) {
-        activeSubjectFilter = null;
-      } else {
-        activeSubjectFilter = sub.key;
-      }
-      renderSubjectStats();
-      renderHeatmap();
+    header.addEventListener("click", () => {
+      card.classList.toggle("expanded");
+      state.expandedDays[`${state.currentCompany}_${day.d}`] = card.classList.contains("expanded");
+      saveState();
     });
     
-    container.appendChild(item);
-  });
-}
-
-/* ===== Study Streak & Pace Calculations ===== */
-function renderStreakAndPace() {
-  // Streak calculations
-  let currentStreak = 0;
-  let longestStreak = 0;
-  let tempStreak = 0;
-  
-  for (let d = 1; d <= 70; d++) {
-    const s = dayStatus(d);
-    const isDone = s.total > 0 && s.checked === s.total;
-    if (isDone) {
-      tempStreak++;
-      if (tempStreak > longestStreak) longestStreak = tempStreak;
-    } else {
-      tempStreak = 0;
-    }
-  }
-  
-  // Calculate current streak backward from latest completed day
-  let latestCompleted = 0;
-  for (let d = 70; d >= 1; d--) {
-    const s = dayStatus(d);
-    if (s.total > 0 && s.checked === s.total) {
-      latestCompleted = d;
-      break;
-    }
-  }
-  
-  if (latestCompleted > 0) {
-    // Verify it is contiguous with today
-    // If they haven't finished today, but finished yesterday, streak is still active
-    const todayStatus = dayStatus(state.currentDay);
-    const isTodayDone = todayStatus.total > 0 && todayStatus.checked === todayStatus.total;
+    // Body block
+    const body = document.createElement("div");
+    body.className = "day-card-body";
     
-    let isStreakActive = isTodayDone || (state.currentDay - latestCompleted <= 1);
+    // Checklist content
+    const taskList = document.createElement("div");
+    taskList.className = "task-list";
     
-    if (isStreakActive) {
-      for (let d = latestCompleted; d >= 1; d--) {
-        const s = dayStatus(d);
-        if (s.total > 0 && s.checked === s.total) {
-          currentStreak++;
-        } else {
-          break;
-        }
-      }
-    }
-  }
-  
-  document.getElementById("statStreak").textContent = `${currentStreak} day${currentStreak !== 1 ? 's' : ''}`;
-  document.getElementById("statLongestStreak").textContent = `Longest: ${longestStreak} day${longestStreak !== 1 ? 's' : ''}`;
-  
-  // Daily Average Pace
-  const daysDone = totalDaysComplete();
-  const hours = totalHours();
-  const avg = daysDone > 0 ? (hours / daysDone).toFixed(1) : "0.0";
-  document.getElementById("statPace").textContent = `${avg}h/day`;
-  
-  // Est. Finish Date
-  const remaining = 70 - daysDone;
-  if (remaining === 0) {
-    document.getElementById("statEstFinish").textContent = "Completed! 🎉";
-  } else {
-    const estDays = remaining; // assuming 1 day completed per day
-    const finishDate = new Date();
-    finishDate.setDate(finishDate.getDate() + estDays);
-    const options = { month: 'short', day: 'numeric' };
-    document.getElementById("statEstFinish").textContent = `Est. Finish: ${finishDate.toLocaleDateString(undefined, options)}`;
-  }
-}
-
-/* ===== Revision Flagged Days List ===== */
-function renderRevisionList() {
-  const container = document.getElementById("revisionPillsContainer");
-  const pillsWrap = document.getElementById("revisionPills");
-  pillsWrap.innerHTML = "";
-  
-  let flaggedCount = 0;
-  for (let d = 1; d <= 70; d++) {
-    if (state.bookmarks[d]) {
-      flaggedCount++;
-      const pill = document.createElement("button");
-      pill.className = "rev-pill";
-      pill.textContent = `Day ${d}`;
-      pill.addEventListener("click", () => goToDay(d));
-      pillsWrap.appendChild(pill);
-    }
-  }
-  
-  if (flaggedCount > 0) {
-    container.style.display = "flex";
-  } else {
-    container.style.display = "none";
-  }
-}
-
-/* ===== Revision Notes Section in Left Sidebar ===== */
-function renderNotesVault() {
-  const section = document.getElementById("notesVaultSection");
-  const list = document.getElementById("notesVaultList");
-  if (!section || !list) return;
-  
-  list.innerHTML = "";
-  let count = 0;
-  
-  for (let d = 1; d <= 70; d++) {
-    if (state.notes[d] && state.notes[d].trim() !== "") {
-      count++;
-      const item = document.createElement("a");
-      item.className = "vault-item";
-      item.href = `./note day${d}.txt`;
-      item.target = "_blank";
-      item.innerHTML = `
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
-        note day${d}
+    const tasks = [
+      { key: "theory", type: "Theory (70 min)", tagCls: "tag-theory", content: day.theory },
+      { key: "interview", type: "Interview Q&A (30 min)", tagCls: "tag-interview", content: day.interview },
+      { key: "revision", type: "Quick Revision (20 min)", tagCls: "tag-revision", content: day.revision }
+    ];
+    
+    tasks.forEach(task => {
+      const checkedKey = `${state.currentCompany}_${day.d}_${task.key}`;
+      const isChecked = !!state.checks[checkedKey];
+      
+      const row = document.createElement("div");
+      row.className = `task-row ${isChecked ? 'checked' : ''}`;
+      row.innerHTML = `
+        <div class="task-checkbox-wrap">
+          <input type="checkbox" class="task-checkbox" ${isChecked ? 'checked' : ''} />
+        </div>
+        <div class="task-content">
+          <span class="task-type-tag ${task.tagCls}">${task.type}</span>
+          <p class="task-desc">${task.content}</p>
+        </div>
       `;
-      item.addEventListener("click", (e) => {
-        goToDay(d);
-      });
-      list.appendChild(item);
-    }
-  }
-  
-  if (count > 0) {
-    section.style.display = "flex";
-  } else {
-    section.style.display = "none";
-  }
-}
-
-/* ===== render: heatmap ===== */
-function renderHeatmap(){
-  const grid = document.getElementById("heatmap");
-  grid.innerHTML = "";
-  
-  if (activeSubjectFilter) {
-    grid.classList.add("filtering");
-  } else {
-    grid.classList.remove("filtering");
-  }
-  
-  for(let d=1; d<=70; d++){
-    const s = dayStatus(d);
-    const cell = document.createElement("button");
-    cell.className = "cell";
-    cell.textContent = d;
-    cell.setAttribute("aria-label", `Day ${d}`);
-    if(d === state.currentDay) cell.classList.add("current");
-    if(s.total > 0 && s.checked === s.total) cell.classList.add("complete");
-    else if(s.checked > 0) cell.classList.add("partial");
-    
-    // Add notes and bookmark indicators
-    if(state.bookmarks[d]) cell.classList.add("bookmarked");
-    if(state.notes[d] && state.notes[d].trim() !== "") cell.classList.add("has-note");
-
-    // Add filter matching class
-    if (activeSubjectFilter) {
-      const dayObj = DATA.DAYS[d-1];
-      if (dayObj.subject === activeSubjectFilter) {
-        cell.classList.add("filter-match");
-      }
-    }
-
-    // Heatmap cell tooltips
-    cell.addEventListener("mouseenter", (e) => {
-      const tooltip = document.getElementById("heatmapTooltip");
-      const dayObj = DATA.DAYS[d-1];
-      const keys = dayTasks(dayObj);
       
-      let html = `<div class="tt-title">Day ${d} Tasks</div>`;
-      if (keys.length === 0) {
-        html += `<div>No tasks logged</div>`;
-      } else {
-        keys.forEach(k => {
-          const meta = TASK_META[k];
-          const taskText = dayObj[k].length > 65 ? dayObj[k].slice(0, 62) + "..." : dayObj[k];
-          html += `
-            <div class="tt-item">
-              <span class="tt-tag ${meta.cls}">${meta.label}</span>
-              <span style="font-size:0.7rem; color:var(--slate);">${taskText}</span>
-            </div>
-          `;
-        });
-      }
-      tooltip.innerHTML = html;
-      tooltip.style.opacity = "1";
+      const cb = row.querySelector(".task-checkbox");
+      const toggleCheck = (e) => {
+        if (e.target !== cb) {
+          cb.checked = !cb.checked;
+        }
+        state.checks[checkedKey] = cb.checked;
+        if (cb.checked) {
+          row.classList.add("checked");
+        } else {
+          row.classList.remove("checked");
+        }
+        saveState();
+        
+        let newDayCompleted = 0;
+        if (state.checks[`${state.currentCompany}_${day.d}_theory`]) newDayCompleted++;
+        if (state.checks[`${state.currentCompany}_${day.d}_interview`]) newDayCompleted++;
+        if (state.checks[`${state.currentCompany}_${day.d}_revision`]) newDayCompleted++;
+        
+        const badgeMini = header.querySelector(".day-progress-mini");
+        badgeMini.textContent = `${newDayCompleted}/3`;
+        if (newDayCompleted === 3) {
+          badgeMini.classList.add("complete");
+        } else {
+          badgeMini.classList.remove("complete");
+        }
+        
+        updateOverallProgress();
+      };
       
-      const rect = cell.getBoundingClientRect();
-      tooltip.style.left = (rect.left + window.scrollX + rect.width / 2) + "px";
-      tooltip.style.top = (rect.top + window.scrollY - 8) + "px";
-      tooltip.style.transform = "translate(-50%, -100%)";
+      row.addEventListener("click", toggleCheck);
+      taskList.appendChild(row);
     });
     
-    cell.addEventListener("mouseleave", () => {
-      document.getElementById("heatmapTooltip").style.opacity = "0";
-    });
-
-    cell.addEventListener("click", ()=> goToDay(d));
-    grid.appendChild(cell);
-  }
-}
-
-/* ===== render: day panel ===== */
-function renderDayPanel(){
-  const dayNum = state.currentDay;
-  const dayObj = DATA.DAYS[dayNum-1];
-  const phase = phaseForDay(dayNum);
-
-  document.getElementById("dayNumBig").textContent = dayNum;
-  document.getElementById("dayPhasePill").textContent = phase.name;
-  document.getElementById("topPhaseTag").textContent = `PHASE ${phase.id} · ${phase.name.toUpperCase()}`;
-
-  const keys = dayTasks(dayObj);
-  const list = document.getElementById("taskList");
-  list.innerHTML = "";
-
-  if(keys.length === 0){
-    const note = document.createElement("div");
-    note.className = "empty-note";
-    note.textContent = "No tasks logged for this day.";
-    list.appendChild(note);
-  }
-
-  keys.forEach(k=>{
-    const meta = TASK_META[k];
-    const checkKey = dayNum + "_" + k;
-    const isChecked = !!state.checks[checkKey];
-
-    const row = document.createElement("div");
-    row.className = "task-row" + (isChecked ? " checked" : "");
-
-    const btn = document.createElement("button");
-    btn.className = "check-btn";
-    btn.setAttribute("aria-label", (isChecked ? "Mark incomplete: " : "Mark complete: ") + meta.label);
-    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="#0F1115" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
-    btn.addEventListener("click", ()=>{
-      const wasChecked = isChecked;
-      const statusBefore = dayStatus(dayNum);
-      const wasDayDone = statusBefore.total > 0 && statusBefore.checked === statusBefore.total;
-
-      state.checks[checkKey] = !wasChecked;
+    // Notes block
+    const notesArea = document.createElement("div");
+    notesArea.className = "notes-area";
+    const notesKey = `${state.currentCompany}_${day.d}`;
+    const savedNotes = state.notes[notesKey] || "";
+    
+    notesArea.innerHTML = `
+      <label>Study Notes</label>
+      <textarea placeholder="Save key formulas, concepts, or tricky question patterns...">${savedNotes}</textarea>
+      <button class="save-notes-btn">Save Notes</button>
+    `;
+    
+    const textarea = notesArea.querySelector("textarea");
+    const saveBtn = notesArea.querySelector(".save-notes-btn");
+    
+    saveBtn.addEventListener("click", () => {
+      state.notes[notesKey] = textarea.value;
       saveState();
       
-      const statusAfter = dayStatus(dayNum);
-      const isDayDoneNow = statusAfter.total > 0 && statusAfter.checked === statusAfter.total;
-
-      if (!wasDayDone && isDayDoneNow) {
-        triggerConfetti();
-        playBeep();
-      }
-
-      renderAll();
+      saveBtn.textContent = "Saved ✓";
+      saveBtn.style.background = "var(--teal)";
+      setTimeout(() => {
+        saveBtn.textContent = "Save Notes";
+        saveBtn.style.background = "var(--amber)";
+      }, 1500);
     });
-
-    const body = document.createElement("div");
-    body.className = "task-body";
-    body.innerHTML = `<span class="task-tag ${meta.cls}">${meta.label}</span><div class="task-text">${dayObj[k]}</div>`;
-
-    row.appendChild(btn);
-    row.appendChild(body);
-    list.appendChild(row);
+    
+    body.appendChild(taskList);
+    body.appendChild(notesArea);
+    card.appendChild(header);
+    card.appendChild(body);
+    listContainer.appendChild(card);
   });
-
-  // time input
-  const timeInput = document.getElementById("timeInput");
-  timeInput.value = state.hours[dayNum] !== undefined ? state.hours[dayNum] : "";
-
-  // study notes
-  const notesInput = document.getElementById("notesInput");
-  notesInput.value = state.notes[dayNum] !== undefined ? state.notes[dayNum] : "";
-
-  // bookmark state
-  const bookmarkBtn = document.getElementById("bookmarkBtn");
-  const isBookmarked = !!state.bookmarks[dayNum];
-  if(isBookmarked) {
-    bookmarkBtn.classList.add("active");
-    bookmarkBtn.querySelector(".btn-text").textContent = "Flagged for Revision";
-  } else {
-    bookmarkBtn.classList.remove("active");
-    bookmarkBtn.querySelector(".btn-text").textContent = "Flag for Revision";
-  }
-
-  // mini progress
-  const s = dayStatus(dayNum);
-  const pct = s.total > 0 ? Math.round((s.checked/s.total)*100) : 0;
-  document.getElementById("miniBarFill").style.width = pct + "%";
-  document.getElementById("miniBarLabel").textContent = `${s.checked}/${s.total}`;
-
-  const banner = document.getElementById("completeBanner");
-  if(s.total > 0 && s.checked === s.total){
-    banner.classList.add("show");
-  } else {
-    banner.classList.remove("show");
-  }
-
-  // nav buttons
-  document.getElementById("prevBtn").disabled = dayNum <= 1;
-  document.getElementById("nextBtn").disabled = dayNum >= 70;
-
-  document.getElementById("jumpInput").value = dayNum;
-}
-
-/* ===== render: top stats ===== */
-function renderTopStats(){
-  document.getElementById("statDaysDone").innerHTML = totalDaysComplete() + "<small>/70</small>";
-  document.getElementById("statTotalHours").textContent = totalHours().toFixed(1) + "h";
-}
-
-function renderAll(){
-  renderStations();
-  renderHeatmap();
-  renderDayPanel();
-  renderTopStats();
-  renderSubjectStats();
-  renderStreakAndPace();
-  renderRevisionList();
-  renderNotesVault();
-}
-
-function goToDay(d){
-  d = Math.max(1, Math.min(70, d));
-  state.currentDay = d;
-  saveState();
-  renderAll();
   
-  // Reset active timer if switching days to avoid confusion
-  if(timerRunning) {
-    pauseTimer();
-  }
-  resetTimerState();
+  updateOverallProgress();
+}
+
+function updateOverallProgress() {
+  const company = getCompanyPlan();
+  const days = company.days;
+  let totalTasks = 0;
+  let completedTasks = 0;
   
-  // On mobile view, automatically transition to Workspace tab when switching days
-  if (window.innerWidth <= 767) {
-    switchMobileTab("focus");
-  }
+  days.forEach(day => {
+    totalTasks += 3;
+    if (state.checks[`${state.currentCompany}_${day.d}_theory`]) completedTasks++;
+    if (state.checks[`${state.currentCompany}_${day.d}_interview`]) completedTasks++;
+    if (state.checks[`${state.currentCompany}_${day.d}_revision`]) completedTasks++;
+  });
   
-  document.getElementById("dayPanel").scrollIntoView({behavior:"smooth", block:"nearest"});
+  const pct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+  document.getElementById("companyProgressTitle").textContent = `${company.name} Prep Progress`;
+  document.getElementById("companyProgressText").textContent = `${pct}% Complete (${completedTasks} / ${totalTasks} tasks)`;
+  document.getElementById("companyProgressFill").style.width = `${pct}%`;
 }
 
-/* ===== Study Timer Logic ===== */
-let timerInterval = null;
-let timerTimeLeft = 25 * 60; // 25 minutes default
-let timerDuration = 25 * 60;
-let timerRunning = false;
-let timerMode = "pomodoro"; // pomodoro or stopwatch
-let stopwatchSeconds = 0;
-
-function formatTime(sec) {
-  const m = Math.floor(sec / 60).toString().padStart(2, '0');
-  const s = (sec % 60).toString().padStart(2, '0');
-  return `${m}:${s}`;
-}
-
-function updateTimerDisplay() {
-  const timeEl = document.getElementById("timerTime");
-  const fillEl = document.getElementById("timerCircleFill");
-  const circumference = 2 * Math.PI * 50; // 314.159
-
-  if (timerMode === "pomodoro") {
-    timeEl.textContent = formatTime(timerTimeLeft);
-    const fraction = timerTimeLeft / timerDuration;
-    const offset = circumference * (1 - fraction);
-    fillEl.style.strokeDashoffset = offset;
-  } else {
-    timeEl.textContent = formatTime(stopwatchSeconds);
-    // stopwatch seconds circle rotation
-    const progress = (stopwatchSeconds % 60) / 60;
-    const offset = circumference * (1 - progress);
-    fillEl.style.strokeDashoffset = offset;
+// Reset function
+document.getElementById("resetBtn").addEventListener("click", () => {
+  if (confirm("Are you sure you want to reset all progress for the current company?")) {
+    const company = getCompanyPlan();
+    company.days.forEach(day => {
+      delete state.checks[`${state.currentCompany}_${day.d}_theory`];
+      delete state.checks[`${state.currentCompany}_${day.d}_interview`];
+      delete state.checks[`${state.currentCompany}_${day.d}_revision`];
+      delete state.notes[`${state.currentCompany}_${day.d}`];
+      delete state.expandedDays[`${state.currentCompany}_${day.d}`];
+    });
+    saveState();
+    renderAll();
   }
-}
-
-function startTimer() {
-  if (timerRunning) return;
-  timerRunning = true;
-  document.getElementById("timerStartBtn").textContent = "Pause";
-  
-  timerInterval = setInterval(() => {
-    if (timerMode === "pomodoro") {
-      if (timerTimeLeft > 0) {
-        timerTimeLeft--;
-        updateTimerDisplay();
-      } else {
-        clearInterval(timerInterval);
-        timerRunning = false;
-        document.getElementById("timerStartBtn").textContent = "Start";
-        playBeep();
-        
-        // Log 0.5 hours for Pomodoro completion
-        const curDay = state.currentDay;
-        const currentHours = parseFloat(state.hours[curDay]) || 0;
-        state.hours[curDay] = (currentHours + 0.5).toFixed(1);
-        saveState();
-        renderAll();
-        
-        // Update current field
-        document.getElementById("timeInput").value = state.hours[curDay];
-        
-        alert("Nice work! Your 25-minute Pomodoro session is complete. 0.5 hours have been added to your log.");
-        resetTimerState();
-      }
-    } else {
-      stopwatchSeconds++;
-      updateTimerDisplay();
-    }
-  }, 1000);
-}
-
-function pauseTimer() {
-  if (!timerRunning) return;
-  clearInterval(timerInterval);
-  timerRunning = false;
-  document.getElementById("timerStartBtn").textContent = "Start";
-}
-
-function resetTimerState() {
-  clearInterval(timerInterval);
-  timerRunning = false;
-  document.getElementById("timerStartBtn").textContent = "Start";
-  
-  if (timerMode === "pomodoro") {
-    timerTimeLeft = 25 * 60;
-    timerDuration = 25 * 60;
-  } else {
-    stopwatchSeconds = 0;
-  }
-  updateTimerDisplay();
-}
-
-function playBeep() {
-  try {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.type = "sine";
-    osc.frequency.value = 880;
-    gain.gain.setValueAtTime(0.1, ctx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 1.2);
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    osc.start();
-    osc.stop(ctx.currentTime + 1.2);
-  } catch (e) {}
-}
+});
 
 /* ===== Color Theme Handler ===== */
 function updateThemeSwitcherUI() {
@@ -2518,230 +911,17 @@ function toggleMode() {
 
 document.getElementById("modeToggleBtn").addEventListener("click", toggleMode);
 
-/* ===== Event Wiring ===== */
-document.getElementById("prevBtn").addEventListener("click", ()=> goToDay(state.currentDay - 1));
-document.getElementById("nextBtn").addEventListener("click", ()=> goToDay(state.currentDay + 1));
-
-document.getElementById("timeInput").addEventListener("input", (e)=>{
-  const v = e.target.value;
-  if(v === ""){
-    delete state.hours[state.currentDay];
-  } else {
-    state.hours[state.currentDay] = v;
-  }
+// Wire dropdown changer
+document.getElementById("companySelect").addEventListener("change", (e) => {
+  state.currentCompany = e.target.value;
   saveState();
-  renderTopStats();
-  renderStreakAndPace(); // recalculate pace
+  renderAll();
 });
 
-document.getElementById("saveNotesBtn").addEventListener("click", () => {
-  const notesInput = document.getElementById("notesInput");
-  const v = notesInput.value.trim();
-  if (v === "") {
-    delete state.notes[state.currentDay];
-    saveState();
-    renderHeatmap();
-    renderNotesVault();
-    return;
-  }
-  
-  const curDay = state.currentDay;
-  state.notes[curDay] = v;
-  saveState();
-  
-  // Trigger file download
-  const blob = new Blob([v], {type: "text/plain;charset=utf-8"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `note day${curDay}.txt`;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-  URL.revokeObjectURL(url);
-  
-  // Clear textarea
-  notesInput.value = "";
-  
-  renderHeatmap(); // update note indicator on cell
-  renderNotesVault(); // update notes vault list in sidebar
-  
-  // Visual feedback
-  const btn = document.getElementById("saveNotesBtn");
-  btn.classList.add("saved");
-  btn.textContent = "Saved! ✓";
-  setTimeout(() => {
-    btn.classList.remove("saved");
-    btn.textContent = "Save Notes";
-  }, 1500);
-});
-
-document.getElementById("bookmarkBtn").addEventListener("click", ()=>{
-  const curDay = state.currentDay;
-  state.bookmarks[curDay] = !state.bookmarks[curDay];
-  saveState();
-  renderAll(); // update bookmark styling in both heatmap and day panel
-});
-
-// Timer tab wiring
-document.getElementById("tabPomodoro").addEventListener("click", (e)=>{
-  if (timerRunning) pauseTimer();
-  timerMode = "pomodoro";
-  document.getElementById("tabPomodoro").classList.add("active");
-  document.getElementById("tabStopwatch").classList.remove("active");
-  resetTimerState();
-});
-
-document.getElementById("tabStopwatch").addEventListener("click", (e)=>{
-  if (timerRunning) pauseTimer();
-  timerMode = "stopwatch";
-  document.getElementById("tabStopwatch").classList.add("active");
-  document.getElementById("tabPomodoro").classList.remove("active");
-  resetTimerState();
-});
-
-// Timer controls wiring
-document.getElementById("timerStartBtn").addEventListener("click", ()=>{
-  if (timerRunning) {
-    pauseTimer();
-  } else {
-    startTimer();
-  }
-});
-
-document.getElementById("timerResetBtn").addEventListener("click", ()=>{
-  if (timerMode === "stopwatch" && stopwatchSeconds >= 60) {
-    const elapsed = stopwatchSeconds;
-    pauseTimer();
-    const addedHours = (elapsed / 3600).toFixed(2);
-    if (confirm(`Stopwatch stopped at ${formatTime(elapsed)}. Log this study time (+${addedHours} hours) to today's log?`)) {
-      const curDay = state.currentDay;
-      const currentHours = parseFloat(state.hours[curDay]) || 0;
-      state.hours[curDay] = (currentHours + parseFloat(addedHours)).toFixed(1);
-      saveState();
-      renderAll();
-    }
-  }
-  resetTimerState();
-});
-
-document.getElementById("jumpInput").addEventListener("change", (e)=>{
-  const v = parseInt(e.target.value, 10);
-  if(!isNaN(v)) goToDay(v);
-});
-
-document.getElementById("resetBtn").addEventListener("click", ()=>{
-  if(confirm("Reset all progress? This clears every checked task and logged hour. This can't be undone.")){
-    state = { checks:{}, hours:{}, notes:{}, bookmarks:{}, theme:"amber", currentDay:1 };
-    saveState();
-    if(timerRunning) pauseTimer();
-    resetTimerState();
-    document.documentElement.setAttribute("data-theme", state.theme);
-    updateThemeSwitcherUI();
-    renderAll();
-  }
-});
-
-// Keyboard arrows for quick nav when not typing in an input
-document.addEventListener("keydown", (e)=>{
-  const tag = document.activeElement.tagName;
-  if(tag === "INPUT" || tag === "TEXTAREA") return;
-  if(e.key === "ArrowRight") goToDay(state.currentDay + 1);
-  if(e.key === "ArrowLeft") goToDay(state.currentDay - 1);
-});
-
-/* ===== Help Modal Toggle Wiring ===== */
-document.getElementById("helpBtn").addEventListener("click", () => {
-  document.getElementById("helpModal").classList.add("show");
-});
-
-document.getElementById("helpCloseBtn").addEventListener("click", () => {
-  document.getElementById("helpModal").classList.remove("show");
-});
-
-document.getElementById("helpModal").addEventListener("click", (e) => {
-  if (e.target === document.getElementById("helpModal")) {
-    document.getElementById("helpModal").classList.remove("show");
-  }
-});
-
-/* ===== Confetti Particle Burst Logic ===== */
-function triggerConfetti() {
-  const canvas = document.createElement("canvas");
-  canvas.style.position = "fixed";
-  canvas.style.top = "0";
-  canvas.style.left = "0";
-  canvas.style.width = "100%";
-  canvas.style.height = "100%";
-  canvas.style.pointerEvents = "none";
-  canvas.style.zIndex = "9999";
-  document.body.appendChild(canvas);
-  
-  const ctx = canvas.getContext("2d");
-  let width = canvas.width = window.innerWidth;
-  let height = canvas.height = window.innerHeight;
-  
-  window.addEventListener("resize", () => {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  });
-  
-  // Custom colors matching theme presets
-  const colors = ["#FF8A3D", "#3DDC97", "#4CC9F0", "#FF007F", "#F72585", "#FFB703"];
-  const particles = [];
-  
-  // Create 85 flying confetti particles
-  for (let i = 0; i < 85; i++) {
-    particles.push({
-      x: width / 2,
-      y: height / 2 + 100, // burst from center area
-      angle: Math.random() * Math.PI * 2,
-      speed: 4 + Math.random() * 8,
-      radius: 4 + Math.random() * 4,
-      color: colors[Math.floor(Math.random() * colors.length)],
-      decay: 0.95 + Math.random() * 0.03,
-      gravity: 0.2 + Math.random() * 0.1,
-      tilt: Math.random() * 10 - 5,
-      tiltAngle: Math.random() * Math.PI
-    });
-  }
-  
-  function update() {
-    ctx.clearRect(0, 0, width, height);
-    let active = false;
-    
-    particles.forEach(p => {
-      p.x += Math.cos(p.angle) * p.speed;
-      p.y += Math.sin(p.angle) * p.speed + p.gravity;
-      p.speed *= p.decay;
-      p.tiltAngle += 0.15;
-      p.tilt = Math.sin(p.tiltAngle) * 4;
-      
-      if (p.speed > 0.08 && p.y < height && p.x > 0 && p.x < width) {
-        active = true;
-        ctx.beginPath();
-        ctx.lineWidth = p.radius;
-        ctx.strokeStyle = p.color;
-        ctx.moveTo(p.x + p.tilt + p.radius / 2, p.y);
-        ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.radius / 2);
-        ctx.stroke();
-      }
-    });
-    
-    if (active) {
-      requestAnimationFrame(update);
-    } else {
-      canvas.remove();
-    }
-  }
-  
-  update();
-}
-
-// Initial display setup with document.readyState check to handle quick loading/caching
+// Initial display setup
 function initApp() {
+  document.getElementById("companySelect").value = state.currentCompany;
   updateThemeSwitcherUI();
-  updateTimerDisplay();
   renderAll();
 }
 
@@ -2750,69 +930,7 @@ if (document.readyState === "loading") {
 } else {
   initApp();
 }
-
-/* ===== Mobile Web App Navigation & Interaction Logic ===== */
-function switchMobileTab(tabId) {
-  const shell = document.querySelector(".shell");
-  if (!shell) return;
-  
-  shell.classList.remove("tab-dashboard", "tab-focus", "tab-resources");
-  shell.classList.add("tab-" + tabId);
-  
-  document.querySelectorAll(".mobile-nav-btn").forEach(btn => {
-    btn.classList.remove("active");
-  });
-  
-  if (tabId === "dashboard") {
-    document.getElementById("btnTabDashboard").classList.add("active");
-  } else if (tabId === "focus") {
-    document.getElementById("btnTabFocus").classList.add("active");
-  } else if (tabId === "resources") {
-    document.getElementById("btnTabResources").classList.add("active");
-  }
-  
-  window.scrollTo({ top: 0, behavior: "instant" });
-}
-
-// Wire bottom tab click listeners
-document.getElementById("btnTabDashboard").addEventListener("click", () => switchMobileTab("dashboard"));
-document.getElementById("btnTabFocus").addEventListener("click", () => switchMobileTab("focus"));
-document.getElementById("btnTabResources").addEventListener("click", () => switchMobileTab("resources"));
-
-// Initialize default mobile tab class
-document.querySelector(".shell").classList.add("tab-dashboard");
-
-// Swipe Gestures for Mobile Workspace (Tab 2)
-let touchStartX = 0;
-let touchEndX = 0;
-
-function handleSwipeGesture() {
-  const threshold = 85; // minimum horizontal swipe distance in pixels
-  const currentTab = document.querySelector(".mobile-nav-btn.active");
-  if (!currentTab || currentTab.id !== "btnTabFocus") return;
-  
-  if (touchEndX < touchStartX - threshold) {
-    // Swiped left -> Next Day
-    if (state.currentDay < 70) {
-      goToDay(state.currentDay + 1);
-    }
-  } else if (touchEndX > touchStartX + threshold) {
-    // Swiped right -> Previous Day
-    if (state.currentDay > 1) {
-      goToDay(state.currentDay - 1);
-    }
-  }
-}
-
-const dayPanel = document.getElementById("dayPanel");
-dayPanel.addEventListener("touchstart", e => {
-  touchStartX = e.changedTouches[0].screenX;
-}, {passive: true});
-
-dayPanel.addEventListener("touchend", e => {
-  touchEndX = e.changedTouches[0].screenX;
-  handleSwipeGesture();
-}, {passive: true});
 </script>
+
 </body>
 </html>
