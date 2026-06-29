@@ -514,7 +514,7 @@
         <div class="company-select-wrap">
           <label for="companySelect">Company:</label>
           <select id="companySelect" class="company-select">
-            <option value="edoofa">Edoofa</option>
+            <!-- Dynamically populated options -->
           </select>
         </div>
 
@@ -537,8 +537,8 @@
     <!-- Company Progress Bar Card -->
     <section class="progress-card">
       <div class="progress-info">
-        <h2 id="companyProgressTitle">Edoofa Prep Progress</h2>
-        <span class="progress-pct" id="companyProgressText">0% Complete (0 / 45 tasks)</span>
+        <h2 id="companyProgressTitle">Prep Progress</h2>
+        <span class="progress-pct" id="companyProgressText">0% Complete (0 / 0 tasks)</span>
       </div>
       <div class="progress-bar-wrap">
         <div class="progress-bar-fill" id="companyProgressFill" style="width: 0%;"></div>
@@ -558,117 +558,25 @@
 </div>
 
 <script>
+// ==========================================
+// ADD YOUR COMPANY plans HERE
+// ==========================================
 const COMPANIES = {
+  // Example entry (Uncomment or add your own plans below):
+  /*
   "edoofa": {
     name: "Edoofa",
     days: [
       {
         d: 1,
         topic: "OS Fundamentals (Ubuntu/RHEL)",
-        theory: "Linux vs Unix vs Windows for servers. Kernel vs user space. Filesystem hierarchy — purpose of /bin, /etc, /usr, /var, /home, /opt, /lib, /tmp. Boot process overview: BIOS/UEFI -> bootloader (GRUB) -> kernel -> init/systemd.",
-        interview: "• Explain /etc vs /home\n• What is a kernel? Why is Linux preferred for servers?\n• Describe the Linux boot process briefly\n• Linux vs Unix - key differences",
-        revision: "5-line cheat notes on filesystem hierarchy + boot steps."
-      },
-      {
-        d: 2,
-        topic: "Essential Linux Commands",
-        theory: "Purpose & syntax pattern for: pwd, ls (-l,-a,-lh), cd, mkdir, rm (-r,-f), cp, mv, touch, cat, head, tail (-f), grep (-i,-r,-v), find, locate.",
-        interview: "• How to find large files on a system?\n• grep vs find vs locate - differences\n• How do you search for a string inside multiple files?\n• What does tail -f do and when is it used?",
-        revision: "One-line purpose for each command, memorized as a list."
-      },
-      {
-        d: 3,
-        topic: "Users & Permissions",
-        theory: "rwx bits, numeric notation (4-2-1 logic), chmod, chown, sudo vs su, /etc/passwd vs /etc/shadow, default umask concept.",
-        interview: "• Explain chmod 755 and chmod 644\n• sudo vs su - difference\n• What happens if a script lacks execute permission?\n• How do you add a user to a group?",
-        revision: "Permission number table (rwx = 4+2+1) on one card."
-      },
-      {
-        d: 4,
-        topic: "Processes & SSH",
-        theory: "Process vs thread, PID/PPID, ps aux vs top, systemctl (start/stop/status/enable/disable), journalctl basics, SSH key-based auth flow (public/private key, authorized_keys).",
-        interview: "• kill vs kill -9 - difference\n• How does SSH key authentication work end-to-end?\n• Zombie process vs orphan process\n• How to check if a service is running?",
-        revision: "SSH auth flow diagram in words, signal types (SIGTERM/SIGKILL)."
-      },
-      {
-        d: 5,
-        topic: "Package Mgmt & OSI Model",
-        theory: "apt vs yum/dnf, repository concept. OSI 7 layers (mnemonic), TCP/IP 4-layer mapping, TCP vs UDP, 3-way handshake (SYN, SYN-ACK, ACK).",
-        interview: "• TCP vs UDP - when to use which, with examples\n• Explain the OSI 7 layers briefly\n• What layer does HTTP work at? What about IP and TCP?\n• What is the 3-way handshake?",
-        revision: "OSI layer list with one protocol example per layer."
-      },
-      {
-        d: 6,
-        topic: "Docker Basics",
-        theory: "VM vs container (shared kernel vs full guest OS), Docker architecture (client-daemon-registry), image vs container analogy (class vs object / recipe vs dish).",
-        interview: "• Explain image vs container\n• docker run vs docker start - difference\n• What is Docker Hub?\n• Why are containers lightweight compared to VMs?",
-        revision: "VM vs container comparison table (resource use, boot time, isolation)."
-      },
-      {
-        d: 7,
-        topic: "Docker Advanced",
-        theory: "Dockerfile instructions (FROM, RUN, CMD, ENTRYPOINT, COPY, EXPOSE), volumes for data persistence, port mapping (-p host:container), bridge networking basics, common container startup failures.",
-        interview: "• How to persist data with Docker? (volumes vs bind mounts)\n• CMD vs ENTRYPOINT - difference\n• Container exits immediately after running - why? How to debug?\n• What does -p 8080:80 mean?",
-        revision: "Dockerfile instruction list with one-line purpose each."
-      },
-      {
-        d: 8,
-        topic: "Monitoring & Bash Intro",
-        theory: "Monitoring concepts (metrics, logs, alerts, dashboards). Prometheus pull-model overview, Grafana as visualization layer, Nagios as classic alerting tool. Bash basics: shebang, variables, echo, read.",
-        interview: "• What is a Prometheus exporter?\n• Prometheus vs Grafana - roles of each\n• What is the difference between monitoring and alerting?\n• How do you declare and use a variable in bash?",
-        revision: "Monitoring stack roles (collect/store/visualize/alert) mapped to tools."
-      },
-      {
-        d: 9,
-        topic: "Prometheus & Bash Scripting",
-        theory: "Prometheus scrape interval, time-series DB concept, Zabbix agent-based push/pull model (contrast with Prometheus). Bash: if/else, for/while loops, functions, exit codes.",
-        interview: "• Prometheus vs Zabbix - pull vs push/agent-based\n• How do you check the exit status of the last command? ($?)\n• Explain a bash for loop structure (conceptually)\n• What is a time-series database and why does Prometheus use one?",
-        revision: "Bash loop/conditional syntax patterns written out."
-      },
-      {
-        d: 10,
-        topic: "Bash & Python & Networking",
-        theory: "Cron job syntax (5 fields), file handling in bash. Python basics: variables, data types, lists vs dicts, loops, functions, basic file I/O. DNS resolution flow, HTTP request-response cycle, firewall basics.",
-        interview: "• Python list vs dict - difference\n• How does DNS resolution work end-to-end?\n• Explain cron syntax with an example\n• What is a firewall and how does it filter traffic?",
-        revision: "Cron field meanings + DNS resolution steps as a flow."
-      },
-      {
-        d: 11,
-        topic: "Storage: Disks & LVM",
-        theory: "Disk partitioning concepts (fdisk, lsblk), MBR vs GPT basics. LVM concepts: Physical Volume (PV), Volume Group (VG), Logical Volume (LV) and why LVM offers flexibility over raw partitions.",
-        interview: "• Explain the steps to extend a filesystem with LVM\n• What is the difference between a partition and an LVM volume?\n• PV vs VG vs LV - relationship between them\n• Why use LVM instead of plain partitions?",
-        revision: "PV -> VG -> LV flow diagram in words."
-      },
-      {
-        d: 12,
-        topic: "Storage: Filesharing & Backup",
-        theory: "NFS concept (network file sharing), SFTP vs FTP, backup strategies overview (full, incremental, differential), rsync purpose.",
-        interview: "• Describe full vs incremental vs differential backup\n• What is NFS and where is it used?\n• SFTP vs FTP - why is SFTP preferred?\n• What does rsync do differently from cp?",
-        revision: "Backup type comparison table (speed, storage, restore time)."
-      },
-      {
-        d: 13,
-        topic: "Virtualization Concepts",
-        theory: "Hypervisor types (Type-1 bare-metal vs Type-2 hosted), VMware/VirtualBox overview, snapshots vs cloning, use cases for each.",
-        interview: "• Differences between VM and container\n• Type-1 vs Type-2 hypervisor - examples of each\n• What is a snapshot and how is it different from a clone?\n• When would you choose a VM over a container?",
-        revision: "Hypervisor type comparison + VM vs container summary table."
-      },
-      {
-        d: 14,
-        topic: "AWS Cloud Basics (EC2/S3/IAM)",
-        theory: "AWS IaaS overview. EC2 instances (types, AMI concept), S3 object storage (buckets, durability), IAM (users, roles, policies).",
-        interview: "• What is an EC2 instance?\n• S3 vs EBS - difference\n• What is an IAM role vs IAM user?\n• What is an AMI?",
-        revision: "EC2/S3/IAM one-liners on a single card."
-      },
-      {
-        d: 15,
-        topic: "Azure Cloud Basics (VM/Storage)",
-        theory: "Azure fundamentals: Resource Groups, Virtual Machines, Storage Accounts, Virtual Network (VNet), Network Security Group (NSG).",
-        interview: "• Azure VM vs AWS EC2 - comparison\n• What is a Resource Group used for?\n• What is an NSG and how does it compare to a firewall?\n• VNet vs subnet - relationship",
-        revision: "AWS-to-Azure terminology mapping table."
+        theory: "Linux vs Unix vs Windows for servers. Kernel vs user space.",
+        interview: "• Explain /etc vs /home\n• What is a kernel?",
+        revision: "5-line cheat notes on filesystem hierarchy."
       }
     ]
   }
+  */
 };
 
 const STORAGE_KEY = "company_seventy_tracker_v2";
@@ -678,7 +586,7 @@ function loadState(){
     const raw = localStorage.getItem(STORAGE_KEY);
     if(raw) return JSON.parse(raw);
   }catch(e){}
-  return { checks:{}, notes:{}, theme:"amber", mode:"dark", currentCompany:"edoofa", expandedDays:{} };
+  return { checks:{}, notes:{}, theme:"amber", mode:"dark", currentCompany:"", expandedDays:{} };
 }
 
 function saveState(){
@@ -687,13 +595,13 @@ function saveState(){
 
 let state = loadState();
 if (!state || typeof state !== "object") {
-  state = { checks:{}, notes:{}, theme:"amber", mode:"dark", currentCompany:"edoofa", expandedDays:{} };
+  state = { checks:{}, notes:{}, theme:"amber", mode:"dark", currentCompany:"", expandedDays:{} };
 }
 if(!state.checks) state.checks = {};
 if(!state.notes) state.notes = {};
 if(!state.theme) state.theme = "amber";
 if(!state.mode) state.mode = "dark";
-if(!state.currentCompany) state.currentCompany = "edoofa";
+if(!state.currentCompany) state.currentCompany = "";
 if(!state.expandedDays) state.expandedDays = {};
 
 // Apply styles on start
@@ -701,15 +609,59 @@ document.documentElement.setAttribute("data-theme", state.theme);
 document.documentElement.setAttribute("data-mode", state.mode);
 
 function getCompanyPlan() {
-  return COMPANIES[state.currentCompany] || COMPANIES["edoofa"];
+  const keys = Object.keys(COMPANIES);
+  if (keys.length === 0) return null;
+  if (state.currentCompany && COMPANIES[state.currentCompany]) {
+    return COMPANIES[state.currentCompany];
+  }
+  return COMPANIES[keys[0]];
 }
 
 function renderAll() {
-  const company = getCompanyPlan();
-  const days = company.days;
-  
-  // Render day cards
+  const companySelect = document.getElementById("companySelect");
   const listContainer = document.getElementById("dayPlanList");
+  const progressCard = document.querySelector(".progress-card");
+  const resetBtn = document.getElementById("resetBtn");
+  
+  // Populate dropdown options
+  companySelect.innerHTML = "";
+  const companyKeys = Object.keys(COMPANIES);
+  
+  if (companyKeys.length === 0) {
+    companySelect.innerHTML = '<option value="">No plans loaded</option>';
+    progressCard.style.display = "none";
+    resetBtn.style.display = "none";
+    listContainer.innerHTML = `
+      <div class="empty-state" style="text-align: center; padding: 40px 20px; background: var(--ink-2); border-radius: var(--r-lg); border: 1px dashed var(--line); margin-top: 10px;">
+        <p style="color: var(--slate); font-size: 0.95rem; line-height: 1.6; font-family: 'Space Grotesk', sans-serif;">
+          No study plans added yet!<br>
+          <span style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--amber-dim); display: block; margin-top: 12px; background: rgba(255,138,61,0.05); padding: 8px; border-radius: var(--r-sm);">
+            Open index.html and define your company plans inside the COMPANIES object to begin tracking.
+          </span>
+        </p>
+      </div>
+    `;
+    return;
+  }
+  
+  progressCard.style.display = "block";
+  resetBtn.style.display = "block";
+  
+  companyKeys.forEach(key => {
+    const opt = document.createElement("option");
+    opt.value = key;
+    opt.textContent = COMPANIES[key].name;
+    companySelect.appendChild(opt);
+  });
+  
+  if (!state.currentCompany || !COMPANIES[state.currentCompany]) {
+    state.currentCompany = companyKeys[0];
+    saveState();
+  }
+  companySelect.value = state.currentCompany;
+  
+  const company = getCompanyPlan();
+  const days = company.days || [];
   listContainer.innerHTML = "";
   
   days.forEach(day => {
@@ -846,7 +798,9 @@ function renderAll() {
 
 function updateOverallProgress() {
   const company = getCompanyPlan();
-  const days = company.days;
+  if (!company) return;
+  
+  const days = company.days || [];
   let totalTasks = 0;
   let completedTasks = 0;
   
@@ -867,7 +821,10 @@ function updateOverallProgress() {
 document.getElementById("resetBtn").addEventListener("click", () => {
   if (confirm("Are you sure you want to reset all progress for the current company?")) {
     const company = getCompanyPlan();
-    company.days.forEach(day => {
+    if (!company) return;
+    
+    const days = company.days || [];
+    days.forEach(day => {
       delete state.checks[`${state.currentCompany}_${day.d}_theory`];
       delete state.checks[`${state.currentCompany}_${day.d}_interview`];
       delete state.checks[`${state.currentCompany}_${day.d}_revision`];
@@ -920,7 +877,6 @@ document.getElementById("companySelect").addEventListener("change", (e) => {
 
 // Initial display setup
 function initApp() {
-  document.getElementById("companySelect").value = state.currentCompany;
   updateThemeSwitcherUI();
   renderAll();
 }
