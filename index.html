@@ -562,21 +562,681 @@
 // ADD YOUR COMPANY plans HERE
 // ==========================================
 const COMPANIES = {
-  // Example entry (Uncomment or add your own plans below):
-  /*
   "edoofa": {
-    name: "Edoofa",
-    days: [
+    "name": "Edoofa",
+    "days": [
       {
-        d: 1,
-        topic: "OS Fundamentals (Ubuntu/RHEL)",
-        theory: "Linux vs Unix vs Windows for servers. Kernel vs user space.",
-        interview: "• Explain /etc vs /home\n• What is a kernel?",
-        revision: "5-line cheat notes on filesystem hierarchy."
+        "d": 1,
+        "topic": "Communication & Personality (Part 1)",
+        "tasks": [
+          {
+            "key": "q1",
+            "type": "Personality",
+            "content": "How would your friends describe you?"
+          },
+          {
+            "key": "q2",
+            "type": "Personality",
+            "content": "What are your strengths?"
+          },
+          {
+            "key": "q3",
+            "type": "Personality",
+            "content": "What is your biggest weakness?"
+          },
+          {
+            "key": "q4",
+            "type": "Communication",
+            "content": "How do you build trust with a stranger?"
+          },
+          {
+            "key": "q5",
+            "type": "Communication",
+            "content": "What makes a good salesperson?"
+          }
+        ]
+      },
+      {
+        "d": 2,
+        "topic": "Communication & Personality (Part 2)",
+        "tasks": [
+          {
+            "key": "q6",
+            "type": "Personality",
+            "content": "What makes a bad salesperson?"
+          },
+          {
+            "key": "q7",
+            "type": "Personality",
+            "content": "How do you handle pressure?"
+          },
+          {
+            "key": "q8",
+            "type": "Personality",
+            "content": "Are you an extrovert or introvert?"
+          },
+          {
+            "key": "q9",
+            "type": "Communication",
+            "content": "How would you rate your communication skills out of 10 and why?"
+          },
+          {
+            "key": "q10",
+            "type": "Communication",
+            "content": "Tell me about a difficult conversation you handled."
+          }
+        ]
+      },
+      {
+        "d": 3,
+        "topic": "Sales & Counselling (Part 1)",
+        "tasks": [
+          {
+            "key": "q11",
+            "type": "Sales",
+            "content": "Difference between selling and counselling?"
+          },
+          {
+            "key": "q12",
+            "type": "Sales",
+            "content": "What is consultative selling?"
+          },
+          {
+            "key": "q13",
+            "type": "Sales",
+            "content": "Why do students hesitate before purchasing a course?"
+          },
+          {
+            "key": "q14",
+            "type": "Sales",
+            "content": "How would you identify a serious lead?"
+          },
+          {
+            "key": "q15",
+            "type": "Sales",
+            "content": "What would you do if a student asks for a discount?"
+          }
+        ]
+      },
+      {
+        "d": 4,
+        "topic": "Sales & Counselling (Part 2)",
+        "tasks": [
+          {
+            "key": "q16",
+            "type": "Sales",
+            "content": "How would you create urgency without forcing a student?"
+          },
+          {
+            "key": "q17",
+            "type": "Sales",
+            "content": "How would you handle a lead who says, \"I'll think about it\"?"
+          },
+          {
+            "key": "q18",
+            "type": "Sales",
+            "content": "How many follow-ups are appropriate before closing a lead?"
+          },
+          {
+            "key": "q19",
+            "type": "Sales",
+            "content": "What would you do if a student suddenly stopped responding?"
+          },
+          {
+            "key": "q20",
+            "type": "Sales",
+            "content": "How would you re-engage an old lead?"
+          }
+        ]
+      },
+      {
+        "d": 5,
+        "topic": "Target & Performance (Part 1)",
+        "tasks": [
+          {
+            "key": "q21",
+            "type": "Target",
+            "content": "Are you comfortable working with targets?"
+          },
+          {
+            "key": "q22",
+            "type": "Target",
+            "content": "What would you do if you achieved only 50% of your target?"
+          },
+          {
+            "key": "q23",
+            "type": "Target",
+            "content": "What would you do if your teammate consistently outperformed you?"
+          },
+          {
+            "key": "q24",
+            "type": "Target",
+            "content": "How would you prioritize 100 active leads?"
+          },
+          {
+            "key": "q25",
+            "type": "Target",
+            "content": "How do you stay organized?"
+          }
+        ]
+      },
+      {
+        "d": 6,
+        "topic": "Target & Performance (Part 2)",
+        "tasks": [
+          {
+            "key": "q26",
+            "type": "Target",
+            "content": "Have you ever worked under strict deadlines?"
+          },
+          {
+            "key": "q27",
+            "type": "Target",
+            "content": "What motivates you when results are not coming?"
+          },
+          {
+            "key": "q28",
+            "type": "Target",
+            "content": "How would you manage 80\u2013100 conversations simultaneously?"
+          },
+          {
+            "key": "q29",
+            "type": "Target",
+            "content": "Are you comfortable with incentive-based earnings?"
+          },
+          {
+            "key": "q30",
+            "type": "Target",
+            "content": "What is more important: quantity of calls or quality of conversations?"
+          }
+        ]
+      },
+      {
+        "d": 7,
+        "topic": "Situational Questions (Part 1)",
+        "tasks": [
+          {
+            "key": "q31",
+            "type": "Situational",
+            "content": "A student says, \"Your competitor offers a cheaper course.\" What will you say?"
+          },
+          {
+            "key": "q32",
+            "type": "Situational",
+            "content": "A parent says, \"This course is a waste of money.\" How would you respond?"
+          },
+          {
+            "key": "q33",
+            "type": "Situational",
+            "content": "A student is interested but cannot afford the fee. What would you do?"
+          },
+          {
+            "key": "q34",
+            "type": "Situational",
+            "content": "You have two interested students and only time for one call. Who gets priority?"
+          },
+          {
+            "key": "q35",
+            "type": "Situational",
+            "content": "A student asks a question you don't know the answer to. What will you do?"
+          }
+        ]
+      },
+      {
+        "d": 8,
+        "topic": "Situational Questions (Part 2)",
+        "tasks": [
+          {
+            "key": "q36",
+            "type": "Situational",
+            "content": "A lead becomes rude on the call. How will you react?"
+          },
+          {
+            "key": "q37",
+            "type": "Situational",
+            "content": "What if a student enrolls and later wants a refund?"
+          },
+          {
+            "key": "q38",
+            "type": "Situational",
+            "content": "How would you explain a complex program to a non-technical student?"
+          },
+          {
+            "key": "q39",
+            "type": "Situational",
+            "content": "What would you do if your manager criticized your performance?"
+          },
+          {
+            "key": "q40",
+            "type": "Situational",
+            "content": "What if you disagree with your manager's advice?"
+          }
+        ]
+      },
+      {
+        "d": 9,
+        "topic": "Profile Questions (Part 1)",
+        "tasks": [
+          {
+            "key": "q41",
+            "type": "Profile",
+            "content": "Why are you applying for sales instead of software development?"
+          },
+          {
+            "key": "q42",
+            "type": "Profile",
+            "content": "How will your CSE background help in this role?"
+          },
+          {
+            "key": "q43",
+            "type": "Profile",
+            "content": "Have you ever convinced someone to join a club, event, or project?"
+          },
+          {
+            "key": "q44",
+            "type": "Profile",
+            "content": "Tell us about a time you showed leadership."
+          },
+          {
+            "key": "q45",
+            "type": "Profile",
+            "content": "Describe a situation where you solved a problem for someone."
+          }
+        ]
+      },
+      {
+        "d": 10,
+        "topic": "Profile Questions (Part 2)",
+        "tasks": [
+          {
+            "key": "q46",
+            "type": "Profile",
+            "content": "Have you handled customer interactions before?"
+          },
+          {
+            "key": "q47",
+            "type": "Profile",
+            "content": "What have you learned from your internships/projects that applies to sales?"
+          },
+          {
+            "key": "q48",
+            "type": "Profile",
+            "content": "Why should we choose you over candidates with sales experience?"
+          },
+          {
+            "key": "q49",
+            "type": "Profile",
+            "content": "Are you willing to relocate to Gurgaon?"
+          },
+          {
+            "key": "q50",
+            "type": "Profile",
+            "content": "Are you comfortable working on weekends if required?"
+          }
+        ]
+      }
+    ]
+  },
+  "datazip": {
+    "name": "DataZip",
+    "days": [
+      {
+        "d": 1,
+        "topic": "SQL Questions",
+        "tasks": [
+          {
+            "key": "q1",
+            "type": "SQL",
+            "content": "Difference between INNER JOIN, LEFT JOIN, RIGHT JOIN?"
+          },
+          {
+            "key": "q2",
+            "type": "SQL",
+            "content": "Find the second highest salary."
+          },
+          {
+            "key": "q3",
+            "type": "SQL",
+            "content": "What is GROUP BY?"
+          },
+          {
+            "key": "q4",
+            "type": "SQL",
+            "content": "Difference between WHERE and HAVING?"
+          },
+          {
+            "key": "q5",
+            "type": "SQL",
+            "content": "What are indexes?"
+          }
+        ]
+      },
+      {
+        "d": 2,
+        "topic": "Database Questions",
+        "tasks": [
+          {
+            "key": "q6",
+            "type": "Database",
+            "content": "PostgreSQL vs MySQL?"
+          },
+          {
+            "key": "q7",
+            "type": "Database",
+            "content": "SQL vs NoSQL?"
+          },
+          {
+            "key": "q8",
+            "type": "Database",
+            "content": "What is normalization?"
+          },
+          {
+            "key": "q9",
+            "type": "Database",
+            "content": "What is a primary key and foreign key?"
+          },
+          {
+            "key": "q10",
+            "type": "Database",
+            "content": "Why would you choose MongoDB?"
+          }
+        ]
+      },
+      {
+        "d": 3,
+        "topic": "Data Engineering Questions",
+        "tasks": [
+          {
+            "key": "q11",
+            "type": "Data Eng",
+            "content": "What is ETL and ELT?"
+          },
+          {
+            "key": "q12",
+            "type": "Data Eng",
+            "content": "What is a Data Lake?"
+          },
+          {
+            "key": "q13",
+            "type": "Data Eng",
+            "content": "What is a Data Warehouse?"
+          },
+          {
+            "key": "q14",
+            "type": "Data Eng",
+            "content": "What is a Lakehouse?"
+          },
+          {
+            "key": "q15",
+            "type": "Data Eng",
+            "content": "Difference between batch and streaming processing?"
+          }
+        ]
+      },
+      {
+        "d": 4,
+        "topic": "CDC & Kafka Questions",
+        "tasks": [
+          {
+            "key": "q16",
+            "type": "CDC",
+            "content": "What is Change Data Capture (CDC)?"
+          },
+          {
+            "key": "q17",
+            "type": "CDC",
+            "content": "Why is CDC needed?"
+          },
+          {
+            "key": "q18",
+            "type": "CDC",
+            "content": "How are updates and deletes tracked?"
+          },
+          {
+            "key": "q19",
+            "type": "CDC",
+            "content": "What problems does CDC solve?"
+          },
+          {
+            "key": "q20",
+            "type": "Kafka",
+            "content": "What is Apache Kafka?"
+          },
+          {
+            "key": "q21",
+            "type": "Kafka",
+            "content": "What is a producer and consumer?"
+          },
+          {
+            "key": "q22",
+            "type": "Kafka",
+            "content": "Why use Kafka instead of direct database reads?"
+          },
+          {
+            "key": "q23",
+            "type": "Kafka",
+            "content": "What is a Kafka topic?"
+          }
+        ]
+      },
+      {
+        "d": 5,
+        "topic": "Apache Iceberg Questions",
+        "tasks": [
+          {
+            "key": "q24",
+            "type": "Iceberg",
+            "content": "What is Apache Iceberg?"
+          },
+          {
+            "key": "q25",
+            "type": "Iceberg",
+            "content": "Why was Iceberg created?"
+          },
+          {
+            "key": "q26",
+            "type": "Iceberg",
+            "content": "What is schema evolution?"
+          },
+          {
+            "key": "q27",
+            "type": "Iceberg",
+            "content": "What is time travel?"
+          },
+          {
+            "key": "q28",
+            "type": "Iceberg",
+            "content": "What is partitioning?"
+          },
+          {
+            "key": "q29",
+            "type": "Iceberg",
+            "content": "What is compaction?"
+          },
+          {
+            "key": "q30",
+            "type": "Iceberg",
+            "content": "Why are small files bad?"
+          }
+        ]
+      },
+      {
+        "d": 6,
+        "topic": "Docker Questions",
+        "tasks": [
+          {
+            "key": "q31",
+            "type": "Docker",
+            "content": "What is Docker?"
+          },
+          {
+            "key": "q32",
+            "type": "Docker",
+            "content": "Why use containers?"
+          },
+          {
+            "key": "q33",
+            "type": "Docker",
+            "content": "Difference between VM and Docker?"
+          },
+          {
+            "key": "q34",
+            "type": "Docker",
+            "content": "What is a Docker image?"
+          },
+          {
+            "key": "q35",
+            "type": "Docker",
+            "content": "What is a Docker container?"
+          }
+        ]
+      },
+      {
+        "d": 7,
+        "topic": "Git Questions",
+        "tasks": [
+          {
+            "key": "q36",
+            "type": "Git",
+            "content": "Difference between Git and GitHub?"
+          },
+          {
+            "key": "q37",
+            "type": "Git",
+            "content": "What is a branch?"
+          },
+          {
+            "key": "q38",
+            "type": "Git",
+            "content": "What is a pull request?"
+          },
+          {
+            "key": "q39",
+            "type": "Git",
+            "content": "How do you resolve merge conflicts?"
+          }
+        ]
+      },
+      {
+        "d": 8,
+        "topic": "DevRel Questions",
+        "tasks": [
+          {
+            "key": "q40",
+            "type": "DevRel",
+            "content": "Explain a technical topic to a beginner."
+          },
+          {
+            "key": "q41",
+            "type": "DevRel",
+            "content": "How would you write a tutorial?"
+          },
+          {
+            "key": "q42",
+            "type": "DevRel",
+            "content": "Have you written blogs before?"
+          },
+          {
+            "key": "q43",
+            "type": "DevRel",
+            "content": "How would you explain Apache Iceberg to a non-technical person?"
+          },
+          {
+            "key": "q44",
+            "type": "DevRel",
+            "content": "How do you learn a new technology?"
+          }
+        ]
+      },
+      {
+        "d": 9,
+        "topic": "Project-Based Questions",
+        "tasks": [
+          {
+            "key": "q45",
+            "type": "Project",
+            "content": "Explain your chat application architecture."
+          },
+          {
+            "key": "q46",
+            "type": "Project",
+            "content": "Why did you choose MongoDB?"
+          },
+          {
+            "key": "q47",
+            "type": "Project",
+            "content": "How does JWT authentication work?"
+          },
+          {
+            "key": "q48",
+            "type": "Project",
+            "content": "What challenges did you face?"
+          },
+          {
+            "key": "q49",
+            "type": "Project",
+            "content": "How did Socket.io work in your project?"
+          }
+        ]
+      },
+      {
+        "d": 10,
+        "topic": "Round 1 Core Questions",
+        "tasks": [
+          {
+            "key": "q50",
+            "type": "Round 1",
+            "content": "Tell me about yourself."
+          },
+          {
+            "key": "q51",
+            "type": "Round 1",
+            "content": "Why DevRel and not pure software development?"
+          },
+          {
+            "key": "q52",
+            "type": "Round 1",
+            "content": "What is ETL vs ELT?"
+          },
+          {
+            "key": "q53",
+            "type": "Round 1",
+            "content": "What is CDC?"
+          },
+          {
+            "key": "q54",
+            "type": "Round 1",
+            "content": "What is Apache Iceberg?"
+          },
+          {
+            "key": "q55",
+            "type": "Round 1",
+            "content": "What is Docker?"
+          },
+          {
+            "key": "q56",
+            "type": "Round 1",
+            "content": "Difference between PostgreSQL and MongoDB?"
+          },
+          {
+            "key": "q57",
+            "type": "Round 1",
+            "content": "Explain one project from your resume."
+          },
+          {
+            "key": "q58",
+            "type": "Round 1",
+            "content": "How would you write a technical blog?"
+          },
+          {
+            "key": "q59",
+            "type": "Round 1",
+            "content": "What happens when a user sends a message in your chat application?"
+          }
+        ]
       }
     ]
   }
-  */
 };
 
 const STORAGE_KEY = "company_seventy_tracker_v2";
@@ -615,6 +1275,17 @@ function getCompanyPlan() {
     return COMPANIES[state.currentCompany];
   }
   return COMPANIES[keys[0]];
+}
+
+function getTagClass(type) {
+  type = type.toLowerCase();
+  if (type.includes("sql") || type.includes("db") || type.includes("database") || type.includes("personality") || type.includes("profile")) {
+    return "tag-theory"; // Blue tag
+  }
+  if (type.includes("sales") || type.includes("situational") || type.includes("cdc") || type.includes("engineering") || type.includes("kafka") || type.includes("iceberg")) {
+    return "tag-interview"; // Red tag
+  }
+  return "tag-revision"; // Green tag (Docker, Git, Target/Performance, etc.)
 }
 
 function renderAll() {
@@ -666,9 +1337,10 @@ function renderAll() {
   
   days.forEach(day => {
     let dayCompleted = 0;
-    if (state.checks[`${state.currentCompany}_${day.d}_theory`]) dayCompleted++;
-    if (state.checks[`${state.currentCompany}_${day.d}_interview`]) dayCompleted++;
-    if (state.checks[`${state.currentCompany}_${day.d}_revision`]) dayCompleted++;
+    const tasks = day.tasks || [];
+    tasks.forEach(task => {
+      if (state.checks[`${state.currentCompany}_${day.d}_${task.key}`]) dayCompleted++;
+    });
     
     const card = document.createElement("div");
     card.className = "day-card";
@@ -685,7 +1357,7 @@ function renderAll() {
         <h3>${day.topic}</h3>
       </div>
       <div style="display: flex; align-items: center; gap: 8px;">
-        <span class="day-progress-mini ${dayCompleted === 3 ? 'complete' : ''}">${dayCompleted}/3</span>
+        <span class="day-progress-mini ${dayCompleted === tasks.length ? 'complete' : ''}">${dayCompleted}/${tasks.length}</span>
         <svg class="chevron" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
       </div>
     `;
@@ -704,15 +1376,10 @@ function renderAll() {
     const taskList = document.createElement("div");
     taskList.className = "task-list";
     
-    const tasks = [
-      { key: "theory", type: "Theory (70 min)", tagCls: "tag-theory", content: day.theory },
-      { key: "interview", type: "Interview Q&A (30 min)", tagCls: "tag-interview", content: day.interview },
-      { key: "revision", type: "Quick Revision (20 min)", tagCls: "tag-revision", content: day.revision }
-    ];
-    
     tasks.forEach(task => {
       const checkedKey = `${state.currentCompany}_${day.d}_${task.key}`;
       const isChecked = !!state.checks[checkedKey];
+      const tagCls = getTagClass(task.type);
       
       const row = document.createElement("div");
       row.className = `task-row ${isChecked ? 'checked' : ''}`;
@@ -721,7 +1388,7 @@ function renderAll() {
           <input type="checkbox" class="task-checkbox" ${isChecked ? 'checked' : ''} />
         </div>
         <div class="task-content">
-          <span class="task-type-tag ${task.tagCls}">${task.type}</span>
+          <span class="task-type-tag ${tagCls}">${task.type}</span>
           <p class="task-desc">${task.content}</p>
         </div>
       `;
@@ -740,13 +1407,13 @@ function renderAll() {
         saveState();
         
         let newDayCompleted = 0;
-        if (state.checks[`${state.currentCompany}_${day.d}_theory`]) newDayCompleted++;
-        if (state.checks[`${state.currentCompany}_${day.d}_interview`]) newDayCompleted++;
-        if (state.checks[`${state.currentCompany}_${day.d}_revision`]) newDayCompleted++;
+        tasks.forEach(t => {
+          if (state.checks[`${state.currentCompany}_${day.d}_${t.key}`]) newDayCompleted++;
+        });
         
         const badgeMini = header.querySelector(".day-progress-mini");
-        badgeMini.textContent = `${newDayCompleted}/3`;
-        if (newDayCompleted === 3) {
+        badgeMini.textContent = `${newDayCompleted}/${tasks.length}`;
+        if (newDayCompleted === tasks.length) {
           badgeMini.classList.add("complete");
         } else {
           badgeMini.classList.remove("complete");
@@ -805,10 +1472,11 @@ function updateOverallProgress() {
   let completedTasks = 0;
   
   days.forEach(day => {
-    totalTasks += 3;
-    if (state.checks[`${state.currentCompany}_${day.d}_theory`]) completedTasks++;
-    if (state.checks[`${state.currentCompany}_${day.d}_interview`]) completedTasks++;
-    if (state.checks[`${state.currentCompany}_${day.d}_revision`]) completedTasks++;
+    const tasks = day.tasks || [];
+    tasks.forEach(task => {
+      totalTasks++;
+      if (state.checks[`${state.currentCompany}_${day.d}_${task.key}`]) completedTasks++;
+    });
   });
   
   const pct = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
@@ -825,9 +1493,10 @@ document.getElementById("resetBtn").addEventListener("click", () => {
     
     const days = company.days || [];
     days.forEach(day => {
-      delete state.checks[`${state.currentCompany}_${day.d}_theory`];
-      delete state.checks[`${state.currentCompany}_${day.d}_interview`];
-      delete state.checks[`${state.currentCompany}_${day.d}_revision`];
+      const tasks = day.tasks || [];
+      tasks.forEach(task => {
+        delete state.checks[`${state.currentCompany}_${day.d}_${task.key}`];
+      });
       delete state.notes[`${state.currentCompany}_${day.d}`];
       delete state.expandedDays[`${state.currentCompany}_${day.d}`];
     });
