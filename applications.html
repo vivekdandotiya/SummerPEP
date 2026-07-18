@@ -3,18 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Application Tracker - Excel style</title>
+    <title>Job Applications - Excel Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
     <style>
-        body { font-family: sans-serif; padding: 20px; background-color: #f3f3f3; }
-        .nav { margin-bottom: 20px; }
-        .nav a { color: #107c41; text-decoration: none; font-weight: bold; margin-right: 15px; }
+        :root {
+            --excel-green: #107c41;
+            --excel-dark-green: #0a5c30;
+            --excel-light-green: #e1dfdd;
+            --excel-gray-bg: #f3f2f1;
+            --excel-border: #d2d0ce;
+            --excel-text: #323130;
+            --excel-active-cell: #107c41;
+            --excel-header-bg: #f3f2f1;
+            --excel-hover-bg: #edebe9;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif;
+            background-color: var(--excel-gray-bg);
+            color: var(--excel-text);
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        }
+        /* Top Navigation Header */
+        .excel-header {
+            background-color: var(--excel-green);
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 16px;
+            font-family: 'Segoe UI', sans-serif;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .excel-title-group {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .excel-logo {
+            font-weight: bold;
+            background: white;
+            color: var(--excel-green);
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 1rem;
+        }
+        .excel-title {
+            font-weight: 600;
+        }
+        .excel-nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+        .excel-nav-links a:hover {
+            background-color: var(--excel-dark-green);
+        }
+
+        /* Ribbon Toolbar */
+        .excel-toolbar {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--excel-border);
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            flex-shrink: 0;
+        }
+        .toolbar-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border-right: 1px solid var(--excel-border);
+            padding-right: 16px;
+        }
+        .toolbar-group:last-child {
+            border-right: none;
+        }
+        .btn-excel {
+            background: white;
+            border: 1px solid var(--excel-border);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            border-radius: 4px;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            cursor: pointer;
+            transition: background 0.15s, border-color 0.15s;
+        }
+        .btn-excel:hover {
+            background-color: var(--excel-hover-bg);
+            border-color: #a19f9d;
+        }
+        .btn-excel.btn-primary {
+            background-color: var(--excel-green);
+            color: white;
+            border-color: var(--excel-green);
+        }
+        .btn-excel.btn-primary:hover {
+            background-color: var(--excel-dark-green);
+            border-color: var(--excel-dark-green);
+        }
+        .search-input {
+            border: 1px solid var(--excel-border);
+            padding: 6px 12px;
+            font-size: 0.85rem;
+            border-radius: 4px;
+            outline: none;
+            width: 220px;
+        }
+        .search-input:focus {
+            border-color: var(--excel-green);
+        }
+
+        /* Spreadsheet Main Grid Area */
+        .excel-grid-container {
+            flex-grow: 1;
+            overflow: auto;
+            position: relative;
+            background: white;
+        }
+        .excel-table {
+            border-collapse: collapse;
+            width: 100%;
+            font-size: 0.85rem;
+            table-layout: fixed;
+        }
+        
+        /* Column Widths */
+        .col-index { width: 40px; }
+        .col-date { width: 120px; }
+        .col-company { width: 180px; }
+        .col-platform { width: 160px; }
+        .col-cv { width: 180px; }
+        .col-role { width: 180px; }
+        .col-day { width: 140px; }
+        .col-action { width: 80px; }
+
+        /* Excel Cells Styling */
+        .excel-table th, .excel-table td {
+            border: 1px solid var(--excel-border);
+            padding: 6px 8px;
+            text-align: left;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .excel-table th {
+            background-color: var(--excel-header-bg);
+            font-weight: 600;
+            color: #595959;
+            user-select: none;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 2px solid var(--excel-border);
+        }
+        /* First Column (Index Column) */
+        .excel-table td:first-child, .excel-table th:first-child {
+            background-color: var(--excel-header-bg);
+            text-align: center;
+            font-weight: 600;
+            color: #595959;
+            position: sticky;
+            left: 0;
+            z-index: 5;
+        }
+        .excel-table th:first-child {
+            z-index: 15;
+        }
+        .excel-table tr:hover td {
+            background-color: #f8f9fa;
+        }
+        .excel-table td {
+            background: white;
+            cursor: cell;
+            position: relative;
+        }
+        
+        /* Cell Active State outline */
+        .excel-table td.active-cell {
+            outline: 2px solid var(--excel-active-cell);
+            outline-offset: -2px;
+            z-index: 2;
+        }
+
+        /* Status Bar */
+        .excel-statusbar {
+            background-color: var(--excel-gray-bg);
+            border-top: 1px solid var(--excel-border);
+            padding: 4px 16px;
+            font-size: 0.75rem;
+            color: #605e5c;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
     </style>
 </head>
 <body>
-    <div class="nav">
-        <a href="index.html">← Study Tracker</a>
+    <!-- Topbar Navigation -->
+    <header class="excel-header">
+        <div class="excel-title-group">
+            <span class="excel-logo">X</span>
+            <span class="excel-title">JobApplications.xlsx - Excel Tracker</span>
+        </div>
+        <div class="excel-nav-links">
+            <a href="index.html">← Back to Study Tracker</a>
+        </div>
+    </header>
+
+    <!-- Toolbar Ribbon -->
+    <div class="excel-toolbar">
+        <div class="toolbar-group">
+            <button class="btn-excel btn-primary" id="btnAddRow">
+                <span>➕</span> Add Row
+            </button>
+            <button class="btn-excel" id="btnDeleteRow">
+                <span>❌</span> Delete Row
+            </button>
+        </div>
+        <div class="toolbar-group">
+            <input type="text" class="search-input" id="searchBox" placeholder="Search table...">
+        </div>
     </div>
-    <h1>Job Application Tracker</h1>
-    <div id="spreadsheet"></div>
+
+    <!-- Spreadsheet Grid -->
+    <div class="excel-grid-container">
+        <table class="excel-table" id="spreadsheetTable">
+            <thead>
+                <tr>
+                    <th class="col-index"></th>
+                    <th class="col-date">Date</th>
+                    <th class="col-company">Company</th>
+                    <th class="col-platform">Platform / Source</th>
+                    <th class="col-cv">CV Uploaded</th>
+                    <th class="col-role">Role</th>
+                    <th class="col-day">Prep Track (Day)</th>
+                    <th class="col-action">Action</th>
+                </tr>
+            </thead>
+            <tbody id="spreadsheetBody">
+                <!-- Rows will be dynamically generated -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Status Bar -->
+    <footer class="excel-statusbar">
+        <div>Ready</div>
+        <div id="rowCountText">0 rows loaded</div>
+    </footer>
 </body>
 </html>
