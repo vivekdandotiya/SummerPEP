@@ -234,6 +234,9 @@
             <button class="btn-excel" id="btnDeleteRow">
                 <span>❌</span> Delete Row
             </button>
+            <button class="btn-excel" id="btnExportCSV">
+                <span>📥</span> Export to CSV
+            </button>
         </div>
         <div class="toolbar-group">
             <input type="text" class="search-input" id="searchBox" placeholder="Search table...">
@@ -456,6 +459,39 @@
             alert("Please click on a row's cell first to select the row you want to delete.");
           }
         });
+
+        function exportToCSV() {
+          const apps = state.apps || [];
+          if (apps.length === 0) {
+            alert("No application records to export!");
+            return;
+          }
+          
+          let csvContent = "data:text/csv;charset=utf-8,";
+          csvContent += "Date,Company,Platform/Source,CV Uploaded,Role,Prep Day\n";
+          
+          apps.forEach(app => {
+            const row = [
+              `"${(app.date || "").replace(/"/g, '""')}"`,
+              `"${(app.company || "").replace(/"/g, '""')}"`,
+              `"${(app.platform || "").replace(/"/g, '""')}"`,
+              `"${(app.cv || "").replace(/"/g, '""')}"`,
+              `"${(app.role || "").replace(/"/g, '""')}"`,
+              `"${(app.day || "").replace(/"/g, '""')}"`
+            ].join(",");
+            csvContent += row + "\n";
+          });
+          
+          const encodedUri = encodeURI(csvContent);
+          const link = document.createElement("a");
+          link.setAttribute("href", encodedUri);
+          link.setAttribute("download", "Job_Applications.csv");
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        }
+
+        document.getElementById("btnExportCSV").addEventListener("click", exportToCSV);
 
         // Search listener
         document.getElementById("searchBox").addEventListener("input", renderGrid);
