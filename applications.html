@@ -324,7 +324,7 @@
               </td>
             `;
             
-            // Selection highlights
+            // Selection highlights & Inline Editing
             tr.querySelectorAll("td").forEach((td, colIdx) => {
               if (colIdx > 0 && colIdx < 7) { // skip index and action columns
                 td.addEventListener("click", (e) => {
@@ -332,6 +332,49 @@
                   td.classList.add("active-cell");
                   state.activeRowId = app.id;
                   saveState();
+                });
+                
+                td.addEventListener("dblclick", (e) => {
+                  if (td.querySelector("input")) return; // already editing
+                  
+                  const field = td.dataset.field;
+                  const originalValue = app[field] || "";
+                  
+                  const input = document.createElement("input");
+                  input.type = field === "date" ? "date" : "text";
+                  input.value = originalValue;
+                  input.style.width = "100%";
+                  input.style.height = "100%";
+                  input.style.border = "none";
+                  input.style.outline = "none";
+                  input.style.fontFamily = "inherit";
+                  input.style.fontSize = "inherit";
+                  input.style.padding = "0";
+                  input.style.background = "transparent";
+                  
+                  td.innerHTML = "";
+                  td.appendChild(input);
+                  input.focus();
+                  
+                  let finished = false;
+                  const finishEditing = (commitChanges) => {
+                    if (finished) return;
+                    finished = true;
+                    
+                    const newValue = commitChanges ? input.value : originalValue;
+                    app[field] = newValue;
+                    saveState();
+                    renderGrid();
+                  };
+                  
+                  input.addEventListener("blur", () => finishEditing(true));
+                  input.addEventListener("keydown", (evt) => {
+                    if (evt.key === "Enter") {
+                      finishEditing(true);
+                    } else if (evt.key === "Escape") {
+                      finishEditing(false);
+                    }
+                  });
                 });
               }
             });
