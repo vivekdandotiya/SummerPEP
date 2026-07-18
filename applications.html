@@ -266,5 +266,129 @@
         <div>Ready</div>
         <div id="rowCountText">0 rows loaded</div>
     </footer>
+
+    <script>
+        const STORAGE_KEY = "job_applications_spreadsheet_v1";
+        
+        // Default initial data
+        const defaultApps = [
+          { id: "1", date: "2026-07-15", company: "Edoofa", platform: "LinkedIn", cv: "Vivek__cv.pdf", role: "Sales & Counselling", day: "Day 3" },
+          { id: "2", date: "2026-07-16", company: "DataZip", platform: "Indeed", cv: "my_cv.pdf", role: "DevRel Engineer", day: "Day 1" },
+          { id: "3", date: "2026-07-17", company: "Vimaan", platform: "Company Website", cv: "CV.pdf", role: "Linux System Administrator", day: "Day 2" }
+        ];
+
+        function loadState() {
+          try {
+            const raw = localStorage.getItem(STORAGE_KEY);
+            if (raw) return JSON.parse(raw);
+          } catch (e) {}
+          return { apps: defaultApps, activeRowId: null };
+        }
+
+        function saveState() {
+          try {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+          } catch (e) {}
+        }
+
+        let state = loadState();
+
+        function getTodayDateString() {
+          const today = new Date();
+          const yyyy = today.getFullYear();
+          const mm = String(today.getMonth() + 1).padStart(2, '0');
+          const dd = String(today.getDate()).padStart(2, '0');
+          return `${yyyy}-${mm}-${dd}`;
+        }
+
+        function renderGrid() {
+          const body = document.getElementById("spreadsheetBody");
+          body.innerHTML = "";
+          
+          const apps = state.apps || [];
+          
+          apps.forEach((app, idx) => {
+            const tr = document.createElement("tr");
+            tr.dataset.id = app.id;
+            
+            tr.innerHTML = `
+              <td>${idx + 1}</td>
+              <td data-field="date">${app.date || ""}</td>
+              <td data-field="company">${app.company || ""}</td>
+              <td data-field="platform">${app.platform || ""}</td>
+              <td data-field="cv">${app.cv || ""}</td>
+              <td data-field="role">${app.role || ""}</td>
+              <td data-field="day">${app.day || ""}</td>
+              <td style="text-align: center;">
+                <button class="delete-row-btn" style="background: none; border: none; cursor: pointer; color: #d83b01; font-weight: bold; font-size: 0.8rem;">Delete</button>
+              </td>
+            `;
+            
+            // Selection highlights
+            tr.querySelectorAll("td").forEach((td, colIdx) => {
+              if (colIdx > 0 && colIdx < 7) { // skip index and action columns
+                td.addEventListener("click", (e) => {
+                  document.querySelectorAll(".excel-table td").forEach(c => c.classList.remove("active-cell"));
+                  td.classList.add("active-cell");
+                  state.activeRowId = app.id;
+                  saveState();
+                });
+              }
+            });
+            
+            // Delete button inside the row
+            tr.querySelector(".delete-row-btn").addEventListener("click", (e) => {
+              e.stopPropagation();
+              deleteRow(app.id);
+            });
+
+            body.appendChild(tr);
+          });
+          
+          document.getElementById("rowCountText").textContent = `${apps.length} rows loaded`;
+        }
+
+        function addRow() {
+          const newId = String(Date.now());
+          const newApp = {
+            id: newId,
+            date: getTodayDateString(),
+            company: "New Company",
+            platform: "LinkedIn",
+            cv: "my_cv.pdf",
+            role: "Software Engineer",
+            day: "Day 1"
+          };
+          
+          state.apps.push(newApp);
+          state.activeRowId = newId;
+          saveState();
+          renderGrid();
+        }
+
+        function deleteRow(id) {
+          if (confirm("Are you sure you want to delete this application record?")) {
+            state.apps = state.apps.filter(app => app.id !== id);
+            if (state.activeRowId === id) {
+              state.activeRowId = null;
+            }
+            saveState();
+            renderGrid();
+          }
+        }
+
+        // Attach toolbar button listeners
+        document.getElementById("btnAddRow").addEventListener("click", addRow);
+        document.getElementById("btnDeleteRow").addEventListener("click", () => {
+          if (state.activeRowId) {
+            deleteRow(state.activeRowId);
+          } else {
+            alert("Please click on a row's cell first to select the row you want to delete.");
+          }
+        });
+
+        // Initialize application grid rendering
+        renderGrid();
+    </script>
 </body>
 </html>
