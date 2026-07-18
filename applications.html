@@ -246,12 +246,12 @@
             <thead>
                 <tr>
                     <th class="col-index"></th>
-                    <th class="col-date">Date</th>
-                    <th class="col-company">Company</th>
-                    <th class="col-platform">Platform / Source</th>
-                    <th class="col-cv">CV Uploaded</th>
-                    <th class="col-role">Role</th>
-                    <th class="col-day">Prep Track (Day)</th>
+                    <th class="col-date" data-sort-field="date" style="cursor: pointer; user-select: none;">Date ↕</th>
+                    <th class="col-company" data-sort-field="company" style="cursor: pointer; user-select: none;">Company ↕</th>
+                    <th class="col-platform" data-sort-field="platform" style="cursor: pointer; user-select: none;">Platform / Source ↕</th>
+                    <th class="col-cv" data-sort-field="cv" style="cursor: pointer; user-select: none;">CV Uploaded ↕</th>
+                    <th class="col-role" data-sort-field="role" style="cursor: pointer; user-select: none;">Role ↕</th>
+                    <th class="col-day" data-sort-field="day" style="cursor: pointer; user-select: none;">Prep Track (Day) ↕</th>
                     <th class="col-action">Action</th>
                 </tr>
             </thead>
@@ -301,11 +301,38 @@
           return `${yyyy}-${mm}-${dd}`;
         }
 
+        let sortColumn = null;
+        let sortAsc = true;
+
         function renderGrid() {
           const body = document.getElementById("spreadsheetBody");
           body.innerHTML = "";
           
-          const apps = state.apps || [];
+          let apps = [...state.apps];
+          
+          // Apply sorting
+          if (sortColumn) {
+            apps.sort((a, b) => {
+              const valA = (a[sortColumn] || "").toLowerCase();
+              const valB = (b[sortColumn] || "").toLowerCase();
+              if (valA < valB) return sortAsc ? -1 : 1;
+              if (valA > valB) return sortAsc ? 1 : -1;
+              return 0;
+            });
+          }
+          
+          // Apply search filtering
+          const searchVal = (document.getElementById("searchBox").value || "").toLowerCase();
+          if (searchVal) {
+            apps = apps.filter(app => {
+              return (app.date || "").toLowerCase().includes(searchVal) ||
+                     (app.company || "").toLowerCase().includes(searchVal) ||
+                     (app.platform || "").toLowerCase().includes(searchVal) ||
+                     (app.cv || "").toLowerCase().includes(searchVal) ||
+                     (app.role || "").toLowerCase().includes(searchVal) ||
+                     (app.day || "").toLowerCase().includes(searchVal);
+            });
+          }
           
           apps.forEach((app, idx) => {
             const tr = document.createElement("tr");
@@ -428,6 +455,23 @@
           } else {
             alert("Please click on a row's cell first to select the row you want to delete.");
           }
+        });
+
+        // Search listener
+        document.getElementById("searchBox").addEventListener("input", renderGrid);
+
+        // Sort headers listeners
+        document.querySelectorAll("th[data-sort-field]").forEach(th => {
+          th.addEventListener("click", () => {
+            const field = th.dataset.sortField;
+            if (sortColumn === field) {
+              sortAsc = !sortAsc;
+            } else {
+              sortColumn = field;
+              sortAsc = true;
+            }
+            renderGrid();
+          });
         });
 
         // Initialize application grid rendering
